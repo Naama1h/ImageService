@@ -1,6 +1,7 @@
 ﻿using ImageService.Controller;
-using ImageService.Controller.Handlers;
-using ImageService.Infrastructure.Enums;
+using ImageService.Commands;
+using ImageService.Handler;
+using ImageService.Enums;
 using ImageService.Logging;
 using ImageService.Modal;
 using System;
