@@ -1,0 +1,9 @@
+c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\bin\Debug\ImageService.exe.config
+c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\bin\Debug\ImageService.exe
+c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\bin\Debug\ImageService.pdb
+c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\obj\Debug\ImageService.csprojResolveAssemblyReference.cache
+c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\obj\Debug\ImageService.ImageService.resources
+c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\obj\Debug\ImageService.ProjectInstaller.resources
+c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\obj\Debug\ImageService.csproj.GenerateResource.Cache
+c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\obj\Debug\ImageService.exe
+c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\obj\Debug\ImageService.pdb
