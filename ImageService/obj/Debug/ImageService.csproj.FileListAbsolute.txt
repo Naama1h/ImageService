@@ -7,3 +7,10 @@ c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\o
 c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\obj\Debug\ImageService.csproj.GenerateResource.Cache
 c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\obj\Debug\ImageService.exe
 c:\users\naama\documents\visual studio 2015\Projects\ImageService\ImageService\obj\Debug\ImageService.pdb
+C:\Users\User\Source\Repos\NewRepo\ImageService\bin\Debug\ImageService.exe.config
+C:\Users\User\Source\Repos\NewRepo\ImageService\obj\Debug\ImageService.exe
+C:\Users\User\Source\Repos\NewRepo\ImageService\obj\Debug\ImageService.pdb
+C:\Users\User\Source\Repos\NewRepo\ImageService\obj\Debug\ImageService.csprojResolveAssemblyReference.cache
+C:\Users\User\Source\Repos\NewRepo\ImageService\obj\Debug\ImageService.ImageService.resources
+C:\Users\User\Source\Repos\NewRepo\ImageService\obj\Debug\ImageService.ProjectInstaller.resources
+C:\Users\User\Source\Repos\NewRepo\ImageService\obj\Debug\ImageService.csproj.GenerateResource.Cache
