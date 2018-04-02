@@ -3,7 +3,7 @@ using ImageService.Commands;
 using ImageService.Handler;
 using ImageService.Enums;
 using ImageService.Logging;
-using ImageService.Modal;
+using ImageService.Modal.Event;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +23,34 @@ namespace ImageService.Server
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         #endregion
 
-       
+        // constructor
+        public ImageServer(IImageController controller, ILoggingService loggingService)
+        {
+            this.m_logging = loggingService;
+            this.m_controller = controller;
+
+            // creating handlers to all of the dir
+        }
+
+        public void createHandler(string directory)
+        {
+            DirectoyHandler h = new DirectoyHandler(this.m_controller, this.m_logging, directory);
+            CommandRecieved += h.OnCommandRecieved;
+            h.DirectoryClose += onCloseServer;
+            h.StartHandleDirectory(directory);
+        }
+
+        public void onCloseServer(object sender, DirectoryCloseEventArgs e)
+        {
+            DirectoyHandler h = (DirectoyHandler)sender;
+            CommandRecieved -= h.OnCommandRecieved;
+            h.DirectoryClose -= onCloseServer;
+        }
+
+        public void sendCommand()
+        {
+            //CommandRecieved?.Invoke(this, new CommandRecievedEventArgs())
+        }
+
     }
 }

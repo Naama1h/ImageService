@@ -24,6 +24,26 @@ namespace ImageService.Handler
 
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
 
-		// Implement Here!
+        // constructor
+        public DirectoyHandler(IImageController imc, ILoggingService ls, string p)
+        {
+            this.m_controller = imc;
+            this.m_dirWatcher = new FileSystemWatcher(p);
+            this.m_logging = ls;
+            this.m_path = p;
+        }
+        
+        // The Function Recieves the directory to Handle
+        public void StartHandleDirectory(string dirPath)
+        {
+            
+
+        }
+
+        // The Event that will be activated upon new Command
+        public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
+        {
+
+        }
     }
 }

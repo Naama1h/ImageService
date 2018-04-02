@@ -1,4 +1,5 @@
 ﻿using ImageService.Modal;
+using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,16 @@ namespace ImageService.Commands
 		public string Execute(string[] args, out bool result)
 		{
             // The String Will Return the New Path if result = true, and will return the error message
-            
-            return m_modal.AddFile(args[0], result);
+            if (File.Exists(args[0]))
+            {
+                result = true;
+                return m_modal.AddFile(args[0], out result);
+            }
+            else
+            {
+                result = false;
+                return "error: path is not exists";
+            }
 		}
 	}
 }
