@@ -17,7 +17,7 @@ namespace ImageService.Controller
 
         public ImageController(IImageServiceModal modal)
         {
-            m_modal = modal;                    // Storing the Modal Of The System
+            m_modal = modal;                                    // Storing the Modal Of The System
             commands = new Dictionary<int, ICommand>()
             {
                 {(int)CommandEnum.NewFileCommand, new NewFileCommand(m_modal)}

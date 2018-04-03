@@ -14,3 +14,12 @@ C:\Users\User\Source\Repos\NewRepo\ImageService\obj\Debug\ImageService.csprojRes
 C:\Users\User\Source\Repos\NewRepo\ImageService\obj\Debug\ImageService.ImageService.resources
 C:\Users\User\Source\Repos\NewRepo\ImageService\obj\Debug\ImageService.ProjectInstaller.resources
 C:\Users\User\Source\Repos\NewRepo\ImageService\obj\Debug\ImageService.csproj.GenerateResource.Cache
+C:\Users\User\Source\Repos\ImageService2\ImageService\bin\Debug\ImageService.exe.config
+C:\Users\User\Source\Repos\ImageService2\ImageService\obj\Debug\ImageService.exe
+C:\Users\User\Source\Repos\ImageService2\ImageService\obj\Debug\ImageService.pdb
+C:\Users\User\Source\Repos\ImageService2\ImageService\bin\Debug\ImageService.exe
+C:\Users\User\Source\Repos\ImageService2\ImageService\bin\Debug\ImageService.pdb
+C:\Users\User\Source\Repos\ImageService2\ImageService\obj\Debug\ImageService.csprojResolveAssemblyReference.cache
+C:\Users\User\Source\Repos\ImageService2\ImageService\obj\Debug\ImageService.ImageService.resources
+C:\Users\User\Source\Repos\ImageService2\ImageService\obj\Debug\ImageService.ProjectInstaller.resources
+C:\Users\User\Source\Repos\ImageService2\ImageService\obj\Debug\ImageService.csproj.GenerateResource.Cache

@@ -36,14 +36,18 @@ namespace ImageService.Handler
         // The Function Recieves the directory to Handle
         public void StartHandleDirectory(string dirPath)
         {
-            
-
+            //this.m_dirWatcher.BeginInit();
+            // i don't know.
         }
 
         // The Event that will be activated upon new Command
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
-
+            bool result;
+            if (e.RequestDirPath.Equals(this.m_path))
+            {
+                this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace ImageService.Server
 {
@@ -30,6 +31,12 @@ namespace ImageService.Server
             this.m_controller = controller;
 
             // creating handlers to all of the dir
+            string handlersList = ConfigurationManager.AppSettings["Handlers"];
+            string[] handlers = handlersList.Split(';');
+            for(int i = 0; i < handlers.Length; i++)
+            {
+                this.createHandler(handlers[i]);
+            }   
         }
 
         public void createHandler(string directory)
