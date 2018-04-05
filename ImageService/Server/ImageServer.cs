@@ -56,6 +56,7 @@ namespace ImageService.Server
 
         public void sendCommand()
         {
+            //onCommend("*", onCloseServer);
             //CommandRecieved?.Invoke(this, new CommandRecievedEventArgs())
         }
 

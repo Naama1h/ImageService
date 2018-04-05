@@ -18,5 +18,10 @@ namespace ImageService.Modal.Event
             Args = args;
             RequestDirPath = path;
         }
+
+        public static implicit operator CommandRecievedEventArgs(int v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

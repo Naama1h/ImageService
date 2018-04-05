@@ -36,8 +36,19 @@ namespace ImageService.Handler
         // The Function Recieves the directory to Handle
         public void StartHandleDirectory(string dirPath)
         {
-            //this.m_dirWatcher.BeginInit();
-            // i don't know.
+            this.m_dirWatcher.Path = dirPath;
+            this.m_dirWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+                                   | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+            this.m_dirWatcher.Filter = "*.*";
+            this.m_dirWatcher.Changed += new FileSystemEventHandler(OnChanged);
+            this.m_dirWatcher.EnableRaisingEvents = true;
+        }
+
+        private void OnChanged(object source, FileSystemEventArgs e)
+        {
+            string[] args1 = { System.Configuration.ConfigurationManager.AppSettings["SourceName"] };
+            CommandRecievedEventArgs e1 = new CommandRecievedEventArgs(1, args1 ,e.FullPath);
+            OnCommandRecieved(source, e1);
         }
 
         // The Event that will be activated upon new Command
