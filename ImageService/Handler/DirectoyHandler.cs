@@ -47,7 +47,7 @@ namespace ImageService.Handler
         private void OnChanged(object source, FileSystemEventArgs e)
         {
             string[] args1 = { System.Configuration.ConfigurationManager.AppSettings["SourceName"] };
-            CommandRecievedEventArgs e1 = new CommandRecievedEventArgs(1, args1 ,e.FullPath);
+            CommandRecievedEventArgs e1 = new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand, args1 ,e.FullPath);
             OnCommandRecieved(source, e1);
         }
 

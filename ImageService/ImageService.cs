@@ -9,6 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
+using ImageService.Controller;
+using ImageService.Logging.Modal;
+using ImageService.Modal;
+using ImageService.Server;
+using System.Configuration;
 
 namespace ImageService
 {
@@ -89,6 +94,12 @@ namespace ImageService
             // Update the service state to Running.  
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+
+            this.modal = new ImageServiceModal(ConfigurationManager.AppSettings["OutputDir"], Int32.Parse(ConfigurationManager.AppSettings["ThumbnailSize"]));
+            this.logging = new Logging.LoggingService();
+            this.controller = new ImageController(this.modal);
+            this.m_imageServer = new ImageServer(this.controller, this.logging);
+
         }
 
         protected override void OnStop()
