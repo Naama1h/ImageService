@@ -32,58 +32,82 @@ namespace ImageService.Modal
             //move picture from path to directory outputDir in relevant year and month directories.
             //Result – false / true
             //Return value – string – specific errorth
-            if (!Directory.Exists(this.m_OutputFolder)) { 
-                Directory.CreateDirectory(this.m_OutputFolder);
-                Directory.CreateDirectory(this.m_OutputFolder + "\\Thumbnails");
-            }
-            else
+            try
             {
-                if (!Directory.Exists(this.m_OutputFolder + "\\Thumbnails"))
+                if (!Directory.Exists(this.m_OutputFolder))
                 {
+                    Directory.CreateDirectory(this.m_OutputFolder);
                     Directory.CreateDirectory(this.m_OutputFolder + "\\Thumbnails");
-                }
-            }
-            string year = File.GetCreationTime(path).Year.ToString();
-            string month = File.GetCreationTime(path).Month.ToString();
-            if (!Directory.Exists(this.m_OutputFolder + "\\" + year))
-            {
-                Directory.CreateDirectory(this.m_OutputFolder + "\\" + year);
-                Directory.CreateDirectory(this.m_OutputFolder + "Thumbnails\\" + year);
-                Directory.CreateDirectory(this.m_OutputFolder + "\\" + year + "\\" + month);
-                Directory.CreateDirectory(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month);
-                File.Copy(path, this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
-                // copy to Thumbnails:
-                Image image = Image.FromFile(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
-                Image thumb = image.GetThumbnailImage(this.m_thumbnailSize, this.m_thumbnailSize, () => false, IntPtr.Zero);
-                thumb.Save(Path.ChangeExtension(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + Path.GetFileName(path), "thumb"));
-            }
-            else
-            {
-                if (!Directory.Exists(this.m_OutputFolder + "\\" + year + "\\" + month))
-                {
-                    Directory.CreateDirectory(this.m_OutputFolder + "\\" + year + "\\" + month);
-                    Directory.CreateDirectory(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month);
-                    File.Copy(path, this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
-                    // copy to Thumbnails:
-                    Image image = Image.FromFile(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
-                    Image thumb = image.GetThumbnailImage(this.m_thumbnailSize, this.m_thumbnailSize, () => false, IntPtr.Zero);
-                    thumb.Save(Path.ChangeExtension(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + Path.GetFileName(path), "thumb"));
                 }
                 else
                 {
-                    if (!File.Exists(this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path)))
+                    if (!Directory.Exists(this.m_OutputFolder + "\\Thumbnails"))
                     {
-                        File.Copy(path, this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
-                        // copy to Thumbnails:
-                        Image image = Image.FromFile(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
-                        Image thumb = image.GetThumbnailImage(this.m_thumbnailSize, this.m_thumbnailSize, () => false, IntPtr.Zero);
-                        thumb.Save(Path.ChangeExtension(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + Path.GetFileName(path), "thumb"));
+                        Directory.CreateDirectory(this.m_OutputFolder + "\\Thumbnails");
                     }
                 }
-                
+                string year = getDate(path).Year.ToString();
+                string month = getDate(path).Month.ToString();
+                if (!Directory.Exists(this.m_OutputFolder + "\\" + year))
+                {
+                    Directory.CreateDirectory(this.m_OutputFolder + "\\" + year);
+                    Directory.CreateDirectory(this.m_OutputFolder + "\\Thumbnails\\" + year);
+                    Directory.CreateDirectory(this.m_OutputFolder + "\\" + year + "\\" + month);
+                    Directory.CreateDirectory(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month);
+                    // copy to Thumbnails:
+                    Image image = Image.FromFile(path);
+                    Image thumb = image.GetThumbnailImage(this.m_thumbnailSize, this.m_thumbnailSize, () => false, IntPtr.Zero);
+                    thumb.Save(Path.ChangeExtension(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + Path.GetFileName(path), "jpg"));
+                    image.Dispose();
+                    // move the image:
+                    System.Threading.Thread.Sleep(100);
+                    File.Move(path, this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
+                }
+                else
+                {
+                    if (!Directory.Exists(this.m_OutputFolder + "\\" + year + "\\" + month))
+                    {
+                        Directory.CreateDirectory(this.m_OutputFolder + "\\" + year + "\\" + month);
+                        Directory.CreateDirectory(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month);
+                        // copy to Thumbnails:
+                        Image image = Image.FromFile(path);
+                        Image thumb = image.GetThumbnailImage(this.m_thumbnailSize, this.m_thumbnailSize, () => false, IntPtr.Zero);
+                        thumb.Save(Path.ChangeExtension(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + Path.GetFileName(path), "jpg"));
+                        image.Dispose();
+                        // move the image:
+                        System.Threading.Thread.Sleep(100);
+                        File.Move(path, this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
+                    }
+                    else
+                    {
+                        if (!File.Exists(this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path)))
+                        {
+                            // copy to Thumbnails:
+                            Image image = Image.FromFile(path);
+                            Image thumb = image.GetThumbnailImage(this.m_thumbnailSize, this.m_thumbnailSize, () => false, IntPtr.Zero);
+                            thumb.Save(Path.ChangeExtension(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + Path.GetFileName(path), "jpg"));
+                            image.Dispose();
+                            // move the image:
+                            System.Threading.Thread.Sleep(100);
+                            File.Move(path, this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
+                        }
+                    }
+
+                }
+            } catch (Exception e)
+            {
+                result = false;
+                return e.Message;
             }
             result = true;
-            return String.Empty;
+            return "file was added";
+        }
+
+        public DateTime getDate(string file)
+        {
+            DateTime now = DateTime.Now;
+            TimeSpan t = now - now.ToUniversalTime();
+            return File.GetLastWriteTimeUtc(file) + t;
         }
     }
 }

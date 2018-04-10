@@ -97,6 +97,7 @@ namespace ImageService
 
             this.modal = new ImageServiceModal(ConfigurationManager.AppSettings["OutputDir"], Int32.Parse(ConfigurationManager.AppSettings["ThumbnailSize"]));
             this.logging = new Logging.LoggingService();
+            this.logging.MessageRecieved += OnMessage;
             this.controller = new ImageController(this.modal);
             this.m_imageServer = new ImageServer(this.controller, this.logging);
 
@@ -105,6 +106,7 @@ namespace ImageService
         protected override void OnStop()
         {
             eventLog2.WriteEntry("In OnStop");
+            this.m_imageServer.closingServer();
         }
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
@@ -115,6 +117,11 @@ namespace ImageService
         protected override void OnContinue()
         {
             eventLog2.WriteEntry("In OnContinue");
+        }
+
+        public void OnMessage(object sender, MessageRecievedEventArgs e)
+        {
+            eventLog2.WriteEntry(e.Message);
         }
     }
 }

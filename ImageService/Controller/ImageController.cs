@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ImageService.Controller
@@ -25,7 +26,13 @@ namespace ImageService.Controller
         }
         public string ExecuteCommand(int commandID, string[] args, out bool resultSuccesful)
         {
-            return commands[commandID].Execute(args, out resultSuccesful);
+            bool status = true;
+            Task<Tuple<string, bool>> t = Task<Tuple<string, bool>>.Run(() =>
+            {
+                return Tuple.Create(commands[commandID].Execute(args, out status), status);
+            });
+            resultSuccesful = t.Result.Item2;
+            return t.Result.Item1;
         }
     }
 }

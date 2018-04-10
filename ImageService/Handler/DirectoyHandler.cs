@@ -42,29 +42,39 @@ namespace ImageService.Handler
             this.m_dirWatcher.Filter = "*.*";
             this.m_dirWatcher.Changed += new FileSystemEventHandler(OnChanged);
             this.m_dirWatcher.EnableRaisingEvents = true;
-            this.m_logging.Log("start handle directory" + dirPath, 0);
+            this.m_logging.Log("start handle directory" + dirPath, MessageTypeEnum.INFO);
         }
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
-            string[] args1 = { System.Configuration.ConfigurationManager.AppSettings["SourceName"] };
-            CommandRecievedEventArgs e1 = new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand, args1 ,e.FullPath);
+            this.m_logging.Log("in OnChanged", MessageTypeEnum.INFO);
+            string[] args1 = { e.FullPath };
+            CommandRecievedEventArgs e1 = new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand, args1 ,"");
             OnCommandRecieved(source, e1);
-            this.m_logging.Log("in OnChanged", 0);
         }
 
         // The Event that will be activated upon new Command
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
-            if (e.RequestDirPath.Equals(this.m_path))
+            if (e.CommandID == (int)CommandEnum.NewFileCommand)
             {
-                this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
-                this.m_logging.Log("in OnCommendRecive",0);
+                string msg = this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
+                if (result)
+                {
+                    this.m_logging.Log(msg, MessageTypeEnum.INFO);
+                }
+                else
+                {
+                    this.m_logging.Log(msg, MessageTypeEnum.WARNING);
+                }
             } else
             {
-                this.m_logging.Log("this isn't the right path",0);
+                this.DirectoryClose?.Invoke(this, new DirectoryCloseEventArgs(e.RequestDirPath, "close the handlers"));
+                this.m_dirWatcher.EnableRaisingEvents = false;
             }
         }
+
+
     }
 }

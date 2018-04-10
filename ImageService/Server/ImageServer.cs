@@ -54,10 +54,9 @@ namespace ImageService.Server
             h.DirectoryClose -= onCloseServer;
         }
 
-        public void sendCommand(CommandRecievedEventArgs e)
+        public void closingServer()
         {
-            CommandRecieved?.Invoke(this, e);
+            this.CommandRecieved?.Invoke(this, new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, null, ""));
         }
-
     }
 }
