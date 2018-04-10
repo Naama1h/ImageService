@@ -91,6 +91,17 @@ namespace ImageService.Modal
                             System.Threading.Thread.Sleep(100);
                             File.Move(path, this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + Path.GetFileName(path));
                         }
+                        else
+                        {
+                            // copy to Thumbnails:
+                            Image image = Image.FromFile(path);
+                            Image thumb = image.GetThumbnailImage(this.m_thumbnailSize, this.m_thumbnailSize, () => false, IntPtr.Zero);
+                            thumb.Save(Path.ChangeExtension(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + "+" + Path.GetFileName(path), "jpg"));
+                            image.Dispose();
+                            // move the image:
+                            System.Threading.Thread.Sleep(100);
+                            File.Move(path, this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + "+" + Path.GetFileName(path));
+                        }
                     }
 
                 }
