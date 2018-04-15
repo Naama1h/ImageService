@@ -16,15 +16,24 @@ namespace ImageService.Modal
         #region Members
         private string m_OutputFolder;            // The Output Folder
         private int m_thumbnailSize;              // The Size Of The Thumbnail Size
-
         #endregion
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="outputFolder">The Path of the output folder of the images</param>
+        /// <param name="thumbnailSize">The Thumbnail Size</param>
         public ImageServiceModal(string outputFolder, int thumbnailSize)
         {
             this.m_OutputFolder = outputFolder;
             this.m_thumbnailSize = thumbnailSize;
         }
 
+        /// <summary>
+        /// The Function Addes A file to the system
+        /// </summary>
+        /// <param name="path">The Path of the Image from the file</param>
+        /// <returns>Indication if the Addition Was Successful</returns>
         public string AddFile(string path, out bool result)
         {
             //check if outputDir exists, if not – create it.  naama did it in desktop!!
@@ -114,6 +123,11 @@ namespace ImageService.Modal
             return "file was added";
         }
 
+        /// <summary>
+        /// The Function get the date from the image.
+        /// </summary>
+        /// <param name="file">The Image</param>
+        /// <returns>Date Time</returns>
         public DateTime getDate(string file)
         {
             DateTime now = DateTime.Now;

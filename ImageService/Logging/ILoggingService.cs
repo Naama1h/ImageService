@@ -8,9 +8,16 @@ using System.Threading.Tasks;
 
 namespace ImageService.Logging
 {
+    // interface of logging service
     public interface ILoggingService
     {
         event EventHandler<MessageRecievedEventArgs> MessageRecieved;
-        void Log(string message, MessageTypeEnum type);           // Logging the Message
+
+        /// <summary>
+        /// invoke the massageRecievedEventArgs to write the message to the logger.
+        /// </summary>
+        /// <param name="message">The message that will be in the logger</param>
+        /// <param name="type">The type of the message of the event</param>
+        void Log(string message, MessageTypeEnum type);
     }
 }

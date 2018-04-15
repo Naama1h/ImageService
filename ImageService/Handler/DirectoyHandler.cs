@@ -13,18 +13,24 @@ using System.Text.RegularExpressions;
 
 namespace ImageService.Handler
 {
+    // handler.
     public class DirectoyHandler : IDirectoryHandler
     {
         #region Members
         private IImageController m_controller;              // The Image Processing Controller
-        private ILoggingService m_logging;
+        private ILoggingService m_logging;                  // Logging Service
         private FileSystemWatcher m_dirWatcher;             // The Watcher of the Dir
         private string m_path;                              // The Path of directory
         #endregion
 
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
 
-        // constructor
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="imc">Image controller</param>
+        /// <param name="ls">Logging service</param>
+        /// <param name="p">Path of the directory</param>
         public DirectoyHandler(IImageController imc, ILoggingService ls, string p)
         {
             this.m_controller = imc;
@@ -32,8 +38,11 @@ namespace ImageService.Handler
             this.m_logging = ls;
             this.m_path = p;
         }
-        
-        // The Function Recieves the directory to Handle
+
+        /// <summary>
+        /// The Function Recieves the directory to Handle
+        /// </summary>
+        /// <param name="dirPath">Path of the directory</param>
         public void StartHandleDirectory(string dirPath)
         {
             this.m_dirWatcher.Path = dirPath;
@@ -44,7 +53,11 @@ namespace ImageService.Handler
             this.m_dirWatcher.EnableRaisingEvents = true;
             this.m_logging.Log("start handle directory" + dirPath, MessageTypeEnum.INFO);
         }
-
+        /// <summary>
+        /// The function will heppend with the event
+        /// </summary>
+        /// <param name="source">the source</param>
+        /// <param name="e">file system event args</param>
         private void OnChanged(object source, FileSystemEventArgs e)
         {
             this.m_logging.Log("in OnChanged", MessageTypeEnum.INFO);
@@ -53,10 +66,16 @@ namespace ImageService.Handler
             OnCommandRecieved(source, e1);
         }
 
-        // The Event that will be activated upon new Command
+        /// <summary>
+        /// The Event that will be activated upon new Command
+        /// </summary>
+        /// <param name="sender">the source</param>
+        /// <param name="e">commend recived event args</param>
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
+            // if the commend is for a new file, write to the log and execute the command.
+            // else, invoke the event that will clode the handlers
             if (e.CommandID == (int)CommandEnum.NewFileCommand)
             {
                 string msg = this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
@@ -74,7 +93,5 @@ namespace ImageService.Handler
                 this.m_dirWatcher.EnableRaisingEvents = false;
             }
         }
-
-
     }
 }

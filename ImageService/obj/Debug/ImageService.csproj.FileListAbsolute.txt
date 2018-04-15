@@ -23,3 +23,6 @@ C:\Users\User\Source\Repos\ImageService2\ImageService\obj\Debug\ImageService.csp
 C:\Users\User\Source\Repos\ImageService2\ImageService\obj\Debug\ImageService.ImageService.resources
 C:\Users\User\Source\Repos\ImageService2\ImageService\obj\Debug\ImageService.ProjectInstaller.resources
 C:\Users\User\Source\Repos\ImageService2\ImageService\obj\Debug\ImageService.csproj.GenerateResource.Cache
+C:\Users\User\Documents\Visual Studio 2015\Projects\ImageService2\ImageService\bin\Debug\ImageService.exe.config
+C:\Users\User\Documents\Visual Studio 2015\Projects\ImageService2\ImageService\obj\Debug\ImageService.exe
+C:\Users\User\Documents\Visual Studio 2015\Projects\ImageService2\ImageService\obj\Debug\ImageService.pdb

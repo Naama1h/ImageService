@@ -11,11 +11,16 @@ using System.Threading.Tasks;
 
 namespace ImageService.Controller
 {
+    // image controller
     public class ImageController : IImageController
     {
         private IImageServiceModal m_modal;                      // The Modal Object
-        private Dictionary<int, ICommand> commands;
+        private Dictionary<int, ICommand> commands;              // Dictionary of commands
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="modal">Image Service Madel</param>
         public ImageController(IImageServiceModal modal)
         {
             m_modal = modal;                                    // Storing the Modal Of The System
@@ -24,6 +29,14 @@ namespace ImageService.Controller
                 {(int)CommandEnum.NewFileCommand, new NewFileCommand(m_modal)}
             };
         }
+
+        /// <summary>
+        /// Execute The Command
+        /// </summary>
+        /// <param name="commandID">The Command ID</param>
+        /// <param name="args">The Args</param>
+        /// <param name="resultSuccesful">The Result Succesful</param>
+        /// <returns>result of execute</returns>
         public string ExecuteCommand(int commandID, string[] args, out bool resultSuccesful)
         {
             bool status = true;

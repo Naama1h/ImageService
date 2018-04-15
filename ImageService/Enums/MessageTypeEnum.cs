@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImageService.Enums
 {
+    // enum of message type
     public enum MessageTypeEnum : int
     {
         INFO,

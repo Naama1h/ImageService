@@ -13,18 +13,23 @@ using System.Configuration;
 
 namespace ImageService.Server
 {
+    // Image Server
     public class ImageServer
     {
         #region Members
-        private IImageController m_controller;
-        private ILoggingService m_logging;
+        private IImageController m_controller;          // Image Controller
+        private ILoggingService m_logging;              // Logging Service
         #endregion
 
         #region Properties
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved;          // The event that notifies about a new Command being recieved
         #endregion
 
-        // constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="controller">Image Controller</param>
+        /// <param name="loggingService">Logging Service</param>
         public ImageServer(IImageController controller, ILoggingService loggingService)
         {
             this.m_logging = loggingService;
@@ -39,6 +44,10 @@ namespace ImageService.Server
             }   
         }
 
+        /// <summary>
+        /// Create handler
+        /// </summary>
+        /// <param name="directory">The Path Of The Directory</param>
         public void createHandler(string directory)
         {
             DirectoyHandler h = new DirectoyHandler(this.m_controller, this.m_logging, directory);
@@ -47,6 +56,11 @@ namespace ImageService.Server
             h.StartHandleDirectory(directory);
         }
 
+        /// <summary>
+        /// Close Handler
+        /// </summary>
+        /// <param name="sender">the handler</param>
+        /// <param name="e">the event</param>
         public void onCloseServer(object sender, DirectoryCloseEventArgs e)
         {
             DirectoyHandler h = (DirectoyHandler)sender;
@@ -54,6 +68,9 @@ namespace ImageService.Server
             h.DirectoryClose -= onCloseServer;
         }
 
+        /// <summary>
+        /// Invoke the command that close the handlers
+        /// </summary>
         public void closingServer()
         {
             this.CommandRecieved?.Invoke(this, new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, null, ""));
