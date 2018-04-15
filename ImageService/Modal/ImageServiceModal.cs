@@ -45,7 +45,8 @@ namespace ImageService.Modal
             {
                 if (!Directory.Exists(this.m_OutputFolder))
                 {
-                    Directory.CreateDirectory(this.m_OutputFolder);
+                    DirectoryInfo d = Directory.CreateDirectory(this.m_OutputFolder);
+                    d.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
                     Directory.CreateDirectory(this.m_OutputFolder + "\\Thumbnails");
                 }
                 else
@@ -102,14 +103,19 @@ namespace ImageService.Modal
                         }
                         else
                         {
+                            int num = 1;
+                            while (File.Exists(this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + "(" + num.ToString() + ")" + Path.GetFileName(path)))
+                            {
+                                num++;
+                            }
                             // copy to Thumbnails:
                             Image image = Image.FromFile(path);
                             Image thumb = image.GetThumbnailImage(this.m_thumbnailSize, this.m_thumbnailSize, () => false, IntPtr.Zero);
-                            thumb.Save(Path.ChangeExtension(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + "+" + Path.GetFileName(path), "jpg"));
+                            thumb.Save(Path.ChangeExtension(this.m_OutputFolder + "\\Thumbnails\\" + year + "\\" + month + "\\" + "(" + num.ToString() + ")" + Path.GetFileName(path), "jpg"));
                             image.Dispose();
                             // move the image:
                             System.Threading.Thread.Sleep(100);
-                            File.Move(path, this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + "+" + Path.GetFileName(path));
+                            File.Move(path, this.m_OutputFolder + "\\" + year + "\\" + month + "\\" + "(" + num.ToString() + ")" + Path.GetFileName(path));
                         }
                     }
 
