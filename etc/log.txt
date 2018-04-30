@@ -1,0 +1,72 @@
+commit f08538f396f646f0d59f5503d6431aec78f5de07
+Author: Naama1h <naama1har@gmail.com>
+Date:   Mon Apr 9 19:08:25 2018 +0300
+
+    add log commends
+
+commit eb8254ee80f553048153d63c2c2250e47a038369
+Author: Naama1h <naama1har@gmail.com>
+Date:   Sun Apr 8 20:46:55 2018 +0300
+
+    try debugging
+
+commit 2c83325aab6f4756a8ec74e0c63eb45822b92468
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Thu Apr 5 12:46:51 2018 +0200
+
+    add more to handler
+
+commit 4a466c21f24d025f6161795253a8d9fdf2edc649
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Tue Apr 3 23:31:06 2018 +0200
+
+    add app.config and start handler
+
+commit 53c0bf74eea4622b998d5ea0ba69c52e455a0868
+Author: Naama1h <naama1har@gmail.com>
+Date:   Mon Apr 2 18:27:58 2018 +0300
+
+    working on newFileCommand, DirectoryHandler, ImageServiceModal, ImageServer
+
+commit 109322a7fb105aba953dddf505fde4f66bcbd1e5
+Author: Naama1h <naama1har@gmail.com>
+Date:   Sat Mar 31 22:23:06 2018 +0300
+
+    changes
+
+commit c6ef9ea63641c6f9187dd855f0021088e3467eeb
+Merge: 0271f79 7f58728
+Author: Naama1h <naama1har@gmail.com>
+Date:   Sat Mar 31 22:20:57 2018 +0300
+
+    NewFileCommand, ImageController, LoggingService, ImageServiceModal
+
+commit 7f587283eed9df2b5956a410f69149703376b6c7
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Tue Mar 27 17:09:51 2018 +0200
+
+    cotinue ex1
+
+commit 0271f79bf11baf848e417eba3ca774ae7264c8bf
+Author: Naama1h <naama1har@gmail.com>
+Date:   Tue Mar 27 17:17:31 2018 +0300
+
+    ex1
+
+commit 91cfba688dd46b376a25a79562c4857c4b54af2a
+Author: Naama1h <naama1har@gmail.com>
+Date:   Tue Mar 27 16:24:07 2018 +0300
+
+    starting ex1
+
+commit 70a258a350e296605b24148188373eea8c32a82a
+Author: naama <naama1har@gmail.com>
+Date:   Tue Mar 27 15:35:26 2018 +0300
+
+    Add project files.
+
+commit 0e169210c68702b9cbc36371cefb0e3dad69de20
+Author: naama <naama1har@gmail.com>
+Date:   Tue Mar 27 15:35:18 2018 +0300
+
+    Add .gitignore and .gitattributes.

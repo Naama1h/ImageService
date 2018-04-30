@@ -10,8 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-using System.Net;
-using System.Net.Sockets;
 
 namespace ImageService.Server
 {
@@ -21,10 +19,6 @@ namespace ImageService.Server
         #region Members
         private IImageController m_controller;          // Image Controller
         private ILoggingService m_logging;              // Logging Service
-
-        private int port;
-        private TcpListener listener;
-        private IClientHandler ch;
         #endregion
 
         #region Properties
@@ -80,34 +74,6 @@ namespace ImageService.Server
         public void closingServer()
         {
             this.CommandRecieved?.Invoke(this, new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, null, ""));
-        }
-
-        public void Start()
-        {
-            IPEndPoint ep = new
-           IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
-            listener = new TcpListener(ep);
-
-            listener.Start();
-            Console.WriteLine("Waiting for connections...");
-
-            Task task = new Task(() => {
-                while (true)
-                {
-                    try
-                    {
-                        TcpClient client = listener.AcceptTcpClient();
-                        Console.WriteLine("Got new connection");
-                        ch.HandleClient(client);
-                    }
-                    catch (SocketException)
-                    {
-                        break;
-                    }
-                }
-                Console.WriteLine("Server stopped");
-            });
-            task.Start();
         }
     }
 }

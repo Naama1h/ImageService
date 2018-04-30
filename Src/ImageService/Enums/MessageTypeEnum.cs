@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace ImageService.Enums
 {
-    // enum of command
-    public enum CommandEnum : int
+    // enum of message type
+    public enum MessageTypeEnum : int
     {
-        NewFileCommand,
-        GetConfigCommand,
-        LogCommand,
-        CloseCommand
+        INFO,
+        WARNING,
+        FAIL
     }
 }
