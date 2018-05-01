@@ -55,11 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="AppConfigControl.xaml">
+    <Page Include="Views\AppConfigControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LogControl.xaml">
+    <Page Include="Views\LogControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -71,10 +71,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AppConfigControl.xaml.cs">
+    <Compile Include="Models\AppConfigModel.cs" />
+    <Compile Include="Models\LogModel.cs" />
+    <Compile Include="ViewModels\LogViewModel.cs" />
+    <Compile Include="ViewModels\AppConfigViewModel.cs" />
+    <Compile Include="Views\AppConfigControl.xaml.cs">
       <DependentUpon>AppConfigControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LogControl.xaml.cs">
+    <Compile Include="Views\LogControl.xaml.cs">
       <DependentUpon>LogControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
@@ -114,6 +118,9 @@
       <Project>{cf9799e4-8ce9-4be9-92d0-9d6e1c862e82}</Project>
       <Name>ImageService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Communication\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

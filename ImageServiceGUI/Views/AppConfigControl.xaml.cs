@@ -12,17 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ImageServiceGUI.ViewModels;
 
 namespace ImageServiceGUI
 {
     /// <summary>
-    /// Interaction logic for LogControl.xaml
+    /// Interaction logic for AppConfigControl.xaml
     /// </summary>
-    public partial class LogControl : UserControl
+    public partial class AppConfigControl : UserControl
     {
-        public LogControl()
+        public AppConfigControl()
         {
             InitializeComponent();
+            this.DataContext = new AppConfigViewModel();
         }
     }
 }
