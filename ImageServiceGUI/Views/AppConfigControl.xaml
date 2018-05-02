@@ -9,8 +9,9 @@
     <Grid TextBlock.FontSize="14">
         <Grid.Resources>
             <Style x:Key="TextBlock">
-                <Setter Property="TextBlock.Padding" Value="3"/>
-                <Setter Property="TextBlock.Margin" Value="3"/>
+                <Setter Property="TextBlock.FontSize" Value="12"/>
+                <Setter Property="TextBlock.Margin" Value="5"/>
+                <Setter Property="TextBlock.FontWeight" Value="Bold"/>
             </Style>
         </Grid.Resources>
         <Grid.RowDefinitions>
