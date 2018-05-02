@@ -71,10 +71,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Command\ICommand.cs" />
+    <Compile Include="Command\RemoveCommand.cs" />
     <Compile Include="Models\AppConfigModel.cs" />
     <Compile Include="Models\LogModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\AppConfigViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\AppConfigControl.xaml.cs">
       <DependentUpon>AppConfigControl.xaml</DependentUpon>
     </Compile>

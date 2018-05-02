@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageService.Modal.Event;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -16,6 +17,8 @@ namespace ImageService.Modal
         #region Members
         private string m_OutputFolder;            // The Output Folder
         private int m_thumbnailSize;              // The Size Of The Thumbnail Size
+
+        public event EventHandler<DirectoryCloseEventArgs> closeHandler;
         #endregion
 
         /// <summary>
@@ -140,5 +143,18 @@ namespace ImageService.Modal
             TimeSpan t = now - now.ToUniversalTime();
             return File.GetLastWriteTimeUtc(file) + t;
         }
+
+        /// <summary>
+        /// The Function remove the handler.
+        /// </summary>
+        /// <param name="path">The Handler</param>
+        /// <returns>The outcomes</returns>
+        public string removeHandler(string path, out bool result)
+        {
+            this.closeHandler?.Invoke(this, new DirectoryCloseEventArgs(path, "closing handler"));
+            result = true;
+            return "handler has removed";
+        }
+
     }
 }

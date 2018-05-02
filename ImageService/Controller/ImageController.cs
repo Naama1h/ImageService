@@ -2,6 +2,7 @@
 using ImageService.Controller;
 using ImageService.Enums;
 using ImageService.Modal;
+using ImageService.Modal.Event;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,13 @@ namespace ImageService.Controller
     // image controller
     public class ImageController : IImageController
     {
-        private IImageServiceModal m_modal;                      // The Modal Object
+        private IImageServiceModal m_modal;                    // The Modal Object
         private Dictionary<int, ICommand> commands;              // Dictionary of commands
+
+        public IImageServiceModal Modal
+        {
+            get { return this.m_modal; }
+        }
 
         /// <summary>
         /// Constructor.
@@ -46,6 +52,11 @@ namespace ImageService.Controller
             });
             resultSuccesful = t.Result.Item2;
             return t.Result.Item1;
+        }
+
+        public void addDelegate(EventHandler<DirectoryCloseEventArgs> func)
+        {
+            this.m_modal.closeHandler += func;
         }
     }
 }

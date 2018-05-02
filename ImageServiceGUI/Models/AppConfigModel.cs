@@ -19,14 +19,14 @@ namespace ImageServiceGUI.Models
         #endregion
 
         // the Handlers member:
-        private string[] m_Handlers;
-        public string[] Handlers
+        private string m_Handler;
+        public string Handler
         {
-            get { return m_Handlers; }
+            get { return m_Handler; }
             set
             {
-                m_Handlers = value;
-                OnPropertyChanged("Handlers");
+                m_Handler = value;
+                OnPropertyChanged("Handler");
             }
         }
 
@@ -38,7 +38,7 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_OutputDir = value;
-                OnPropertyChanged("OutputDir");
+                //OnPropertyChanged("OutputDir");
             }
         }
 
@@ -50,7 +50,7 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_SourceName = value;
-                OnPropertyChanged("SourceName");
+                //OnPropertyChanged("SourceName");
             }
         }
 
@@ -62,7 +62,7 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_LogName = value;
-                OnPropertyChanged("LogName");
+                //OnPropertyChanged("LogName");
             }
         }
 
@@ -74,8 +74,9 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_ThumbnailSize = value;
-                OnPropertyChanged("ThumbnailSize");
+                //OnPropertyChanged("ThumbnailSize");
             }
         }
+
     }
 }

@@ -25,6 +25,8 @@ namespace ImageService.Server
         private int port;
         private TcpListener listener;
         private IClientHandler ch;
+
+        private Dictionary<string, IDirectoryHandler> handlers;
         #endregion
 
         #region Properties
@@ -40,6 +42,7 @@ namespace ImageService.Server
         {
             this.m_logging = loggingService;
             this.m_controller = controller;
+            this.handlers = new Dictionary<string, IDirectoryHandler>();
 
             // creating handlers to all of the dir
             string handlersList = ConfigurationManager.AppSettings["Handlers"];
@@ -57,6 +60,8 @@ namespace ImageService.Server
         public void createHandler(string directory)
         {
             DirectoyHandler h = new DirectoyHandler(this.m_controller, this.m_logging, directory);
+            handlers.Add(directory, h);
+            this.m_controller.addDelegate(onCloseServer);
             CommandRecieved += h.OnCommandRecieved;
             h.DirectoryClose += onCloseServer;
             h.StartHandleDirectory(directory);
@@ -72,6 +77,7 @@ namespace ImageService.Server
             DirectoyHandler h = (DirectoyHandler)sender;
             CommandRecieved -= h.OnCommandRecieved;
             h.DirectoryClose -= onCloseServer;
+            this.handlers.Remove(e.DirectoryPath);
         }
 
         /// <summary>
