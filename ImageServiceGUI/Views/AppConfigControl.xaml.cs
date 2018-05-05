@@ -24,7 +24,6 @@ namespace ImageServiceGUI
         public AppConfigControl()
         {
             InitializeComponent();
-            this.DataContext = new AppConfigViewModel();
         }
     }
 }

@@ -3,10 +3,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ImageServiceGUI"
+             xmlns:local="clr-namespace:ImageServiceGUI.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <local:MessageBackgroundConverter x:Key="MessageBackgroundConverter"/>
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush>
+                <GradientStop Color="Pink" Offset="0" />
+                <GradientStop Color="WhiteSmoke" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <StackPanel Grid.Row="0" Grid.Column="0"
+                        Orientation="Horizontal">
+            <TextBlock HorizontalAlignment="Center"
+                           Width="280"
+                           Text="Logs"
+                           FontWeight="Bold"
+                           Foreground="#FFFFFFFF"
+                           FontSize="30"
+                           FontFamily="Comic Sans MS"
+                           Margin="5" />
+        </StackPanel>
+        <DataGrid Grid.Row="2" Height="200" Width="270" HorizontalAlignment="Left" Margin="12,21,0,0"
+            Name="DataGrid" VerticalAlignment="Top" RowHeight="30" ColumnWidth="100" 
+                  ItemsSource="{Binding Messages}" AutoGenerateColumns="False" CanUserAddRows="False"
+                  VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Type" Width="Auto" IsReadOnly="True" Binding="{Binding Status}" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{Binding Path=Status, Converter={StaticResource MessageBackgroundConverter}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Message" Width="*" IsReadOnly="True" Binding="{Binding Message}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

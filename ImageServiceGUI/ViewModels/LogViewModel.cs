@@ -1,10 +1,12 @@
 ﻿using ImageServiceGUI.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ImageService.Logging.Modal;
 
 namespace ImageServiceGUI.ViewModels
 {
@@ -38,6 +40,11 @@ namespace ImageServiceGUI.ViewModels
             {
                 this.m_LogModel = value;
             }
+        }
+
+        public ObservableCollection<MessageRecievedEventArgs> Messages
+        {
+            get { return this.logModel.Messages; }
         }
     }
 }

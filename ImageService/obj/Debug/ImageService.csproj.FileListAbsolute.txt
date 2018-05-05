@@ -32,3 +32,11 @@ C:\Users\User\Documents\Visual Studio 2015\Projects\ImageService2\ImageService\o
 C:\Users\User\Documents\Visual Studio 2015\Projects\ImageService2\ImageService\obj\Debug\ImageService.ImageService.resources
 C:\Users\User\Documents\Visual Studio 2015\Projects\ImageService2\ImageService\obj\Debug\ImageService.ProjectInstaller.resources
 C:\Users\User\Documents\Visual Studio 2015\Projects\ImageService2\ImageService\obj\Debug\ImageService.csproj.GenerateResource.Cache
+C:\Users\naama\Documents\Visual Studio 2015\Projects\ImageService\ImageService\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\naama\Documents\Visual Studio 2015\Projects\ImageService\ImageService\bin\Debug\Prism.dll
+C:\Users\naama\Documents\Visual Studio 2015\Projects\ImageService\ImageService\bin\Debug\Prism.Wpf.dll
+C:\Users\naama\Documents\Visual Studio 2015\Projects\ImageService\ImageService\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\naama\Documents\Visual Studio 2015\Projects\ImageService\ImageService\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\Users\naama\Documents\Visual Studio 2015\Projects\ImageService\ImageService\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Users\naama\Documents\Visual Studio 2015\Projects\ImageService\ImageService\bin\Debug\Prism.xml
+C:\Users\naama\Documents\Visual Studio 2015\Projects\ImageService\ImageService\bin\Debug\Prism.Wpf.xml

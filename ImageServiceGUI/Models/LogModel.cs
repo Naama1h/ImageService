@@ -1,10 +1,13 @@
-﻿using ImageService.Logging.Modal;
+﻿using ImageService.Enums;
+using ImageService.Logging.Modal;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ImageService.Logging.Modal;
 
 namespace ImageServiceGUI.Models
 {
@@ -20,15 +23,26 @@ namespace ImageServiceGUI.Models
         #endregion
 
         // the SourceName member:
-        private MessageRecievedEventArgs[] m_Massages;
-        public MessageRecievedEventArgs[] Massages
+        private ObservableCollection<MessageRecievedEventArgs> m_Messages;
+        public ObservableCollection<MessageRecievedEventArgs> Messages
         {
-            get { return m_Massages; }
+            get { return m_Messages; }
             set
             {
-                m_Massages = value;
+                m_Messages = value;
                 OnPropertyChanged("Massages");
             }
+        }
+
+        public LogModel()
+        {
+            this.m_Messages = new ObservableCollection<MessageRecievedEventArgs>();
+            MessageRecievedEventArgs example1 = new MessageRecievedEventArgs(MessageTypeEnum.WARNING, "try1");
+            MessageRecievedEventArgs example2 = new MessageRecievedEventArgs(MessageTypeEnum.INFO, "try2");
+            MessageRecievedEventArgs example3 = new MessageRecievedEventArgs(MessageTypeEnum.FAIL, "try3");
+            this.m_Messages.Add(example1);
+            this.m_Messages.Add(example2);
+            this.m_Messages.Add(example3);
         }
     }
 }

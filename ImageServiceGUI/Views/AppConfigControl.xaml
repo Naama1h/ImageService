@@ -52,13 +52,13 @@
                     <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Style="{StaticResource TextBlock}" Margin="2"> Output Directory:</TextBlock>
-                <TextBox x:Name="OutputDirectory" Grid.Row="0" Grid.Column="1" Text="{Binding OutputDirectory, Mode=OneWay}"></TextBox>
+                <TextBlock x:Name="OutputDirectory" Grid.Row="0" Grid.Column="1" Text="{Binding OutputDirectory, Mode=OneWay}"></TextBlock>
                 <TextBlock Grid.Row="1" Style="{StaticResource TextBlock}" Margin="2">Source Name:</TextBlock>
-                <TextBox x:Name="SourceName" Grid.Row="1" Grid.Column="1" Text="{Binding SourceName, Mode=OneWay}"></TextBox>
+                <TextBlock x:Name="SourceName" Grid.Row="1" Grid.Column="1" Text="{Binding SourceName, Mode=OneWay}"></TextBlock>
                 <TextBlock Grid.Row="2" Style="{StaticResource TextBlock}" Margin="2">Log Name:</TextBlock>
-                <TextBox x:Name="LogName" Grid.Row="2" Grid.Column="1" Text="{Binding LogName, Mode=OneWay}"></TextBox>
+                <TextBlock x:Name="LogName" Grid.Row="2" Grid.Column="1" Text="{Binding LogName, Mode=OneWay}"></TextBlock>
                 <TextBlock Grid.Row="3" Style="{StaticResource TextBlock}" Margin="2">Thumbnail Size:</TextBlock>
-                <TextBox x:Name="ThumbnailSize" Grid.Row="3" Grid.Column="1" Text="{Binding ThumbnailSize, Mode=OneWay}"></TextBox>
+                <TextBlock x:Name="ThumbnailSize" Grid.Row="3" Grid.Column="1" Text="{Binding ThumbnailSize, Mode=OneWay}"></TextBlock>
             </Grid>
         </Border>
         <Border Grid.Row="2">
@@ -70,19 +70,20 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBox Grid.Row="1" Background="AliceBlue" x:Name="Handlers" Text="Handlers" FontSize="13" HorizontalAlignment="Center" Width="250"></TextBox>
-                <ListBox Grid.Row="2" Height="100" Width="250" Margin="1" ItemsSource="{Binding AllHandlers}"
-                         SelectedItem="{Binding AppConfigModel.Handler, Mode=TwoWay}"
+                <ListBox x:Name="handlers" Grid.Row="2" Height="100" Width="250" Margin="1"
+                         ItemsSource="{Binding Handlers}"
+                         SelectedItem="{Binding Handler}"
                     ScrollViewer.VerticalScrollBarVisibility="Visible">
                 </ListBox>
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button x:Name="remove"
-                            Command="{Binding OnRemove}"
+                            Command="{Binding RemoveCommand}"
                             Content="remove"
                             Height="20"
                             Width="70"
                             Margin="3"
                             HorizontalAlignment="Right"
-                           />
+                                                    AutomationProperties.AutomationId="RemoveButton"/>
                 </StackPanel>
             </Grid>
         </Border>

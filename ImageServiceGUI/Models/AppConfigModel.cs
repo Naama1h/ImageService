@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Collections.ObjectModel;
 
 namespace ImageServiceGUI.Models
 {
@@ -11,24 +13,37 @@ namespace ImageServiceGUI.Models
     {
         #region Notify Changed
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public AppConfigModel()
+        {
+            this.m_OutputDir = ConfigurationManager.AppSettings["OutPutDir"];
+            this.m_SourceName = ConfigurationManager.AppSettings["SourceName"];
+            this.m_LogName = ConfigurationManager.AppSettings["LogName"];
+            this.m_ThumbnailSize = ConfigurationManager.AppSettings["ThumbnailSize"];
+        }
+
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
         #endregion
-
-        // the Handlers member:
-        private string m_Handler;
-        public string Handler
+        
+        // the list of handlers
+        private ObservableCollection<string> handlers;
+        public ObservableCollection<string> Handlers
         {
-            get { return m_Handler; }
+            get
+            {
+                return handlers;
+            }
             set
             {
-                m_Handler = value;
-                OnPropertyChanged("Handler");
+                handlers = value;
+                //this.OnPropertyChanged("handlers");
             }
         }
+        
 
         // the OutputDir member:
         private string m_OutputDir;
@@ -38,7 +53,6 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_OutputDir = value;
-                //OnPropertyChanged("OutputDir");
             }
         }
 
@@ -50,7 +64,6 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_SourceName = value;
-                //OnPropertyChanged("SourceName");
             }
         }
 
@@ -62,7 +75,6 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_LogName = value;
-                //OnPropertyChanged("LogName");
             }
         }
 
@@ -74,7 +86,6 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_ThumbnailSize = value;
-                //OnPropertyChanged("ThumbnailSize");
             }
         }
 
