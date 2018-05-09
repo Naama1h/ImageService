@@ -1,4 +1,4 @@
-﻿using ImageService.Modal;
+﻿using ImageService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +9,15 @@ namespace ImageService.Commands
 {
 	class AppConfigCommand : ICommand
 	{
-		private IImageServiceModal m_modal;         // Image Service Model
+		private IImageServiceModel m_model;         // Image Service Model
 
 		/// <summary>
 		/// Constructor.
 		/// </summary>
-		/// <param name="modal">The Image Service Model</param>
-		public AppConfigCommand(IImageServiceModal modal)
+		/// <param name="model">The Image Service Model</param>
+		public AppConfigCommand(IImageServiceModel model)
 		{
-			m_modal = modal;            // Storing the Modal
+			m_model = model;            // Storing the Model
 		}
 
 		/// <summary>
@@ -28,7 +28,7 @@ namespace ImageService.Commands
 		/// <returns>the new path or false if there is problem</returns>
 		public string Execute(string[] args, out bool result)
 		{
-			return m_modal.removeHandler(args[0], out result);
+			return m_model.settingsMessage(args[0], out result);
 		}
 	}
 }

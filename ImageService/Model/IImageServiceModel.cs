@@ -1,13 +1,13 @@
-﻿using ImageService.Modal.Event;
+﻿using ImageService.Model.Event;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageService.Modal
+namespace ImageService.Model
 {
-    public interface IImageServiceModal
+    public interface IImageServiceModel
     {
         event EventHandler<DirectoryCloseEventArgs> closeHandler;
 
@@ -23,6 +23,6 @@ namespace ImageService.Modal
         /// </summary>
         /// <param name="path">The Handler</param>
         /// <returns>The outcomes</returns>
-        string removeHandler(string path, out bool result);
+        string settingsMessage(string path, out bool result);
     }
 }

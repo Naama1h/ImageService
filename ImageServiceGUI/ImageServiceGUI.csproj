@@ -124,6 +124,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Communication\CommunicationServer.cs" />
     <Compile Include="Models\AppConfigModel.cs" />
     <Compile Include="Models\LogModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
@@ -170,14 +171,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ImageServiceCommunication\ImageServiceCommunication.csproj">
+      <Project>{23a00c24-5377-4978-b996-92c23121ef31}</Project>
+      <Name>ImageServiceCommunication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImageService\ImageService.csproj">
       <Project>{cf9799e4-8ce9-4be9-92d0-9d6e1c862e82}</Project>
       <Name>ImageService</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Communication\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

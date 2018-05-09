@@ -1,4 +1,4 @@
-﻿using ImageService.Modal.Event;
+﻿using ImageService.Model.Event;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,9 +10,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ImageService.Modal
+namespace ImageService.Model
 {
-    public class ImageServiceModal : IImageServiceModal
+    public class ImageServiceModel : IImageServiceModel
     {
         #region Members
         private string m_OutputFolder;            // The Output Folder
@@ -26,7 +26,7 @@ namespace ImageService.Modal
         /// </summary>
         /// <param name="outputFolder">The Path of the output folder of the images</param>
         /// <param name="thumbnailSize">The Thumbnail Size</param>
-        public ImageServiceModal(string outputFolder, int thumbnailSize)
+        public ImageServiceModel(string outputFolder, int thumbnailSize)
         {
             this.m_OutputFolder = outputFolder;
             this.m_thumbnailSize = thumbnailSize;
@@ -149,7 +149,7 @@ namespace ImageService.Modal
         /// </summary>
         /// <param name="path">The Handler</param>
         /// <returns>The outcomes</returns>
-        public string removeHandler(string path, out bool result)
+        public string settingsMessage(string path, out bool result)
         {
             this.closeHandler?.Invoke(this, new DirectoryCloseEventArgs(path, "closing handler"));
             result = true;

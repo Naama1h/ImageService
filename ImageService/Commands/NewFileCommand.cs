@@ -1,4 +1,4 @@
-﻿using ImageService.Modal;
+﻿using ImageService.Model;
 using System.IO;
 using System;
 using System.Collections.Generic;
@@ -11,15 +11,15 @@ namespace ImageService.Commands
     // new file command
 	public class NewFileCommand : ICommand
 	{
-		private IImageServiceModal m_modal;         // Image Service Model
+		private IImageServiceModel m_model;         // Image Service Model
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="modal">The Image Service Model</param>
-		public NewFileCommand(IImageServiceModal modal)
+		public NewFileCommand(IImageServiceModel model)
 		{
-			m_modal = modal;            // Storing the Modal
+			m_model = model;            // Storing the Model
 		}
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace ImageService.Commands
 			// The String Will Return the New Path if result = true, and will return the error message
 			if (File.Exists(args[0]))
 			{
-				return m_modal.AddFile(args[0], out result);
+				return m_model.AddFile(args[0], out result);
 			}
 			else
 			{

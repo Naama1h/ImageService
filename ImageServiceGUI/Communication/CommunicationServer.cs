@@ -10,35 +10,45 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageService.Server
+namespace ImageServiceGUI.Communication
 {
-    class ClientHandler : IClientHandler
+    class CommunicationServer
     {
-        private static ClientHandler instance;
+        private static CommunicationServer instance;
+        private TcpClient client;
         private bool clientConnected;
         public event EventHandler<DataRecivedEventArgs> DataReceived;
 
-        private ClientHandler()
+        private CommunicationServer()
         {
-            this.clientConnected = true;
+            try
+            {
+                IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
+                this.client = new TcpClient();
+                this.client.Connect(ep);
+                this.clientConnected = true;
+            }
+            catch (SocketException)
+            {
+            }
         }
 
-        public static ClientHandler Instance
+        public static CommunicationServer Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new ClientHandler();
+                    instance = new CommunicationServer();
                 }
                 return instance;
             }
         }
 
-        public void sendmessage(TcpClient client, string message)
+        public void sendmessage(string message)
         {
             Console.WriteLine("You are connected");
-            using (NetworkStream stream = client.GetStream())
+            using (NetworkStream stream = this.client.GetStream())
             using (BinaryWriter writer = new BinaryWriter(stream))
             {
                 // Send message to the server
@@ -46,10 +56,10 @@ namespace ImageService.Server
             }
         }
 
-        public void recivedmessage(TcpClient client)
+        public void recivedmessage()
         {
             Console.WriteLine("You are connected");
-            using (NetworkStream stream = client.GetStream())
+            using (NetworkStream stream = this.client.GetStream())
             using (StreamReader reader = new StreamReader(stream))
             {
                 // Get result from server
@@ -58,18 +68,13 @@ namespace ImageService.Server
             }
         }
 
-        public void closeConnection(TcpClient client)
+        public void closeConnection()
         {
-            if (clientConnected)
+            if(clientConnected)
             {
-                client.Close();
+                this.client.Close();
                 this.clientConnected = false;
             }
-        }
-
-        public void HandleClient(TcpClient client)
-        {
-            
         }
     }
 }

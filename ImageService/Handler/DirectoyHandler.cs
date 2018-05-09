@@ -1,4 +1,4 @@
-﻿using ImageService.Modal.Event;
+﻿using ImageService.Model.Event;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using ImageService.Enums;
 using ImageService.Logging;
 using ImageService.Controller;
-using ImageService.Logging.Modal;
+using ImageService.Logging.Model;
 using System.Text.RegularExpressions;
 
 namespace ImageService.Handler

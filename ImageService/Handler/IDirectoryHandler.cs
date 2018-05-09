@@ -1,4 +1,4 @@
-﻿using ImageService.Modal.Event;
+﻿using ImageService.Model.Event;
 using System;
 using System.Collections.Generic;
 using System.Linq;

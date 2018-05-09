@@ -1,11 +1,11 @@
 ﻿using ImageService.Commands;
-using ImageService.Modal;
+using ImageService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ImageService.Modal.Event;
+using ImageService.Model.Event;
 
 namespace ImageService.Controller
 {

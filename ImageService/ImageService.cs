@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
 using ImageService.Controller;
-using ImageService.Logging.Modal;
-using ImageService.Modal;
+using ImageService.Logging.Model;
+using ImageService.Model;
 using ImageService.Server;
 using System.Configuration;
 
@@ -47,7 +47,7 @@ namespace ImageService
         private int eventId = 1;
 
         private Server.ImageServer m_imageServer;          // The Image Server
-        private Modal.IImageServiceModal modal;
+        private Model.IImageServiceModel model;
         private Controller.IImageController controller;
         private Logging.ILoggingService logging;
 
@@ -95,10 +95,10 @@ namespace ImageService
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
-            this.modal = new ImageServiceModal(ConfigurationManager.AppSettings["OutputDir"], Int32.Parse(ConfigurationManager.AppSettings["ThumbnailSize"]));
+            this.model = new ImageServiceModel(ConfigurationManager.AppSettings["OutputDir"], Int32.Parse(ConfigurationManager.AppSettings["ThumbnailSize"]));
             this.logging = new Logging.LoggingService();
             this.logging.MessageRecieved += OnMessage;
-            this.controller = new ImageController(this.modal);
+            this.controller = new ImageController(this.model);
             this.m_imageServer = new ImageServer(this.controller, this.logging);
 
         }

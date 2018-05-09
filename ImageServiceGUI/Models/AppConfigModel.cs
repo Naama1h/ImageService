@@ -6,6 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Collections.ObjectModel;
+using ImageServiceGUI.Communication;
+using System.IO.Ports;
+using System.Diagnostics;
+using ImageServiceCommunication;
+using ImageService.Enums;
+using ImageServiceCommunication.Event;
 
 namespace ImageServiceGUI.Models
 {
@@ -20,6 +26,7 @@ namespace ImageServiceGUI.Models
             this.m_SourceName = ConfigurationManager.AppSettings["SourceName"];
             this.m_LogName = ConfigurationManager.AppSettings["LogName"];
             this.m_ThumbnailSize = ConfigurationManager.AppSettings["ThumbnailSize"];
+            CommunicationServer.Instance.DataReceived += settingsMessage;
         }
 
         protected void OnPropertyChanged(string name)
@@ -43,7 +50,6 @@ namespace ImageServiceGUI.Models
                 //this.OnPropertyChanged("handlers");
             }
         }
-        
 
         // the OutputDir member:
         private string m_OutputDir;
@@ -89,5 +95,39 @@ namespace ImageServiceGUI.Models
             }
         }
 
+        public void settingsMessage(object sender, DataRecivedEventArgs e)
+        {
+            CommandMessage cm = CommandMessage.ParseJSon(e.Data);
+            if (cm.CommandID.Equals(CommandEnum.GetConfigCommand))
+            {
+                if (cm.CommandArgs[1].Equals("OutPutDir"))
+                {
+                    this.m_OutputDir = cm.CommandArgs[2];
+                }
+                else if (cm.CommandArgs[1].Equals("SourceName"))
+                {
+                    this.m_SourceName = cm.CommandArgs[2];
+                }
+                else if (cm.CommandArgs[1].Equals("LogName"))
+                {
+                    this.LogName = cm.CommandArgs[2];
+                }
+                else if (cm.CommandArgs[1].Equals("ThumbnailSize"))
+                {
+                    this.ThumbnailSize = cm.CommandArgs[2];
+                }
+                else
+                {
+                    int i = 2, j = 0;
+                    while (cm.CommandArgs[i] != null)
+                    {
+                        this.handlers[j] = cm.CommandArgs[i];
+                        i++;
+                        j++;
+                    }
+                }
+                CommunicationServer.Instance.sendmessage("add to setting");
+            }
+        }
     }
 }

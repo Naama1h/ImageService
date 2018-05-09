@@ -1,8 +1,8 @@
 ﻿using ImageService.Commands;
 using ImageService.Controller;
 using ImageService.Enums;
-using ImageService.Modal;
-using ImageService.Modal.Event;
+using ImageService.Model;
+using ImageService.Model.Event;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,24 +15,24 @@ namespace ImageService.Controller
     // image controller
     public class ImageController : IImageController
     {
-        private IImageServiceModal m_modal;                    // The Modal Object
+        private IImageServiceModel m_model;                    // The Modal Object
         private Dictionary<int, ICommand> commands;              // Dictionary of commands
 
-        public IImageServiceModal Modal
+        public IImageServiceModel Model
         {
-            get { return this.m_modal; }
+            get { return this.m_model; }
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="modal">Image Service Madel</param>
-        public ImageController(IImageServiceModal modal)
+        public ImageController(IImageServiceModel model)
         {
-            m_modal = modal;                                    // Storing the Modal Of The System
+            m_model = model;                                    // Storing the Modal Of The System
             commands = new Dictionary<int, ICommand>()
             {
-                {(int)CommandEnum.NewFileCommand, new NewFileCommand(m_modal)}
+                {(int)CommandEnum.NewFileCommand, new NewFileCommand(m_model)}
             };
         }
 
@@ -56,7 +56,7 @@ namespace ImageService.Controller
 
         public void addDelegate(EventHandler<DirectoryCloseEventArgs> func)
         {
-            this.m_modal.closeHandler += func;
+            this.m_model.closeHandler += func;
         }
     }
 }
