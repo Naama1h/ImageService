@@ -44,7 +44,14 @@ namespace ImageService.Server
             this.stream = client.GetStream();
             this.writer = new BinaryWriter(this.stream);
             // Send message to the server
-            writer.Write(message);
+            try
+            {
+                writer.Write(message);
+            }
+            catch (SocketException)
+            {
+                closeConnection(client);
+            }
         }
 
         public void recivedmessage(TcpClient client)
@@ -53,8 +60,15 @@ namespace ImageService.Server
             this.stream = client.GetStream();
             this.reader = new BinaryReader(this.stream);
             // Get result from server
-            string message = reader.ReadString();
-            this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
+            try
+            {
+                string message = reader.ReadString();
+                this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
+            }
+            catch (SocketException)
+            {
+                closeConnection(client);
+            }
         }
 
         public void closeConnection(TcpClient client)

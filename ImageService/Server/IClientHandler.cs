@@ -12,7 +12,6 @@ namespace ImageService.Server
     public interface IClientHandler
     {
         event EventHandler<DataRecivedEventArgs> DataReceived;
-
         void recivedmessage(TcpClient client);
         void sendmessage(TcpClient client, string message);
     }

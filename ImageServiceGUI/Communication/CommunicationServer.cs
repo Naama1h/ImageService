@@ -29,21 +29,22 @@ namespace ImageServiceGUI.Communication
                 IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
                 this.client = new TcpClient();
                 this.client.Connect(ep);
+                Console.WriteLine("connected");
                 this.clientConnected = true;
-                while (this.clientConnected)
+                new Task(() =>
                 {
-                    try
+                    while (this.clientConnected)
                     {
-                        new Task(() =>
+                        try
                         {
                             recivedmessage();
-                        }).Start();
+                        }
+                        catch (SocketException)
+                        {
+                            break;
+                        }
                     }
-                    catch(SocketException)
-                    {
-                        break;
-                    }
-                }
+                }).Start();
             }
             catch (SocketException)
             {
@@ -73,7 +74,6 @@ namespace ImageServiceGUI.Communication
 
         public void recivedmessage()
         {
-            Console.WriteLine("You are connected");
             this.stream = this.client.GetStream();
             this.reader = new BinaryReader(this.stream);
             // Get result from server

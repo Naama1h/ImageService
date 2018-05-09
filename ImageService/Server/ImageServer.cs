@@ -29,7 +29,7 @@ namespace ImageService.Server
 
         private int port;
         private TcpListener listener;
-        private IClientHandler ch;
+        private ClientHandler ch;
         private ArrayList clients;
 
         private ArrayList logMessage;
@@ -60,7 +60,9 @@ namespace ImageService.Server
                 this.createHandler(handlers[i]);
             }
             this.clients = new ArrayList();
+            this.logMessage = new ArrayList();
             this.m_logging.MessageRecieved += saveLogMessage;
+            this.port = 8000;
             StartServer();
         }
 
@@ -103,8 +105,8 @@ namespace ImageService.Server
                 {
                     string[] args = {};
                     CommandMessage message = new CommandMessage((int)CommandEnum.CloseCommand, args);
-                    ch.sendmessage(client, message.ToJSON());
-                    ch.recivedmessage(client);
+                    ClientHandler.Instance.sendmessage(client, message.ToJSON());
+                    ClientHandler.Instance.recivedmessage(client);
                 }).Start();
             }
         }
@@ -120,9 +122,10 @@ namespace ImageService.Server
                 {
                     try
                     {
+                        Console.WriteLine("wait for connection");
                         TcpClient client = listener.AcceptTcpClient();
                         Console.WriteLine("Got new connection");
-                        ch.DataReceived += removeHandler;
+                        ClientHandler.Instance.DataReceived += removeHandler;
                         sendSettings(client);
                         this.clients.Add(client);
                         if(this.clients.Count == 1)
@@ -134,8 +137,8 @@ namespace ImageService.Server
                                 {
                                     string[] args = { message.Status.ToString(), message.Message };
                                     CommandMessage message1 = new CommandMessage((int)CommandEnum.LogCommand, args);
-                                    ch.sendmessage(client, message1.ToJSON());
-                                    ch.recivedmessage(client);
+                                    ClientHandler.Instance.sendmessage(client, message1.ToJSON());
+                                    ClientHandler.Instance.recivedmessage(client);
                                 }).Start();
                             }
                         }
@@ -153,7 +156,7 @@ namespace ImageService.Server
         public void removeHandler(object sender, DataRecivedEventArgs e)
         {
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
-            if (cm.CommandID.Equals(CommandEnum.CloseCommand))
+            if (cm.CommandID == (int)CommandEnum.CloseCommand)
             {
                 DirectoyHandler h = (DirectoyHandler)this.handlers[cm.CommandArgs[1]];
                 CommandRecieved -= h.OnCommandRecieved;
@@ -166,45 +169,21 @@ namespace ImageService.Server
         {
             new Task(() =>
             {
-                string[] args = { "OutPutDir", ConfigurationManager.AppSettings["OutPutDir"] };
-                CommandMessage message = new CommandMessage((int)CommandEnum.GetConfigCommand, args);
-                ch.sendmessage(client, message.ToJSON());
-                ch.recivedmessage(client);
-            }).Start();
-            new Task(() =>
-            {
-                string[] args = { "SourceName", ConfigurationManager.AppSettings["SourceName"] };
-                CommandMessage message = new CommandMessage((int)CommandEnum.GetConfigCommand, args);
-                ch.sendmessage(client, message.ToJSON());
-                ch.recivedmessage(client);
-            }).Start();
-            new Task(() =>
-            {
-                string[] args = { "LogName", ConfigurationManager.AppSettings["LogName"] };
-                CommandMessage message = new CommandMessage((int)CommandEnum.GetConfigCommand, args);
-                ch.sendmessage(client, message.ToJSON());
-                ch.recivedmessage(client);
-            }).Start();
-            new Task(() =>
-            {
-                string[] args = { "ThumbnailSize", ConfigurationManager.AppSettings["ThumbnailSize"] };
-                CommandMessage message = new CommandMessage((int)CommandEnum.GetConfigCommand, args);
-                ch.sendmessage(client, message.ToJSON());
-                ch.recivedmessage(client);
-            }).Start();
-            new Task(() =>
-            {
                 string handlersList = ConfigurationManager.AppSettings["Handlers"];
                 string[] handlers = handlersList.Split(';');
-                string[] args = { "Handlers" };
+                string[] args = new string[handlers.Length+5];
                 for (int i = 0; i < handlers.Length; i++)
                 {
-                    args[i+1] = handlers[i];
+                    args[i] = handlers[i];
                 }
-                args[handlers.Length+2] = null;
+                args[handlers.Length] = null;
+                args[handlers.Length + 1] = ConfigurationManager.AppSettings["OutPutDir"];
+                args[handlers.Length + 2] = ConfigurationManager.AppSettings["SourceName"];
+                args[handlers.Length + 3] = ConfigurationManager.AppSettings["LogName"];
+                args[handlers.Length + 4] = ConfigurationManager.AppSettings["ThumbnailSize"];
                 CommandMessage message = new CommandMessage((int)CommandEnum.GetConfigCommand, args);
-                ch.sendmessage(client, message.ToJSON());
-                ch.recivedmessage(client);
+                ClientHandler.Instance.sendmessage(client, message.ToJSON());
+                ClientHandler.Instance.recivedmessage(client);
             }).Start();
         }
 
@@ -216,8 +195,8 @@ namespace ImageService.Server
                 {
                     string[] args = { message.Status.ToString(), message.Message };
                     CommandMessage message1 = new CommandMessage((int)CommandEnum.LogCommand, args);
-                    ch.sendmessage(client, message1.ToJSON());
-                    ch.recivedmessage(client);
+                    ClientHandler.Instance.sendmessage(client, message1.ToJSON());
+                    ClientHandler.Instance.recivedmessage(client);
                 }).Start();
             }
         }

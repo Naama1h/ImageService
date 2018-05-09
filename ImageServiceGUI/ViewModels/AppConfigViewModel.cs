@@ -124,7 +124,9 @@ namespace ImageServiceGUI.ViewModels
 
         private void OnRemove(object obj)
         {
-            // sendig tcp
+            //
+            // send the server!!!
+            //
             this.Handlers.Remove(this.Handler);
             this.appConfigModel = new AppConfigModel();
             Console.Write("remove\n");

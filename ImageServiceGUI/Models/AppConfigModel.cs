@@ -22,10 +22,12 @@ namespace ImageServiceGUI.Models
 
         public AppConfigModel()
         {
+            /**
             this.m_OutputDir = ConfigurationManager.AppSettings["OutPutDir"];
             this.m_SourceName = ConfigurationManager.AppSettings["SourceName"];
             this.m_LogName = ConfigurationManager.AppSettings["LogName"];
             this.m_ThumbnailSize = ConfigurationManager.AppSettings["ThumbnailSize"];
+            */
             CommunicationServer.Instance.DataReceived += settingsMessage;
         }
 
@@ -98,34 +100,22 @@ namespace ImageServiceGUI.Models
         public void settingsMessage(object sender, DataRecivedEventArgs e)
         {
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
-            if (cm.CommandID.Equals(CommandEnum.GetConfigCommand))
+            if (cm.CommandID == (int)CommandEnum.GetConfigCommand)
             {
-                if (cm.CommandArgs[1].Equals("OutPutDir"))
+                int i = 0;
+                while (cm.CommandArgs[i] != null)
                 {
-                    this.m_OutputDir = cm.CommandArgs[2];
+                    this.handlers.Add(cm.CommandArgs[i]);
+                    i++;
                 }
-                else if (cm.CommandArgs[1].Equals("SourceName"))
-                {
-                    this.m_SourceName = cm.CommandArgs[2];
-                }
-                else if (cm.CommandArgs[1].Equals("LogName"))
-                {
-                    this.LogName = cm.CommandArgs[2];
-                }
-                else if (cm.CommandArgs[1].Equals("ThumbnailSize"))
-                {
-                    this.ThumbnailSize = cm.CommandArgs[2];
-                }
-                else
-                {
-                    int i = 2, j = 0;
-                    while (cm.CommandArgs[i] != null)
-                    {
-                        this.handlers[j] = cm.CommandArgs[i];
-                        i++;
-                        j++;
-                    }
-                }
+                i++;
+                this.m_OutputDir = cm.CommandArgs[i];
+                i++;
+                this.m_SourceName = cm.CommandArgs[i];
+                i++;
+                this.m_LogName = cm.CommandArgs[i];
+                i++;
+                this.m_ThumbnailSize = cm.CommandArgs[i];
                 CommunicationServer.Instance.sendmessage("add to setting");
             }
         }

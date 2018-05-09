@@ -55,21 +55,21 @@ namespace ImageServiceGUI.Models
         public void addMessageToLog(object sender, DataRecivedEventArgs e)
         {
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
-            if (cm.CommandID.Equals(CommandEnum.LogCommand))
+            if (cm.CommandID == (int)CommandEnum.LogCommand)
             {
-                if (cm.CommandArgs[1].Equals(MessageTypeEnum.FAIL))
+                if (cm.CommandArgs[0].Equals(MessageTypeEnum.FAIL.ToString()))
                 {
-                    MessageRecievedEventArgs message = new MessageRecievedEventArgs(MessageTypeEnum.FAIL, cm.CommandArgs[2]);
+                    MessageRecievedEventArgs message = new MessageRecievedEventArgs(MessageTypeEnum.FAIL, cm.CommandArgs[1]);
                     this.m_Messages.Add(message);
                 }
-                else if (cm.CommandArgs[1].Equals(MessageTypeEnum.INFO))
+                else if (cm.CommandArgs[0].Equals(MessageTypeEnum.INFO.ToString()))
                 {
-                    MessageRecievedEventArgs message = new MessageRecievedEventArgs(MessageTypeEnum.INFO, cm.CommandArgs[2]);
+                    MessageRecievedEventArgs message = new MessageRecievedEventArgs(MessageTypeEnum.INFO, cm.CommandArgs[1]);
                     this.m_Messages.Add(message);
                 }
                 else
                 {
-                    MessageRecievedEventArgs message = new MessageRecievedEventArgs(MessageTypeEnum.WARNING, cm.CommandArgs[2]);
+                    MessageRecievedEventArgs message = new MessageRecievedEventArgs(MessageTypeEnum.WARNING, cm.CommandArgs[1]);
                     this.m_Messages.Add(message);
                 }
                 CommunicationServer.Instance.sendmessage("add to log");
