@@ -61,7 +61,7 @@ namespace ImageService.Server
             }
             this.clients = new ArrayList();
             this.m_logging.MessageRecieved += saveLogMessage;
-            //StartServer();
+            StartServer();
         }
 
         /// <summary>
