@@ -18,6 +18,9 @@ namespace ImageServiceGUI.Communication
         private TcpClient client;
         private bool clientConnected;
         public event EventHandler<DataRecivedEventArgs> DataReceived;
+        private NetworkStream stream;
+        private BinaryWriter writer;
+        private BinaryReader reader;
 
         private CommunicationServer()
         {
@@ -27,6 +30,20 @@ namespace ImageServiceGUI.Communication
                 this.client = new TcpClient();
                 this.client.Connect(ep);
                 this.clientConnected = true;
+                while (this.clientConnected)
+                {
+                    try
+                    {
+                        new Task(() =>
+                        {
+                            recivedmessage();
+                        }).Start();
+                    }
+                    catch(SocketException)
+                    {
+                        break;
+                    }
+                }
             }
             catch (SocketException)
             {
@@ -48,24 +65,20 @@ namespace ImageServiceGUI.Communication
         public void sendmessage(string message)
         {
             Console.WriteLine("You are connected");
-            using (NetworkStream stream = this.client.GetStream())
-            using (BinaryWriter writer = new BinaryWriter(stream))
-            {
-                // Send message to the server
-                writer.Write(message);
-            }
+            this.stream = this.client.GetStream();
+            this.writer = new BinaryWriter(this.stream);
+            // Send message to the server
+            writer.Write(message);
         }
 
         public void recivedmessage()
         {
             Console.WriteLine("You are connected");
-            using (NetworkStream stream = this.client.GetStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                // Get result from server
-                string message = reader.ReadLine();
-                this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
-            }
+            this.stream = this.client.GetStream();
+            this.reader = new BinaryReader(this.stream);
+            // Get result from server
+            string message = reader.ReadString();
+            this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
         }
 
         public void closeConnection()

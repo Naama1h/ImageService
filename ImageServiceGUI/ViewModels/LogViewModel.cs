@@ -27,10 +27,9 @@ namespace ImageServiceGUI.ViewModels
         {
             this.m_LogModel = new LogModel();
             m_LogModel.PropertyChanged +=
-       delegate (Object sender, PropertyChangedEventArgs e) {
-           NotifyPropertyChanged(e.PropertyName);
-       };
-
+            delegate (Object sender, PropertyChangedEventArgs e) {
+                NotifyPropertyChanged(e.PropertyName);
+            };
         }
 
         public LogModel logModel

@@ -97,6 +97,16 @@ namespace ImageService.Server
         public void closingServer()
         {
             this.CommandRecieved?.Invoke(this, new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, null, ""));
+            foreach (TcpClient client in this.clients)
+            {
+                new Task(() =>
+                {
+                    string[] args = {};
+                    CommandMessage message = new CommandMessage((int)CommandEnum.CloseCommand, args);
+                    ch.sendmessage(client, message.ToJSON());
+                    ch.recivedmessage(client);
+                }).Start();
+            }
         }
 
         public void StartServer()
