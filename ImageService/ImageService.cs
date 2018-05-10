@@ -57,8 +57,8 @@ namespace ImageService
         public ImageService(string[] args)
         {
             InitializeComponent();
-            string eventSourceName = "MySource";
-            string logName = "MyNewLog";
+            string eventSourceName = ConfigurationManager.AppSettings["SourceName"];
+            string logName = ConfigurationManager.AppSettings["LogName"];
             if (args.Count() > 0)
             {
                 eventSourceName = args[0];
@@ -68,12 +68,17 @@ namespace ImageService
                 logName = args[1];
             }
             eventLog2 = new System.Diagnostics.EventLog();
-            if (!System.Diagnostics.EventLog.SourceExists("MySource"))
+            if (!System.Diagnostics.EventLog.SourceExists(eventSourceName))
             {
-                System.Diagnostics.EventLog.CreateEventSource("MySource", "MyNewLog");
+                System.Diagnostics.EventLog.CreateEventSource(eventSourceName, logName);
             }
-            eventLog2.Source = "MySource";
-            eventLog2.Log = "MyNewLog";
+            eventLog2.Source = eventSourceName;
+            eventLog2.Log = logName;
+            this.logging = new Logging.LoggingService();
+            this.model = new ImageServiceModel(ConfigurationManager.AppSettings["OutputDir"], Int32.Parse(ConfigurationManager.AppSettings["ThumbnailSize"]));
+            this.logging.MessageRecieved += OnMessage;
+            this.controller = new ImageController(this.model);
+            this.m_imageServer = new ImageServer(this.controller, this.logging);
         }
 
         protected override void OnStart(string[] args)
@@ -89,39 +94,33 @@ namespace ImageService
             timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
             timer.Start();
 
-            eventLog2.WriteEntry("In OnStart");
-
             // Update the service state to Running.  
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
-            this.model = new ImageServiceModel(ConfigurationManager.AppSettings["OutputDir"], Int32.Parse(ConfigurationManager.AppSettings["ThumbnailSize"]));
-            this.logging = new Logging.LoggingService();
-            this.logging.MessageRecieved += OnMessage;
-            this.controller = new ImageController(this.model);
-            this.m_imageServer = new ImageServer(this.controller, this.logging);
-
+            this.logging.Log("In OnStart", Enums.MessageTypeEnum.INFO);
         }
 
         protected override void OnStop()
         {
-            eventLog2.WriteEntry("In OnStop");
+            this.logging.Log("In OnStop", Enums.MessageTypeEnum.INFO);
             this.m_imageServer.closingServer();
         }
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
+            this.logging.Log("Monitoring the System", Enums.MessageTypeEnum.INFO);
             eventLog2.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
         }
 
         protected override void OnContinue()
         {
-            eventLog2.WriteEntry("In OnContinue");
+            this.logging.Log("In OnContinue", Enums.MessageTypeEnum.INFO);
         }
 
         public void OnMessage(object sender, MessageRecievedEventArgs e)
         {
-            eventLog2.WriteEntry(e.Message);
+            this.logging.Log(e.Message, e.Status);
         }
     }
 }

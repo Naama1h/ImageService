@@ -19,7 +19,7 @@ namespace ImageServiceGUI.Communication
         private bool clientConnected;
         public event EventHandler<DataRecivedEventArgs> DataReceived;
         private NetworkStream stream;
-        private BinaryWriter writer;
+        private StreamWriter writer;
         private BinaryReader reader;
 
         private CommunicationServer()
@@ -65,20 +65,34 @@ namespace ImageServiceGUI.Communication
 
         public void sendmessage(string message)
         {
-            Console.WriteLine("You are connected");
-            this.stream = this.client.GetStream();
-            this.writer = new BinaryWriter(this.stream);
-            // Send message to the server
-            writer.Write(message);
+            try
+            {
+                Console.WriteLine("You are connected");
+                this.stream = this.client.GetStream();
+                this.writer = new StreamWriter(this.stream);
+                // Send message to the server
+                writer.Write(message);
+            }
+            catch(IOException)
+            {
+                closeConnection();
+            }
         }
 
         public void recivedmessage()
         {
-            this.stream = this.client.GetStream();
-            this.reader = new BinaryReader(this.stream);
-            // Get result from server
-            string message = reader.ReadString();
-            this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
+            try
+            {
+                this.stream = this.client.GetStream();
+                this.reader = new BinaryReader(this.stream);
+                // Get result from server
+                string message = reader.ReadString();
+                this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
+            }
+            catch (IOException)
+            {
+                closeConnection();
+            }
         }
 
         public void closeConnection()

@@ -49,7 +49,7 @@ namespace ImageServiceGUI.Models
             set
             {
                 handlers = value;
-                //this.OnPropertyChanged("handlers");
+                this.OnPropertyChanged("Handlers");
             }
         }
 
@@ -61,6 +61,7 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_OutputDir = value;
+                this.OnPropertyChanged("OutputDir");
             }
         }
 
@@ -72,6 +73,7 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_SourceName = value;
+                this.OnPropertyChanged("SourceName");
             }
         }
 
@@ -83,6 +85,7 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_LogName = value;
+                this.OnPropertyChanged("LogName");
             }
         }
 
@@ -94,6 +97,7 @@ namespace ImageServiceGUI.Models
             set
             {
                 m_ThumbnailSize = value;
+                this.OnPropertyChanged("ThumbnailSize");
             }
         }
 
@@ -105,18 +109,33 @@ namespace ImageServiceGUI.Models
                 int i = 0;
                 while (cm.CommandArgs[i] != null)
                 {
-                    this.handlers.Add(cm.CommandArgs[i]);
+                    App.Current.Dispatcher.Invoke((System.Action)delegate
+                    {
+                        this.handlers.Add(cm.CommandArgs[i]);
+                    });
+                    //this.handlers.Add(cm.CommandArgs[i]);
                     i++;
                 }
-                i++;
-                this.m_OutputDir = cm.CommandArgs[i];
-                i++;
-                this.m_SourceName = cm.CommandArgs[i];
-                i++;
-                this.m_LogName = cm.CommandArgs[i];
-                i++;
-                this.m_ThumbnailSize = cm.CommandArgs[i];
-                CommunicationServer.Instance.sendmessage("add to setting");
+                App.Current.Dispatcher.Invoke((System.Action)delegate
+                {
+                    i++;
+                    this.m_OutputDir = cm.CommandArgs[i];
+                    i++;
+                    this.m_SourceName = cm.CommandArgs[i];
+                    i++;
+                    this.m_LogName = cm.CommandArgs[i];
+                    i++;
+                    this.m_ThumbnailSize = cm.CommandArgs[i];
+                });
+                string[] args = { "add to setting" };
+                CommandMessage message = new CommandMessage(4, args);
+                CommunicationServer.Instance.sendmessage(message.ToJSON());
+            } else if(cm.CommandID == (int)CommandEnum.CloseCommand)
+            {
+                // remove the handler
+                string[] args = { cm.CommandArgs[0] + " removed" };
+                CommandMessage message = new CommandMessage(4, args);
+                CommunicationServer.Instance.sendmessage(message.ToJSON());
             }
         }
     }

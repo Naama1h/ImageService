@@ -18,7 +18,7 @@ namespace ImageService.Server
         private bool clientConnected;
         public event EventHandler<DataRecivedEventArgs> DataReceived;
         private NetworkStream stream;
-        private BinaryWriter writer;
+        private StreamWriter writer;
         private BinaryReader reader;
 
         private ClientHandler()
@@ -42,13 +42,13 @@ namespace ImageService.Server
         {
             Console.WriteLine("You are connected");
             this.stream = client.GetStream();
-            this.writer = new BinaryWriter(this.stream);
+            this.writer = new StreamWriter(this.stream);
             // Send message to the server
             try
             {
                 writer.Write(message);
             }
-            catch (SocketException)
+            catch (IOException)
             {
                 closeConnection(client);
             }
@@ -65,7 +65,7 @@ namespace ImageService.Server
                 string message = reader.ReadString();
                 this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
             }
-            catch (SocketException)
+            catch (IOException)
             {
                 closeConnection(client);
             }
@@ -78,11 +78,6 @@ namespace ImageService.Server
                 client.Close();
                 this.clientConnected = false;
             }
-        }
-
-        public void HandleClient(TcpClient client)
-        {
-            
         }
     }
 }

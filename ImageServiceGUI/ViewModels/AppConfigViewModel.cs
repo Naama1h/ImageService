@@ -1,4 +1,6 @@
-﻿using ImageServiceGUI.Models;
+﻿using ImageService.Enums;
+using ImageServiceCommunication;
+using ImageServiceGUI.Models;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -49,12 +51,20 @@ namespace ImageServiceGUI.ViewModels
             {
                 return this.appConfigModel.OutputDir;
             }
+            set
+            {
+                this.appConfigModel.OutputDir = value;
+            }
         }
         public string SourceName
         {
             get
             {
                 return this.appConfigModel.SourceName;
+            }
+            set
+            {
+                this.appConfigModel.SourceName = value;
             }
         }
         public string LogName
@@ -63,12 +73,20 @@ namespace ImageServiceGUI.ViewModels
             {
                 return this.appConfigModel.LogName;
             }
+            set
+            {
+                this.appConfigModel.LogName = value;
+            }
         }
         public string ThumbnailSize
         {
             get
             {
                 return this.appConfigModel.ThumbnailSize;
+            }
+            set
+            {
+                this.appConfigModel.ThumbnailSize = value;
             }
         }
 
@@ -93,17 +111,19 @@ namespace ImageServiceGUI.ViewModels
             this.PropertyChanged += PropertyChangedF;
             this.removeCommand = new DelegateCommand<object>(this.OnRemove, this.CanRemove);
             this.appConfigModel.Handlers = new ObservableCollection<string>();
+            /**
             string handlersList = ConfigurationManager.AppSettings["Handlers"]; // change to handlers from tcp
             string[] handlers = handlersList.Split(';');
             for (int i = 0; i < handlers.Length; i++)
             {
                 this.Handlers.Add(handlers[i]);
             }
+            */
         }
 
         protected void NotifyPropertyChanged(string name)
         {
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         private string BuildResultString()
@@ -124,9 +144,9 @@ namespace ImageServiceGUI.ViewModels
 
         private void OnRemove(object obj)
         {
-            //
-            // send the server!!!
-            //
+            string[] args = { this.Handler };
+            CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseCommand, args);
+            Communication.CommunicationServer.Instance.sendmessage(message1.ToJSON());
             this.Handlers.Remove(this.Handler);
             this.appConfigModel = new AppConfigModel();
             Console.Write("remove\n");
@@ -136,6 +156,27 @@ namespace ImageServiceGUI.ViewModels
         {
             var command = this.removeCommand as DelegateCommand<object>;
             command.RaiseCanExecuteChanged();
+            /**
+            if (e.PropertyName.Equals("Handlers"))
+            {
+                
+            } else if(e.PropertyName.Equals("OutputDir"))
+            {
+                this.OutputDirectory = this.m_AppConfigModel.OutputDir;
+            }
+            else if (e.PropertyName.Equals("SourceName"))
+            {
+                this.SourceName = this.m_AppConfigModel.SourceName;
+            }
+            else if (e.PropertyName.Equals("LogName"))
+            {
+                this.LogName = this.m_AppConfigModel.LogName;
+            }
+            else if (e.PropertyName.Equals("ThumbnailSize"))
+            {
+                this.ThumbnailSize = this.m_AppConfigModel.ThumbnailSize;
+            }
+            */
         }
 
     }

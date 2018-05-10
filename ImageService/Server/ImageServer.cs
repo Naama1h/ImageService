@@ -31,8 +31,9 @@ namespace ImageService.Server
         private TcpListener listener;
         private ClientHandler ch;
         private ArrayList clients;
+        private bool firstClientConnected;
 
-        private ArrayList logMessage;
+        private ArrayList logMessages;
 
         private Dictionary<string, IDirectoryHandler> handlers;
         #endregion
@@ -60,7 +61,7 @@ namespace ImageService.Server
                 this.createHandler(handlers[i]);
             }
             this.clients = new ArrayList();
-            this.logMessage = new ArrayList();
+            this.logMessages = new ArrayList();
             this.m_logging.MessageRecieved += saveLogMessage;
             this.port = 8000;
             StartServer();
@@ -117,6 +118,7 @@ namespace ImageService.Server
             listener = new TcpListener(ep);
             listener.Start();
             Console.WriteLine("Waiting for connections...");
+            this.firstClientConnected = true;
             Task task = new Task(() => {
                 while (true)
                 {
@@ -125,22 +127,20 @@ namespace ImageService.Server
                         Console.WriteLine("wait for connection");
                         TcpClient client = listener.AcceptTcpClient();
                         Console.WriteLine("Got new connection");
-                        ClientHandler.Instance.DataReceived += removeHandler;
                         sendSettings(client);
                         this.clients.Add(client);
-                        if(this.clients.Count == 1)
+                        if (this.firstClientConnected)
                         {
+                            ClientHandler.Instance.DataReceived += removeHandler;
                             this.m_logging.MessageRecieved += sendLogMessage;
-                            foreach (MessageRecievedEventArgs message in this.logMessage)
-                            {
-                                new Task(() =>
-                                {
-                                    string[] args = { message.Status.ToString(), message.Message };
-                                    CommandMessage message1 = new CommandMessage((int)CommandEnum.LogCommand, args);
-                                    ClientHandler.Instance.sendmessage(client, message1.ToJSON());
-                                    ClientHandler.Instance.recivedmessage(client);
-                                }).Start();
-                            }
+                            this.firstClientConnected = false;
+                        }
+                        foreach (MessageRecievedEventArgs message in this.logMessages)
+                        {
+                            string[] args = { message.Status.ToString(), message.Message };
+                            CommandMessage message1 = new CommandMessage((int)CommandEnum.LogCommand, args);
+                            ClientHandler.Instance.sendmessage(client, message1.ToJSON());
+                            ClientHandler.Instance.recivedmessage(client);
                         }
                     }
                     catch (SocketException)
@@ -155,13 +155,27 @@ namespace ImageService.Server
 
         public void removeHandler(object sender, DataRecivedEventArgs e)
         {
+            if(e.Data.StartsWith("removed"))
+            {
+                //this.clients.Remove();
+            }
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
             if (cm.CommandID == (int)CommandEnum.CloseCommand)
             {
-                DirectoyHandler h = (DirectoyHandler)this.handlers[cm.CommandArgs[1]];
+                DirectoyHandler h = (DirectoyHandler)this.handlers[cm.CommandArgs[0]];
                 CommandRecieved -= h.OnCommandRecieved;
                 h.DirectoryClose -= onCloseServer;
-                this.handlers.Remove(cm.CommandArgs[1]);
+                this.handlers.Remove(cm.CommandArgs[0]);
+                foreach (TcpClient client in this.clients)
+                {
+                    new Task(() =>
+                    {
+                        string[] args = { cm.CommandArgs[0] };
+                        CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseCommand, args);
+                        ClientHandler.Instance.sendmessage(client, message1.ToJSON());
+                        ClientHandler.Instance.recivedmessage(client);
+                    }).Start();
+                }
             }
         }
 
@@ -171,7 +185,7 @@ namespace ImageService.Server
             {
                 string handlersList = ConfigurationManager.AppSettings["Handlers"];
                 string[] handlers = handlersList.Split(';');
-                string[] args = new string[handlers.Length+5];
+                string[] args = new string[handlers.Length + 5];
                 for (int i = 0; i < handlers.Length; i++)
                 {
                     args[i] = handlers[i];
@@ -203,7 +217,7 @@ namespace ImageService.Server
 
         public void saveLogMessage(Object sender, MessageRecievedEventArgs message)
         {
-            this.logMessage.Add(message);
+            this.logMessages.Add(message);
         }
     }
 }

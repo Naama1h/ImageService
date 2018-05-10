@@ -60,19 +60,30 @@ namespace ImageServiceGUI.Models
                 if (cm.CommandArgs[0].Equals(MessageTypeEnum.FAIL.ToString()))
                 {
                     MessageRecievedEventArgs message = new MessageRecievedEventArgs(MessageTypeEnum.FAIL, cm.CommandArgs[1]);
-                    this.m_Messages.Add(message);
+                    App.Current.Dispatcher.Invoke((System.Action)delegate
+                    {
+                        this.m_Messages.Add(message);
+                    });
                 }
                 else if (cm.CommandArgs[0].Equals(MessageTypeEnum.INFO.ToString()))
                 {
                     MessageRecievedEventArgs message = new MessageRecievedEventArgs(MessageTypeEnum.INFO, cm.CommandArgs[1]);
-                    this.m_Messages.Add(message);
+                    App.Current.Dispatcher.Invoke((System.Action)delegate
+                    {
+                        this.m_Messages.Add(message);
+                    });
                 }
                 else
                 {
                     MessageRecievedEventArgs message = new MessageRecievedEventArgs(MessageTypeEnum.WARNING, cm.CommandArgs[1]);
-                    this.m_Messages.Add(message);
+                    App.Current.Dispatcher.Invoke((System.Action)delegate
+                    {
+                        this.m_Messages.Add(message);
+                    });
                 }
-                CommunicationServer.Instance.sendmessage("add to log");
+                string[] args = { "add to log" };
+                CommandMessage message1 = new CommandMessage(4, args);
+                CommunicationServer.Instance.sendmessage(message1.ToJSON());
             }
         }
     }
