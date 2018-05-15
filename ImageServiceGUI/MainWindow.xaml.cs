@@ -24,7 +24,7 @@ namespace ImageServiceGUI
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new AppConfigViewModel();
+            this.DataContext = new MainWindowViewModel();
         }
     }
 }

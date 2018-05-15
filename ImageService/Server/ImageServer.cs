@@ -17,6 +17,7 @@ using ImageServiceCommunication;
 using ImageServiceCommunication.Event;
 using System.Collections;
 using ImageService.Logging.Model;
+using System.Threading;
 
 namespace ImageService.Server
 {
@@ -127,6 +128,7 @@ namespace ImageService.Server
                         Console.WriteLine("wait for connection");
                         TcpClient client = listener.AcceptTcpClient();
                         Console.WriteLine("Got new connection");
+                        Thread.Sleep(500);
                         sendSettings(client);
                         this.clients.Add(client);
                         if (this.firstClientConnected)
@@ -135,9 +137,9 @@ namespace ImageService.Server
                             this.m_logging.MessageRecieved += sendLogMessage;
                             this.firstClientConnected = false;
                         }
-                        foreach (MessageRecievedEventArgs message in this.logMessages)
+                        for (int i = 0; i < this.logMessages.Count; i++)
                         {
-                            string[] args = { message.Status.ToString(), message.Message };
+                            string[] args = { ((MessageRecievedEventArgs)this.logMessages[i]).Status.ToString(), ((MessageRecievedEventArgs)this.logMessages[i]).Message };
                             CommandMessage message1 = new CommandMessage((int)CommandEnum.LogCommand, args);
                             ClientHandler.Instance.sendmessage(client, message1.ToJSON());
                             ClientHandler.Instance.recivedmessage(client);
@@ -155,10 +157,10 @@ namespace ImageService.Server
 
         public void removeHandler(object sender, DataRecivedEventArgs e)
         {
-            if(e.Data.StartsWith("removed"))
-            {
+            //if(e.Data.StartsWith("removed"))
+            //{
                 //this.clients.Remove();
-            }
+            //}
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
             if (cm.CommandID == (int)CommandEnum.CloseCommand)
             {

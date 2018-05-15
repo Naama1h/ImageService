@@ -113,7 +113,6 @@ namespace ImageServiceGUI.Models
                     {
                         this.handlers.Add(cm.CommandArgs[i]);
                     });
-                    //this.handlers.Add(cm.CommandArgs[i]);
                     i++;
                 }
                 App.Current.Dispatcher.Invoke((System.Action)delegate

@@ -19,7 +19,7 @@ namespace ImageService.Server
         public event EventHandler<DataRecivedEventArgs> DataReceived;
         private NetworkStream stream;
         private StreamWriter writer;
-        private BinaryReader reader;
+        private StreamReader reader;
 
         private ClientHandler()
         {
@@ -46,7 +46,8 @@ namespace ImageService.Server
             // Send message to the server
             try
             {
-                writer.Write(message);
+                this.writer.WriteLine(message);
+                this.writer.Flush();
             }
             catch (IOException)
             {
@@ -58,11 +59,11 @@ namespace ImageService.Server
         {
             Console.WriteLine("You are connected");
             this.stream = client.GetStream();
-            this.reader = new BinaryReader(this.stream);
+            this.reader = new StreamReader(this.stream);
             // Get result from server
             try
             {
-                string message = reader.ReadString();
+                string message = reader.ReadLine();
                 this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
             }
             catch (IOException)

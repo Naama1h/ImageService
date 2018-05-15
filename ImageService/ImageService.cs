@@ -109,7 +109,6 @@ namespace ImageService
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
-            this.logging.Log("Monitoring the System", Enums.MessageTypeEnum.INFO);
             eventLog2.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
         }
 
@@ -120,7 +119,18 @@ namespace ImageService
 
         public void OnMessage(object sender, MessageRecievedEventArgs e)
         {
-            this.logging.Log(e.Message, e.Status);
+            if (e.Status == Enums.MessageTypeEnum.FAIL)
+            {
+                eventLog2.WriteEntry(e.Message, EventLogEntryType.Error);
+            }
+            else if (e.Status == Enums.MessageTypeEnum.INFO)
+            {
+                eventLog2.WriteEntry(e.Message, EventLogEntryType.Information);
+            }
+            else if (e.Status == Enums.MessageTypeEnum.WARNING)
+            {
+                eventLog2.WriteEntry(e.Message, EventLogEntryType.Warning);
+            }
         }
     }
 }

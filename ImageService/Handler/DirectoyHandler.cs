@@ -49,21 +49,9 @@ namespace ImageService.Handler
             this.m_dirWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
                                    | NotifyFilters.FileName | NotifyFilters.DirectoryName;
             this.m_dirWatcher.Filter = "*.*";
-            this.m_dirWatcher.Changed += new FileSystemEventHandler(OnChanged);
+            this.m_dirWatcher.Created += new FileSystemEventHandler(OnCreated);
             this.m_dirWatcher.EnableRaisingEvents = true;
             this.m_logging.Log("start handle directory" + dirPath, MessageTypeEnum.INFO);
-        }
-        /// <summary>
-        /// The function will heppend with the event
-        /// </summary>
-        /// <param name="source">the source</param>
-        /// <param name="e">file system event args</param>
-        private void OnChanged(object source, FileSystemEventArgs e)
-        {
-            this.m_logging.Log("in OnChanged", MessageTypeEnum.INFO);
-            string[] args1 = { e.FullPath };
-            CommandRecievedEventArgs e1 = new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand, args1 ,"");
-            OnCommandRecieved(source, e1);
         }
 
         /// <summary>
@@ -91,6 +79,26 @@ namespace ImageService.Handler
             {
                 this.DirectoryClose?.Invoke(this, new DirectoryCloseEventArgs(e.RequestDirPath, "close the handlers"));
                 this.m_dirWatcher.EnableRaisingEvents = false;
+            }
+        }
+
+        /// <summary>
+        /// The function will heppend with the event
+        /// </summary>
+        /// <param name="source">the source</param>
+        /// <param name="e">file system event args</param>
+        public void  OnCreated(object sourcesource, FileSystemEventArgs e)
+        {
+            // get the file's extension 
+            Regex rgx = new Regex(@"(\.bmp$|\.png$|\.jpg$|\.gif$)");
+            Match m = rgx.Match(e.FullPath.ToLower());
+            if (m.Success)
+            {
+                string[] paths = { e.FullPath };
+                CommandRecievedEventArgs eventArgs = new CommandRecievedEventArgs(
+                    (int)CommandEnum.NewFileCommand, paths, m_path);
+                OnCommandRecieved(this, eventArgs);
+
             }
         }
     }

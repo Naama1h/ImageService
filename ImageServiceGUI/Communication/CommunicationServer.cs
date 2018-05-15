@@ -20,7 +20,7 @@ namespace ImageServiceGUI.Communication
         public event EventHandler<DataRecivedEventArgs> DataReceived;
         private NetworkStream stream;
         private StreamWriter writer;
-        private BinaryReader reader;
+        private StreamReader reader;
 
         private CommunicationServer()
         {
@@ -71,7 +71,8 @@ namespace ImageServiceGUI.Communication
                 this.stream = this.client.GetStream();
                 this.writer = new StreamWriter(this.stream);
                 // Send message to the server
-                writer.Write(message);
+                this.writer.WriteLine(message);
+                this.writer.Flush();
             }
             catch(IOException)
             {
@@ -84,9 +85,9 @@ namespace ImageServiceGUI.Communication
             try
             {
                 this.stream = this.client.GetStream();
-                this.reader = new BinaryReader(this.stream);
+                this.reader = new StreamReader(this.stream);
                 // Get result from server
-                string message = reader.ReadString();
+                string message = this.reader.ReadLine();
                 this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
             }
             catch (IOException)
