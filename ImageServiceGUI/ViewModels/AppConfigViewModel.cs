@@ -1,5 +1,7 @@
 ﻿using ImageService.Enums;
 using ImageServiceCommunication;
+using ImageServiceCommunication.Event;
+using ImageServiceGUI.Communication;
 using ImageServiceGUI.Models;
 using Prism.Commands;
 using System;
@@ -9,6 +11,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -41,6 +44,10 @@ namespace ImageServiceGUI.ViewModels
             get
             {
                 return this.appConfigModel.Handlers;
+            }
+            set
+            {
+                this.m_AppConfigModel.Handlers = value;
             }
         }
     
@@ -86,7 +93,7 @@ namespace ImageServiceGUI.ViewModels
             }
             set
             {
-                this.appConfigModel.ThumbnailSize = value;
+               this.appConfigModel.ThumbnailSize = value;
             }
         }
 
@@ -111,6 +118,9 @@ namespace ImageServiceGUI.ViewModels
             this.PropertyChanged += PropertyChangedF;
             this.removeCommand = new DelegateCommand<object>(this.OnRemove, this.CanRemove);
             this.appConfigModel.Handlers = new ObservableCollection<string>();
+
+            CommunicationServer.Instance.DataReceived += settingsMessage;
+
             /**
             string handlersList = ConfigurationManager.AppSettings["Handlers"]; // change to handlers from tcp
             string[] handlers = handlersList.Split(';');
@@ -177,6 +187,45 @@ namespace ImageServiceGUI.ViewModels
                 this.ThumbnailSize = this.m_AppConfigModel.ThumbnailSize;
             }
             */
+        }
+
+        public void settingsMessage(object sender, DataRecivedEventArgs e)
+        {
+            CommandMessage cm = CommandMessage.ParseJSon(e.Data);
+            if (cm.CommandID == (int)CommandEnum.GetConfigCommand)
+            {
+                int i = 0;
+                while (cm.CommandArgs[i] != null)
+                {
+                    App.Current.Dispatcher.Invoke((System.Action)delegate
+                    {
+                        this.Handlers.Add(cm.CommandArgs[i]);
+                    });
+                    i++;
+                }
+                App.Current.Dispatcher.Invoke((System.Action)delegate
+                {
+                    i++;
+                    this.OutputDirectory = cm.CommandArgs[i];
+                    i++;
+                    this.SourceName = cm.CommandArgs[i];
+                    i++;
+                    this.LogName = cm.CommandArgs[i];
+                    i++;
+                    this.ThumbnailSize = cm.CommandArgs[i];
+                });
+                this.m_AppConfigModel = new AppConfigModel();
+                string[] args = { "add to setting" };
+                CommandMessage message = new CommandMessage(4, args);
+                CommunicationServer.Instance.sendmessage(message.ToJSON());
+            }
+            else if (cm.CommandID == (int)CommandEnum.CloseCommand)
+            {
+                // remove the handler
+                string[] args = { cm.CommandArgs[0] + " removed" };
+                CommandMessage message = new CommandMessage(4, args);
+                CommunicationServer.Instance.sendmessage(message.ToJSON());
+            }
         }
 
     }

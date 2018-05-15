@@ -28,7 +28,7 @@ namespace ImageServiceGUI.Models
             this.m_LogName = ConfigurationManager.AppSettings["LogName"];
             this.m_ThumbnailSize = ConfigurationManager.AppSettings["ThumbnailSize"];
             */
-            CommunicationServer.Instance.DataReceived += settingsMessage;
+            //CommunicationServer.Instance.DataReceived += settingsMessage;
         }
 
         protected void OnPropertyChanged(string name)
@@ -100,7 +100,7 @@ namespace ImageServiceGUI.Models
                 this.OnPropertyChanged("ThumbnailSize");
             }
         }
-
+        /**
         public void settingsMessage(object sender, DataRecivedEventArgs e)
         {
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
@@ -137,5 +137,6 @@ namespace ImageServiceGUI.Models
                 CommunicationServer.Instance.sendmessage(message.ToJSON());
             }
         }
+    */
     }
 }

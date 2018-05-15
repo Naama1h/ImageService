@@ -64,7 +64,7 @@ namespace ImageService.Server
             try
             {
                 string message = reader.ReadLine();
-                this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
+                //this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
             }
             catch (IOException)
             {
