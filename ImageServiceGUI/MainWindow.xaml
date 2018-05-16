@@ -5,11 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageServiceGUI"        
         xmlns:uc="clr-namespace:ImageServiceGUI"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="400">
     <Window.Resources>
         <local:BackgroundConnectionConverted x:Key="BackgroundConnectionConverted"/>
     </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding WindowClosing}" CommandParameter="{Binding}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.Style>
         <Style TargetType="{x:Type Window}">
             <Setter Property="Background" Value="{Binding Path=IsConnected, Converter={StaticResource BackgroundConnectionConverted}}"/>

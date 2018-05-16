@@ -23,6 +23,14 @@ namespace ImageService.Handler
         private string m_path;                              // The Path of directory
         #endregion
 
+        public FileSystemWatcher dirWatcher
+        {
+            get
+            {
+                return this.m_dirWatcher;
+            }
+        }
+
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
 
         /// <summary>

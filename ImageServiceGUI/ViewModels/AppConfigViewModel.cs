@@ -25,9 +25,9 @@ namespace ImageServiceGUI.ViewModels
         #endregion
 
         // the Remove Command member:
-        public ICommand removeCommand { get; private set; }
+        public ICommand removeCommand { get; set; }
 
-        // the Handlers member:
+        // the Handler member:
         private string m_Handler;
         public string Handler
         {
@@ -60,10 +60,10 @@ namespace ImageServiceGUI.ViewModels
             {
                 return this.appConfigModel.OutputDir;
             }
-            set
-            {
-                this.appConfigModel.OutputDir = value;
-            }
+            //set
+            //{
+            //    this.appConfigModel.OutputDir = value;
+            //}
         }
 
         // the SourceName member:
@@ -174,11 +174,8 @@ namespace ImageServiceGUI.ViewModels
         private void OnRemove(object obj)
         {
             string[] args = { this.Handler };
-            CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseCommand, args);
+            CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseHandler, args);
             Communication.CommunicationServer.Instance.sendmessage(message1.ToJSON());
-            this.Handlers.Remove(this.Handler);
-            this.appConfigModel = new AppConfigModel();
-            Console.Write("remove\n");
         }
 
         /// <summary>
@@ -199,6 +196,10 @@ namespace ImageServiceGUI.ViewModels
         /// <param name="e">The message</param>
         public void settingsMessage(object sender, DataRecivedEventArgs e)
         {
+            if (e.Data == null)
+            {
+                return;
+            }
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
             // check if this is a settings message
             if (cm.CommandID == (int)CommandEnum.GetConfigCommand)
@@ -217,7 +218,7 @@ namespace ImageServiceGUI.ViewModels
                 App.Current.Dispatcher.Invoke((System.Action)delegate
                 {
                     i++;
-                    this.OutputDir = cm.CommandArgs[i];
+                    this.appConfigModel.OutputDir = cm.CommandArgs[i];
                     i++;
                     this.SourceName = cm.CommandArgs[i];
                     i++;
@@ -225,21 +226,21 @@ namespace ImageServiceGUI.ViewModels
                     i++;
                     this.ThumbnailSize = cm.CommandArgs[i];
                 });
-                this.m_AppConfigModel = new AppConfigModel();
+                //this.m_AppConfigModel = new AppConfigModel();
                 // send back that we add the settings
                 string[] args = { "add to setting" };
-                CommandMessage message = new CommandMessage(4, args);
+                CommandMessage message = new CommandMessage((int)CommandEnum.TcpMessage, args);
                 CommunicationServer.Instance.sendmessage(message.ToJSON());
             }
             // check if we need to remove handler from the list
-            else if (cm.CommandID == (int)CommandEnum.CloseCommand)
+            else if (cm.CommandID == (int)CommandEnum.CloseHandler)
             {
-                // remove the handler
-                string[] args = { cm.CommandArgs[0] + " removed" };
-                CommandMessage message = new CommandMessage(4, args);
-                CommunicationServer.Instance.sendmessage(message.ToJSON());
+                App.Current.Dispatcher.Invoke((System.Action)delegate
+                {
+                    this.Handlers.Remove(cm.CommandArgs[0]);
+                });
+                this.appConfigModel = new AppConfigModel();
             }
         }
-
     }
 }

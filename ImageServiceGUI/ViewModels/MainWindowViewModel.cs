@@ -7,12 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Commands;
-
+using ImageServiceCommunication;
+using ImageService.Enums;
 
 namespace ImageServiceGUI.ViewModels
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
+        public ICommand WindowClosing { get; private set; }
+
         private bool isConnected;                // check if the client connect to the server
         /// <summary>
         /// The isConnect member
@@ -30,6 +33,7 @@ namespace ImageServiceGUI.ViewModels
         public MainWindowViewModel()
         {
             this.isConnected = Communication.CommunicationServer.Instance.IsConnected;
+            this.WindowClosing = new DelegateCommand<object>(this.OnWindowClosing);
         }
 
         /// <summary>
@@ -59,6 +63,13 @@ namespace ImageServiceGUI.ViewModels
         private void fPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             
+        }
+
+        private void OnWindowClosing(object obj)
+        {
+            string[] args = { "client disconnect" };
+            CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseCommand, args);
+            Communication.CommunicationServer.Instance.sendmessage(message1.ToJSON());
         }
     }
 }

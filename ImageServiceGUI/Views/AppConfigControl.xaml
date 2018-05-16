@@ -24,8 +24,8 @@
         </Grid.ColumnDefinitions>
         <Grid.Background>
             <LinearGradientBrush>
-                <GradientStop Color="AliceBlue" Offset="0" />
-                <GradientStop Color="PaleGreen" Offset="1" />
+                <GradientStop Color="AliceBlue" Offset="1" />
+                <GradientStop Color="PaleGreen" Offset="0" />
             </LinearGradientBrush>
         </Grid.Background>
         <StackPanel Grid.Row="0" Grid.Column="0"
@@ -58,7 +58,7 @@
                 <TextBlock Grid.Row="2" Style="{StaticResource TextBlock}" Margin="2">Log Name:</TextBlock>
                 <TextBlock x:Name="LogName" Grid.Row="2" Grid.Column="1" Text="{Binding LogName, Mode=OneWay}"></TextBlock>
                 <TextBlock Grid.Row="3" Style="{StaticResource TextBlock}" Margin="2">Thumbnail Size:</TextBlock>
-                <TextBlock x:Name="ThumbnailSize" Grid.Row="3" Grid.Column="1" Text="{Binding ThumbnailSize, Mode=OneWay}"></TextBlock>
+                <TextBlock x:Name="ThumbnailSize" Grid.Row="3" Grid.Column="1" Text="{Binding ThumbnailSize}"></TextBlock>
             </Grid>
         </Border>
         <Border Grid.Row="2">
@@ -69,15 +69,16 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="1" Background="AliceBlue" x:Name="Handlers" Text="Handlers" FontSize="13" HorizontalAlignment="Center" Width="250"></TextBox>
+                <TextBlock Grid.Row="1" Background="AliceBlue" Foreground="DarkGreen" x:Name="Handlers" Text="Handlers" FontSize="13"
+                           TextAlignment="Center" HorizontalAlignment="Center" Width="250"></TextBlock>
                 <ListBox x:Name="handlers" Grid.Row="2" Height="100" Width="250" Margin="1"
-                         ItemsSource="{Binding Handlers}"
+                         ItemsSource="{Binding Handlers, Mode=TwoWay}"
                          SelectedItem="{Binding Handler}"
                     ScrollViewer.VerticalScrollBarVisibility="Visible">
                 </ListBox>
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button x:Name="remove"
-                            Command="{Binding RemoveCommand}"
+                            Command="{Binding removeCommand}"
                             Content="remove"
                             Height="20"
                             Width="70"

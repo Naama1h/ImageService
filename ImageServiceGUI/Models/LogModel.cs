@@ -59,6 +59,10 @@ namespace ImageServiceGUI.Models
         /// <param name="e">The Message</param>
         public void addMessageToLog(object sender, DataRecivedEventArgs e)
         {
+            if (e.Data == null)
+            {
+                return;
+            }
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
             // check if this id log command
             if (cm.CommandID == (int)CommandEnum.LogCommand)
@@ -90,7 +94,7 @@ namespace ImageServiceGUI.Models
                 }
                 // send back that the message added:
                 string[] args = { "add to log" };
-                CommandMessage message1 = new CommandMessage(4, args);
+                CommandMessage message1 = new CommandMessage((int)CommandEnum.TcpMessage, args);
                 CommunicationServer.Instance.sendmessage(message1.ToJSON());
             }
         }

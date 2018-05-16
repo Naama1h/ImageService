@@ -1,4 +1,6 @@
-﻿using ImageServiceCommunication.Event;
+﻿using ImageService.Enums;
+using ImageServiceCommunication;
+using ImageServiceCommunication.Event;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -51,17 +53,27 @@ namespace ImageService.Server
         /// <param name="message">The message</param>
         public void sendmessage(TcpClient client, string message)
         {
-            this.stream = client.GetStream();
-            this.writer = new StreamWriter(this.stream);
-            // Send message to the server
             try
             {
+                this.stream = client.GetStream();
+                this.writer = new StreamWriter(this.stream);
+                // Send message to the server
                 this.writer.WriteLine(message);
                 this.writer.Flush();
             }
             catch (IOException)
             {
-                closeConnection(client);
+                string[] args = { "client disconnected" };
+                CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseCommand, args);
+                string message2 = message1.ToJSON();
+                this.DataReceived?.Invoke(client, new DataRecivedEventArgs(message2));
+            }
+            catch (ObjectDisposedException)
+            {
+                string[] args = { "client disconnected" };
+                CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseCommand, args);
+                string message2 = message1.ToJSON();
+                this.DataReceived?.Invoke(client, new DataRecivedEventArgs(message2));
             }
         }
 
@@ -72,30 +84,39 @@ namespace ImageService.Server
         /// <returns>the new path or false if there is problem</returns>
         public void recivedmessage(TcpClient client)
         {
-            this.stream = client.GetStream();
-            this.reader = new StreamReader(this.stream);
-            // Get result from server
             try
             {
+                this.stream = client.GetStream();
+                this.reader = new StreamReader(this.stream);
+                // Get result from server
                 string message = reader.ReadLine();
-                this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
+                this.DataReceived?.Invoke(client, new DataRecivedEventArgs(message));
             }
             catch (IOException)
             {
-                closeConnection(client);
+                string[] args = { "client disconnected" };
+                CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseCommand, args);
+                string message = message1.ToJSON();
+                this.DataReceived?.Invoke(client, new DataRecivedEventArgs(message));
+            }
+            catch (ObjectDisposedException)
+            {
+                string[] args = { "client disconnected" };
+                CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseCommand, args);
+                string message2 = message1.ToJSON();
+                this.DataReceived?.Invoke(client, new DataRecivedEventArgs(message2));
             }
         }
 
-        /// <summary>
-        /// Close the connection of a client
-        /// </summary>
-        /// <param name="client">The client</param>
-        public void closeConnection(TcpClient client)
+        public bool ClientConnected
         {
-            if (clientConnected)
+            get
             {
-                client.Close();
-                this.clientConnected = false;
+                return this.clientConnected;
+            }
+            set
+            {
+                this.clientConnected = value;
             }
         }
     }

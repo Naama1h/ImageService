@@ -36,7 +36,19 @@ namespace ImageServiceGUI.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
         #endregion
-        
+
+        // the Handler member:
+        private string m_Handler;
+        public string Handler
+        {
+            get { return m_Handler; }
+            set
+            {
+                m_Handler = value;
+                this.OnPropertyChanged("Handler");
+            }
+        }
+
         // the list of handlers
         private ObservableCollection<string> handlers;
         public ObservableCollection<string> Handlers

@@ -133,6 +133,7 @@ namespace ImageService.Server
                         Console.WriteLine("Got new connection");
                         Thread.Sleep(500);
                         sendSettings(client);
+                        waitForEndOfClient(client);
                         this.clients.Add(client);
                         if (this.firstClientConnected)
                         {
@@ -166,26 +167,34 @@ namespace ImageService.Server
         /// <param name="e">The data</param>
         public void removeHandler(object sender, DataRecivedEventArgs e)
         {
-            //if(e.Data.StartsWith("removed"))
-            //{
-                //this.clients.Remove();
-            //}
+            if (e.Data == null)
+            {
+                return;
+            }
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
-            if (cm.CommandID == (int)CommandEnum.CloseCommand)
+            if (cm.CommandID == (int)CommandEnum.CloseHandler)
             {
                 DirectoyHandler h = (DirectoyHandler)this.handlers[cm.CommandArgs[0]];
                 CommandRecieved -= h.OnCommandRecieved;
                 h.DirectoryClose -= onCloseServer;
+                h.dirWatcher.EnableRaisingEvents = false;
                 this.handlers.Remove(cm.CommandArgs[0]);
                 foreach (TcpClient client in this.clients)
                 {
                     new Task(() =>
                     {
                         string[] args = { cm.CommandArgs[0] };
-                        CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseCommand, args);
+                        CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseHandler, args);
                         ClientHandler.Instance.sendmessage(client, message1.ToJSON());
                         ClientHandler.Instance.recivedmessage(client);
                     }).Start();
+                }
+            } else if (cm.CommandID == (int)CommandEnum.CloseCommand)
+            {
+                if(this.clients.Contains((TcpClient)sender))
+                {
+                    ((TcpClient)sender).Close();
+                    this.clients.Remove((TcpClient)sender);
                 }
             }
         }
@@ -199,22 +208,41 @@ namespace ImageService.Server
             new Task(() =>
             {
                 // save the settings in one string array:
-                string handlersList = ConfigurationManager.AppSettings["Handlers"];
-                string[] handlers = handlersList.Split(';');
-                string[] args = new string[handlers.Length + 5];
-                for (int i = 0; i < handlers.Length; i++)
+                string[] args = new string[handlers.Count + 5];
+                for (int i = 0; i < handlers.Count; i++)
                 {
-                    args[i] = handlers[i];
+                    args[i] = handlers.ElementAt(i).Key;
                 }
-                args[handlers.Length] = null;
-                args[handlers.Length + 1] = ConfigurationManager.AppSettings["OutPutDir"];
-                args[handlers.Length + 2] = ConfigurationManager.AppSettings["SourceName"];
-                args[handlers.Length + 3] = ConfigurationManager.AppSettings["LogName"];
-                args[handlers.Length + 4] = ConfigurationManager.AppSettings["ThumbnailSize"];
+                args[handlers.Count] = null;
+                args[handlers.Count + 1] = ConfigurationManager.AppSettings["OutPutDir"];
+                args[handlers.Count + 2] = ConfigurationManager.AppSettings["SourceName"];
+                args[handlers.Count + 3] = ConfigurationManager.AppSettings["LogName"];
+                args[handlers.Count + 4] = ConfigurationManager.AppSettings["ThumbnailSize"];
                 // make command message from the args:
                 CommandMessage message = new CommandMessage((int)CommandEnum.GetConfigCommand, args);
                 // send the settings and wait for get a message that the client get the settings:
                 ClientHandler.Instance.sendmessage(client, message.ToJSON());
+                ClientHandler.Instance.recivedmessage(client);
+                // send the client that he wait for handler to remove
+                string[] args2 = { "add to setting" };
+                CommandMessage message2 = new CommandMessage((int)CommandEnum.TcpMessage, args2);
+                ClientHandler.Instance.sendmessage(client, message2.ToJSON());
+                ClientHandler.Instance.recivedmessage(client);
+            }).Start();
+        }
+
+        /// <summary>
+        /// wait For End Of Client
+        /// </summary>
+        /// <param name="client">The client</param>
+        public void waitForEndOfClient(TcpClient client)
+        {
+            new Task(() =>
+            { 
+                // send the client that he wait for handler to remove
+                string[] args2 = { "wait for end" };
+                CommandMessage message2 = new CommandMessage((int)CommandEnum.TcpMessage, args2);
+                ClientHandler.Instance.sendmessage(client, message2.ToJSON());
                 ClientHandler.Instance.recivedmessage(client);
             }).Start();
         }
