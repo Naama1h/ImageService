@@ -52,7 +52,7 @@ namespace ImageServiceGUI.ViewModels
         }
     
 
-        public string OutputDirectory
+        public string OutputDir
         {
             get
             {
@@ -166,27 +166,6 @@ namespace ImageServiceGUI.ViewModels
         {
             var command = this.removeCommand as DelegateCommand<object>;
             command.RaiseCanExecuteChanged();
-            /**
-            if (e.PropertyName.Equals("Handlers"))
-            {
-                
-            } else if(e.PropertyName.Equals("OutputDir"))
-            {
-                this.OutputDirectory = this.m_AppConfigModel.OutputDir;
-            }
-            else if (e.PropertyName.Equals("SourceName"))
-            {
-                this.SourceName = this.m_AppConfigModel.SourceName;
-            }
-            else if (e.PropertyName.Equals("LogName"))
-            {
-                this.LogName = this.m_AppConfigModel.LogName;
-            }
-            else if (e.PropertyName.Equals("ThumbnailSize"))
-            {
-                this.ThumbnailSize = this.m_AppConfigModel.ThumbnailSize;
-            }
-            */
         }
 
         public void settingsMessage(object sender, DataRecivedEventArgs e)
@@ -206,7 +185,7 @@ namespace ImageServiceGUI.ViewModels
                 App.Current.Dispatcher.Invoke((System.Action)delegate
                 {
                     i++;
-                    this.OutputDirectory = cm.CommandArgs[i];
+                    this.OutputDir = cm.CommandArgs[i];
                     i++;
                     this.SourceName = cm.CommandArgs[i];
                     i++;

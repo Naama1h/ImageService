@@ -28,7 +28,6 @@ namespace ImageServiceGUI.Models
             this.m_LogName = ConfigurationManager.AppSettings["LogName"];
             this.m_ThumbnailSize = ConfigurationManager.AppSettings["ThumbnailSize"];
             */
-            //CommunicationServer.Instance.DataReceived += settingsMessage;
         }
 
         protected void OnPropertyChanged(string name)
@@ -100,43 +99,5 @@ namespace ImageServiceGUI.Models
                 this.OnPropertyChanged("ThumbnailSize");
             }
         }
-        /**
-        public void settingsMessage(object sender, DataRecivedEventArgs e)
-        {
-            CommandMessage cm = CommandMessage.ParseJSon(e.Data);
-            if (cm.CommandID == (int)CommandEnum.GetConfigCommand)
-            {
-                int i = 0;
-                while (cm.CommandArgs[i] != null)
-                {
-                    App.Current.Dispatcher.Invoke((System.Action)delegate
-                    {
-                        this.handlers.Add(cm.CommandArgs[i]);
-                    });
-                    i++;
-                }
-                App.Current.Dispatcher.Invoke((System.Action)delegate
-                {
-                    i++;
-                    this.m_OutputDir = cm.CommandArgs[i];
-                    i++;
-                    this.m_SourceName = cm.CommandArgs[i];
-                    i++;
-                    this.m_LogName = cm.CommandArgs[i];
-                    i++;
-                    this.m_ThumbnailSize = cm.CommandArgs[i];
-                });
-                string[] args = { "add to setting" };
-                CommandMessage message = new CommandMessage(4, args);
-                CommunicationServer.Instance.sendmessage(message.ToJSON());
-            } else if(cm.CommandID == (int)CommandEnum.CloseCommand)
-            {
-                // remove the handler
-                string[] args = { cm.CommandArgs[0] + " removed" };
-                CommandMessage message = new CommandMessage(4, args);
-                CommunicationServer.Instance.sendmessage(message.ToJSON());
-            }
-        }
-    */
     }
 }

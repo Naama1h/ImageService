@@ -52,7 +52,7 @@
                     <ColumnDefinition Width="195" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Style="{StaticResource TextBlock}" Margin="2"> Output Directory:</TextBlock>
-                <TextBlock x:Name="OutputDirectory" Grid.Row="0" Grid.Column="1" Text="{Binding SourceName, Mode=OneWay}"></TextBlock>
+                <TextBlock x:Name="OutputDir" Grid.Row="0" Grid.Column="1" Text="{Binding OutputDir, Mode=OneWay}"></TextBlock>
                 <TextBlock Grid.Row="1" Style="{StaticResource TextBlock}" Margin="2">Source Name:</TextBlock>
                 <TextBlock x:Name="SourceName" Grid.Row="1" Grid.Column="1" Text="{Binding SourceName, Mode=OneWay}"></TextBlock>
                 <TextBlock Grid.Row="2" Style="{StaticResource TextBlock}" Margin="2">Log Name:</TextBlock>
