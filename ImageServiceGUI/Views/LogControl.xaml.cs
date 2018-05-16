@@ -21,6 +21,9 @@ namespace ImageServiceGUI
     /// </summary>
     public partial class LogControl : UserControl
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public LogControl()
         {
             InitializeComponent();

@@ -10,15 +10,23 @@ namespace ImageServiceCommunication
 {
     public class CommandMessage
     {
-        private int m_commandID;
-        private string[] m_commandArgs;
+        private int m_commandID;                                    // The command ID
+        private string[] m_commandArgs;                             // The command args
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="commandId">The command Id</param>
+        /// <param name="commandArgs">The command Args</param>
         public CommandMessage(int commandId, string[] commandArgs)
         {
             this.m_commandID = commandId;
             this.m_commandArgs = commandArgs;
         }
 
+        /// <summary>
+        /// Get and Set of command ID
+        /// </summary>
         public int CommandID
         {
             get
@@ -31,6 +39,9 @@ namespace ImageServiceCommunication
             }
         }
 
+        /// <summary>
+        /// Get and Set of command Args
+        /// </summary>
         public string[] CommandArgs
         {
             get
@@ -43,28 +54,23 @@ namespace ImageServiceCommunication
             }
         }
 
+        /// <summary>
+        /// serialize the object
+        /// </summary>
+        /// <returns>The Serialize object</returns>
         public string ToJSON()
         {
             return JsonConvert.SerializeObject(this);
-            /**
-            JObject cmdobj = new JObject();
-            cmdobj["CommandID"] = this.m_commandID;
-            JArray args = new JArray(this.m_commandArgs);
-            cmdobj["CommandArgs"] = args;
-            return cmdobj.ToString();
-            */
         }
 
+        /// <summary>
+        /// Deserialize The Object
+        /// </summary>
+        /// <param name="str">The string message</param>
+        /// <returns>The Deserialize Object</returns>
         public static CommandMessage ParseJSon(string str)
         {
             return JsonConvert.DeserializeObject<CommandMessage>(str);
-            //CommandMessage js = Newtonsoft.Json.Deserialize<CommandMessage>(str);
-            /**
-            JObject cmdObj = JObject.Parse(str);
-            JArray arr = (JArray)cmdObj["CommandArgs"];
-            string[] args = arr.Select(c => (string)c).ToArray();
-            return new CommandMessage((int)cmdObj["CommandID"], args);
-            */
         }
     }
 }

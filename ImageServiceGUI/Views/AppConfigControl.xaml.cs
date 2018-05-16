@@ -21,6 +21,9 @@ namespace ImageServiceGUI
     /// </summary>
     public partial class AppConfigControl : UserControl
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public AppConfigControl()
         {
             InitializeComponent();

@@ -13,12 +13,30 @@ namespace ImageServiceGUI.ViewModels
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
-
+        private bool isConnected;                // check if the client connect to the server
+        /// <summary>
+        /// The isConnect member
+        /// </summary>
+        public bool IsConnected
+        {
+            get
+            {
+                return this.isConnected;
+            }
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public MainWindowViewModel()
         {
-            
+            this.isConnected = Communication.CommunicationServer.Instance.IsConnected;
         }
 
+        /// <summary>
+        /// Property Changed Event Handler
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        /**
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
             add
@@ -31,8 +49,14 @@ namespace ImageServiceGUI.ViewModels
                 throw new NotImplementedException();
             }
         }
+    */
 
-        private void PropertyChanged(object sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// Property Changed
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The property that changes</param>
+        private void fPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             
         }

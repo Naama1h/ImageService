@@ -127,6 +127,7 @@
     <Compile Include="Communication\CommunicationServer.cs" />
     <Compile Include="Models\AppConfigModel.cs" />
     <Compile Include="Models\LogModel.cs" />
+    <Compile Include="BackgroundConnectionConverted.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\AppConfigViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

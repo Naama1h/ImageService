@@ -54,6 +54,10 @@ namespace ImageService
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="args">The Args Of The Image Service</param>
         public ImageService(string[] args)
         {
             InitializeComponent();
@@ -81,6 +85,10 @@ namespace ImageService
             this.m_imageServer = new ImageServer(this.controller, this.logging);
         }
 
+        /// <summary>
+        /// On start
+        /// </summary>
+        /// <param name="args">The Args Of The Command</param>
         protected override void OnStart(string[] args)
         {
             // Update the service state to Start Pending.  
@@ -98,25 +106,44 @@ namespace ImageService
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
+            // send the log message that we start
             this.logging.Log("In OnStart", Enums.MessageTypeEnum.INFO);
         }
 
+        /// <summary>
+        /// On stop
+        /// </summary>
         protected override void OnStop()
         {
+            // send the log message that we stop and close the server
             this.logging.Log("In OnStop", Enums.MessageTypeEnum.INFO);
             this.m_imageServer.closingServer();
         }
 
+        /// <summary>
+        /// On timer
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="args">The args</param>
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             eventLog2.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
         }
 
+        /// <summary>
+        /// On continue
+        /// </summary>
         protected override void OnContinue()
         {
+            // send the log message that we continue
             this.logging.Log("In OnContinue", Enums.MessageTypeEnum.INFO);
         }
 
+        /// <summary>
+        /// On message
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The message we want to write to the log</param>
         public void OnMessage(object sender, MessageRecievedEventArgs e)
         {
             if (e.Status == Enums.MessageTypeEnum.FAIL)

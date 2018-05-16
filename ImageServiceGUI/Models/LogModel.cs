@@ -19,6 +19,11 @@ namespace ImageServiceGUI.Models
     {
         #region Notify Changed
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// On Property Changed
+        /// </summary>
+        /// <param name="name">The Name of the property that changes</param>
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
@@ -38,25 +43,27 @@ namespace ImageServiceGUI.Models
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public LogModel()
         {
             this.m_Messages = new ObservableCollection<MessageRecievedEventArgs>();
-            /**
-            MessageRecievedEventArgs example1 = new MessageRecievedEventArgs(MessageTypeEnum.WARNING, "try1");
-            MessageRecievedEventArgs example2 = new MessageRecievedEventArgs(MessageTypeEnum.INFO, "try2");
-            MessageRecievedEventArgs example3 = new MessageRecievedEventArgs(MessageTypeEnum.FAIL, "try3");
-            this.m_Messages.Add(example1);
-            this.m_Messages.Add(example2);
-            this.m_Messages.Add(example3);
-            */
             CommunicationServer.Instance.DataReceived += addMessageToLog;
         }
 
+        /// <summary>
+        /// Add Message To Log
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The Message</param>
         public void addMessageToLog(object sender, DataRecivedEventArgs e)
         {
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
+            // check if this id log command
             if (cm.CommandID == (int)CommandEnum.LogCommand)
             {
+                // check the status
                 if (cm.CommandArgs[0].Equals(MessageTypeEnum.FAIL.ToString()))
                 {
                     MessageRecievedEventArgs message = new MessageRecievedEventArgs(MessageTypeEnum.FAIL, cm.CommandArgs[1]);
@@ -81,6 +88,7 @@ namespace ImageServiceGUI.Models
                         this.m_Messages.Add(message);
                     });
                 }
+                // send back that the message added:
                 string[] args = { "add to log" };
                 CommandMessage message1 = new CommandMessage(4, args);
                 CommunicationServer.Instance.sendmessage(message1.ToJSON());

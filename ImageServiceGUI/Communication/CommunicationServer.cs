@@ -14,25 +14,32 @@ namespace ImageServiceGUI.Communication
 {
     class CommunicationServer
     {
-        private static CommunicationServer instance;
-        private TcpClient client;
-        private bool clientConnected;
-        public event EventHandler<DataRecivedEventArgs> DataReceived;
-        private NetworkStream stream;
-        private StreamWriter writer;
-        private StreamReader reader;
+        private static CommunicationServer instance;                    // Instance
+        private TcpClient client;                                       // client
+        private bool clientConnected;                                   // check if the client Connected
+        public event EventHandler<DataRecivedEventArgs> DataReceived;   // the event that work when data recieved
+        private NetworkStream stream;                                   // The stream
+        private StreamWriter writer;                                    // The writer
+        private StreamReader reader;                                    // The reader
+        private bool isConnected;                                       // Check if the client connected
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         private CommunicationServer()
         {
             try
             {
+                // try connected to server:
                 IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
                 this.client = new TcpClient();
                 this.client.Connect(ep);
+                this.isConnected = true;
                 Console.WriteLine("connected");
                 this.clientConnected = true;
                 new Task(() =>
                 {
+                    // wait for recieved message
                     while (this.clientConnected)
                     {
                         try
@@ -48,9 +55,13 @@ namespace ImageServiceGUI.Communication
             }
             catch (SocketException)
             {
+                this.isConnected = false;
             }
         }
 
+        /// <summary>
+        /// Instance - make it singleton
+        /// </summary>
         public static CommunicationServer Instance
         {
             get
@@ -63,6 +74,10 @@ namespace ImageServiceGUI.Communication
             }
         }
 
+        /// <summary>
+        /// Send message
+        /// </summary>
+        /// <param name="message">The message</param>
         public void sendmessage(string message)
         {
             try
@@ -80,6 +95,9 @@ namespace ImageServiceGUI.Communication
             }
         }
 
+        /// <summary>
+        /// recieved message
+        /// </summary>
         public void recivedmessage()
         {
             try
@@ -96,12 +114,25 @@ namespace ImageServiceGUI.Communication
             }
         }
 
+        /// <summary>
+        /// close the connection
+        /// </summary>
         public void closeConnection()
         {
             if(clientConnected)
             {
                 this.client.Close();
                 this.clientConnected = false;
+            }
+        }
+
+        // The isConnected member:
+        public bool IsConnected
+        {
+            get { return isConnected; }
+            set
+            {
+                isConnected = value;
             }
         }
     }

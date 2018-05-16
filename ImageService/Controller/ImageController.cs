@@ -16,8 +16,12 @@ namespace ImageService.Controller
     public class ImageController : IImageController
     {
         private IImageServiceModel m_model;                    // The Modal Object
-        private Dictionary<int, ICommand> commands;              // Dictionary of commands
+        private Dictionary<int, ICommand> commands;            // Dictionary of commands
 
+        /// <summary>
+        /// Return The Model
+        /// </summary>
+        /// <returns>the model</returns>
         public IImageServiceModel Model
         {
             get { return this.m_model; }
@@ -54,6 +58,10 @@ namespace ImageService.Controller
             return t.Result.Item1;
         }
 
+        /// <summary>
+        /// Add delegate
+        /// </summary>
+        /// <param name="func">The function that we add</param>
         public void addDelegate(EventHandler<DirectoryCloseEventArgs> func)
         {
             this.m_model.closeHandler += func;

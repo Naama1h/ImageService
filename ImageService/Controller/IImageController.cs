@@ -13,6 +13,6 @@ namespace ImageService.Controller
     public interface IImageController
     {
         string ExecuteCommand(int commandID, string[] args, out bool result);          // Executing the Command Requet
-        void addDelegate(EventHandler<DirectoryCloseEventArgs> func);
+        void addDelegate(EventHandler<DirectoryCloseEventArgs> func);                  // Add delegate
     }
 }

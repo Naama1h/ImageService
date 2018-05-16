@@ -28,15 +28,15 @@ namespace ImageService.Server
         private IImageController m_controller;          // Image Controller
         private ILoggingService m_logging;              // Logging Service
 
-        private int port;
-        private TcpListener listener;
-        private ClientHandler ch;
-        private ArrayList clients;
-        private bool firstClientConnected;
+        private int port;                               // Port
+        private TcpListener listener;                   // Listener
+        private ClientHandler ch;                       // Client Handler
+        private ArrayList clients;                      // Client Array
+        private bool firstClientConnected;              // Check if the first client connected
 
-        private ArrayList logMessages;
+        private ArrayList logMessages;                  // Loges Array
 
-        private Dictionary<string, IDirectoryHandler> handlers;
+        private Dictionary<string, IDirectoryHandler> handlers;                        // The Dictionary of the handlers
         #endregion
 
         #region Properties
@@ -113,6 +113,9 @@ namespace ImageService.Server
             }
         }
 
+        /// <summary>
+        /// Start TCP
+        /// </summary>
         public void StartServer()
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
@@ -137,6 +140,7 @@ namespace ImageService.Server
                             this.m_logging.MessageRecieved += sendLogMessage;
                             this.firstClientConnected = false;
                         }
+                        // send the logs until now
                         for (int i = 0; i < this.logMessages.Count; i++)
                         {
                             string[] args = { ((MessageRecievedEventArgs)this.logMessages[i]).Status.ToString(), ((MessageRecievedEventArgs)this.logMessages[i]).Message };
@@ -155,6 +159,11 @@ namespace ImageService.Server
             task.Start();
         }
 
+        /// <summary>
+        /// remove handler
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The data</param>
         public void removeHandler(object sender, DataRecivedEventArgs e)
         {
             //if(e.Data.StartsWith("removed"))
@@ -181,10 +190,15 @@ namespace ImageService.Server
             }
         }
 
+        /// <summary>
+        /// Send the settings
+        /// </summary>
+        /// <param name="client">The client</param>
         public void sendSettings(TcpClient client)
         {
             new Task(() =>
             {
+                // save the settings in one string array:
                 string handlersList = ConfigurationManager.AppSettings["Handlers"];
                 string[] handlers = handlersList.Split(';');
                 string[] args = new string[handlers.Length + 5];
@@ -197,14 +211,22 @@ namespace ImageService.Server
                 args[handlers.Length + 2] = ConfigurationManager.AppSettings["SourceName"];
                 args[handlers.Length + 3] = ConfigurationManager.AppSettings["LogName"];
                 args[handlers.Length + 4] = ConfigurationManager.AppSettings["ThumbnailSize"];
+                // make command message from the args:
                 CommandMessage message = new CommandMessage((int)CommandEnum.GetConfigCommand, args);
+                // send the settings and wait for get a message that the client get the settings:
                 ClientHandler.Instance.sendmessage(client, message.ToJSON());
                 ClientHandler.Instance.recivedmessage(client);
             }).Start();
         }
 
+        /// <summary>
+        /// Send log message
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="message">The log message</param>
         public void sendLogMessage(Object sender, MessageRecievedEventArgs message)
         {
+            // over on the clients and send them the message
             foreach (TcpClient client in this.clients)
             {
                 new Task(() =>
@@ -217,6 +239,11 @@ namespace ImageService.Server
             }
         }
 
+        /// <summary>
+        /// Save log message in the array of the log messages
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="message">The log message</param>
         public void saveLogMessage(Object sender, MessageRecievedEventArgs message)
         {
             this.logMessages.Add(message);

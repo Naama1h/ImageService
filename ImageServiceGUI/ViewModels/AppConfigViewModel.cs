@@ -19,11 +19,12 @@ namespace ImageServiceGUI.ViewModels
 {
     class AppConfigViewModel : INotifyPropertyChanged
     {
-        private AppConfigModel m_AppConfigModel;
+        private AppConfigModel m_AppConfigModel;                    // The App Config Model
         #region Notify Changed
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
+        // the Remove Command member:
         public ICommand removeCommand { get; private set; }
 
         // the Handlers member:
@@ -38,7 +39,8 @@ namespace ImageServiceGUI.ViewModels
                 command.RaiseCanExecuteChanged();
             }
         }
-        
+
+        // the Handlers member:
         public ObservableCollection<string> Handlers
         {
             get
@@ -50,8 +52,8 @@ namespace ImageServiceGUI.ViewModels
                 this.m_AppConfigModel.Handlers = value;
             }
         }
-    
 
+        // the OutputDir member:
         public string OutputDir
         {
             get
@@ -63,6 +65,8 @@ namespace ImageServiceGUI.ViewModels
                 this.appConfigModel.OutputDir = value;
             }
         }
+
+        // the SourceName member:
         public string SourceName
         {
             get
@@ -74,6 +78,8 @@ namespace ImageServiceGUI.ViewModels
                 this.appConfigModel.SourceName = value;
             }
         }
+
+        // the LogName member:
         public string LogName
         {
             get
@@ -85,6 +91,8 @@ namespace ImageServiceGUI.ViewModels
                 this.appConfigModel.LogName = value;
             }
         }
+
+        // the ThumbnailSize member:
         public string ThumbnailSize
         {
             get
@@ -97,6 +105,7 @@ namespace ImageServiceGUI.ViewModels
             }
         }
 
+        // the AppConfigModel member:
         public AppConfigModel appConfigModel
         {
             get
@@ -109,6 +118,9 @@ namespace ImageServiceGUI.ViewModels
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public AppConfigViewModel()
         {
             this.m_AppConfigModel = new AppConfigModel();
@@ -118,24 +130,22 @@ namespace ImageServiceGUI.ViewModels
             this.PropertyChanged += PropertyChangedF;
             this.removeCommand = new DelegateCommand<object>(this.OnRemove, this.CanRemove);
             this.appConfigModel.Handlers = new ObservableCollection<string>();
-
             CommunicationServer.Instance.DataReceived += settingsMessage;
-
-            /**
-            string handlersList = ConfigurationManager.AppSettings["Handlers"]; // change to handlers from tcp
-            string[] handlers = handlersList.Split(';');
-            for (int i = 0; i < handlers.Length; i++)
-            {
-                this.Handlers.Add(handlers[i]);
-            }
-            */
         }
 
+        /// <summary>
+        /// Notify Property Changed
+        /// </summary>
+        /// <param name="name">The property that changes</param>
         protected void NotifyPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        /// <summary>
+        /// Build Result String
+        /// </summary>
+        /// <returns>The Result String</returns>
         private string BuildResultString()
         {
             StringBuilder builder = new StringBuilder();
@@ -143,6 +153,11 @@ namespace ImageServiceGUI.ViewModels
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Return if we can remove
+        /// </summary>
+        /// <param name="obj">The object</param>
+        /// <returns>if we can remove him or not</returns>
         private bool CanRemove(object obj)
         {
             if (string.IsNullOrEmpty(this.Handler))
@@ -152,6 +167,10 @@ namespace ImageServiceGUI.ViewModels
             return true;
         }
 
+        /// <summary>
+        /// On Remove
+        /// </summary>
+        /// <param name="obj">The object</param>
         private void OnRemove(object obj)
         {
             string[] args = { this.Handler };
@@ -162,18 +181,30 @@ namespace ImageServiceGUI.ViewModels
             Console.Write("remove\n");
         }
 
+        /// <summary>
+        /// Property Changed Func
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The property</param>
         private void PropertyChangedF(object sender, PropertyChangedEventArgs e)
         {
             var command = this.removeCommand as DelegateCommand<object>;
             command.RaiseCanExecuteChanged();
         }
 
+        /// <summary>
+        /// Get The Settings Message
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The message</param>
         public void settingsMessage(object sender, DataRecivedEventArgs e)
         {
             CommandMessage cm = CommandMessage.ParseJSon(e.Data);
+            // check if this is a settings message
             if (cm.CommandID == (int)CommandEnum.GetConfigCommand)
             {
                 int i = 0;
+                // update the handlers
                 while (cm.CommandArgs[i] != null)
                 {
                     App.Current.Dispatcher.Invoke((System.Action)delegate
@@ -182,6 +213,7 @@ namespace ImageServiceGUI.ViewModels
                     });
                     i++;
                 }
+                // update the rest members
                 App.Current.Dispatcher.Invoke((System.Action)delegate
                 {
                     i++;
@@ -194,10 +226,12 @@ namespace ImageServiceGUI.ViewModels
                     this.ThumbnailSize = cm.CommandArgs[i];
                 });
                 this.m_AppConfigModel = new AppConfigModel();
+                // send back that we add the settings
                 string[] args = { "add to setting" };
                 CommandMessage message = new CommandMessage(4, args);
                 CommunicationServer.Instance.sendmessage(message.ToJSON());
             }
+            // check if we need to remove handler from the list
             else if (cm.CommandID == (int)CommandEnum.CloseCommand)
             {
                 // remove the handler

@@ -21,11 +21,17 @@ namespace ImageService.Server
         private StreamWriter writer;
         private StreamReader reader;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         private ClientHandler()
         {
             this.clientConnected = true;
         }
 
+        /// <summary>
+        /// Instant - make the ClientHandler a singlton
+        /// </summary>
         public static ClientHandler Instance
         {
             get
@@ -38,9 +44,13 @@ namespace ImageService.Server
             }
         }
 
+        /// <summary>
+        /// Send the message
+        /// </summary>
+        /// <param name="client">The client that we need to send him the message</param>
+        /// <param name="message">The message</param>
         public void sendmessage(TcpClient client, string message)
         {
-            Console.WriteLine("You are connected");
             this.stream = client.GetStream();
             this.writer = new StreamWriter(this.stream);
             // Send message to the server
@@ -55,16 +65,20 @@ namespace ImageService.Server
             }
         }
 
+        /// <summary>
+        /// Recieved message
+        /// </summary>
+        /// <param name="client">The client that recieved the message</param>
+        /// <returns>the new path or false if there is problem</returns>
         public void recivedmessage(TcpClient client)
         {
-            Console.WriteLine("You are connected");
             this.stream = client.GetStream();
             this.reader = new StreamReader(this.stream);
             // Get result from server
             try
             {
                 string message = reader.ReadLine();
-                //this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
+                this.DataReceived?.Invoke(this, new DataRecivedEventArgs(message));
             }
             catch (IOException)
             {
@@ -72,6 +86,10 @@ namespace ImageService.Server
             }
         }
 
+        /// <summary>
+        /// Close the connection of a client
+        /// </summary>
+        /// <param name="client">The client</param>
         public void closeConnection(TcpClient client)
         {
             if (clientConnected)
