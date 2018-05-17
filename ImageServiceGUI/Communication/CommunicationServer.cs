@@ -93,6 +93,10 @@ namespace ImageServiceGUI.Communication
             {
                 closeConnection();
             }
+            catch (System.InvalidOperationException)
+            {
+                closeConnection();
+            }
         }
 
         /// <summary>
