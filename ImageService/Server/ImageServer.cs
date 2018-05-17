@@ -93,6 +93,8 @@ namespace ImageService.Server
             CommandRecieved -= h.OnCommandRecieved;
             h.DirectoryClose -= onCloseServer;
             this.handlers.Remove(e.DirectoryPath);
+            h.dirWatcher.EnableRaisingEvents = false;
+            this.m_logging.Log("The directory " + e.DirectoryPath + " removed", MessageTypeEnum.INFO);
         }
 
         /// <summary>
@@ -179,6 +181,7 @@ namespace ImageService.Server
                 h.DirectoryClose -= onCloseServer;
                 h.dirWatcher.EnableRaisingEvents = false;
                 this.handlers.Remove(cm.CommandArgs[0]);
+                this.m_logging.Log("The directory " + cm.CommandArgs[0] + " removed", MessageTypeEnum.INFO);
                 foreach (TcpClient client in this.clients)
                 {
                     new Task(() =>
