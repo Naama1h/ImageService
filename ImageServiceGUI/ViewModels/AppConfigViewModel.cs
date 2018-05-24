@@ -226,7 +226,6 @@ namespace ImageServiceGUI.ViewModels
                     i++;
                     this.ThumbnailSize = cm.CommandArgs[i];
                 });
-                //this.m_AppConfigModel = new AppConfigModel();
                 // send back that we add the settings
                 string[] args = { "add to setting" };
                 CommandMessage message = new CommandMessage((int)CommandEnum.TcpMessage, args);
@@ -239,7 +238,6 @@ namespace ImageServiceGUI.ViewModels
                 {
                     this.Handlers.Remove(cm.CommandArgs[0]);
                 });
-                this.appConfigModel = new AppConfigModel();
             }
         }
     }

@@ -22,12 +22,6 @@ namespace ImageServiceGUI.Models
 
         public AppConfigModel()
         {
-            /**
-            this.m_OutputDir = ConfigurationManager.AppSettings["OutPutDir"];
-            this.m_SourceName = ConfigurationManager.AppSettings["SourceName"];
-            this.m_LogName = ConfigurationManager.AppSettings["LogName"];
-            this.m_ThumbnailSize = ConfigurationManager.AppSettings["ThumbnailSize"];
-            */
         }
 
         protected void OnPropertyChanged(string name)

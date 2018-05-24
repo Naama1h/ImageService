@@ -133,7 +133,6 @@ namespace ImageService.Server
                         Console.WriteLine("wait for connection");
                         TcpClient client = listener.AcceptTcpClient();
                         Console.WriteLine("Got new connection");
-                        Thread.Sleep(500);
                         sendSettings(client);
                         waitForEndOfClient(client);
                         this.clients.Add(client);
@@ -144,12 +143,16 @@ namespace ImageService.Server
                             this.firstClientConnected = false;
                         }
                         // send the logs until now
+                        Thread.Sleep(1000);
                         for (int i = 0; i < this.logMessages.Count; i++)
                         {
                             string[] args = { ((MessageRecievedEventArgs)this.logMessages[i]).Status.ToString(), ((MessageRecievedEventArgs)this.logMessages[i]).Message };
                             CommandMessage message1 = new CommandMessage((int)CommandEnum.LogCommand, args);
                             ClientHandler.Instance.sendmessage(client, message1.ToJSON());
-                            ClientHandler.Instance.recivedmessage(client);
+                            new Task(() =>
+                            {
+                                ClientHandler.Instance.recivedmessage(client);
+                            }).Start();
                         }
                     }
                     catch (SocketException)
@@ -224,6 +227,7 @@ namespace ImageService.Server
                 // make command message from the args:
                 CommandMessage message = new CommandMessage((int)CommandEnum.GetConfigCommand, args);
                 // send the settings and wait for get a message that the client get the settings:
+                Thread.Sleep(1000);
                 ClientHandler.Instance.sendmessage(client, message.ToJSON());
                 ClientHandler.Instance.recivedmessage(client);
                 // send the client that he wait for handler to remove

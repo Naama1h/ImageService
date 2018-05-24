@@ -82,7 +82,6 @@ namespace ImageServiceGUI.Communication
         {
             try
             {
-                Console.WriteLine("You are connected");
                 this.stream = this.client.GetStream();
                 this.writer = new StreamWriter(this.stream);
                 // Send message to the server
