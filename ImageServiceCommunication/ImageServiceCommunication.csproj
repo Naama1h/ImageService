@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientSingleton.cs" />
     <Compile Include="CommandMessage.cs" />
     <Compile Include="Event\DataRecivedEventArgs.cs" />
     <Compile Include="Program.cs" />

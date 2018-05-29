@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageServiceGUI", "ImageSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageServiceCommunication", "ImageServiceCommunication\ImageServiceCommunication.csproj", "{23A00C24-5377-4978-B996-92C23121EF31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageServiceWeb", "ImageServiceWeb\ImageServiceWeb.csproj", "{BDC27BEF-3680-417B-B818-B704BA9006F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{23A00C24-5377-4978-B996-92C23121EF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23A00C24-5377-4978-B996-92C23121EF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23A00C24-5377-4978-B996-92C23121EF31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDC27BEF-3680-417B-B818-B704BA9006F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDC27BEF-3680-417B-B818-B704BA9006F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDC27BEF-3680-417B-B818-B704BA9006F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDC27BEF-3680-417B-B818-B704BA9006F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
