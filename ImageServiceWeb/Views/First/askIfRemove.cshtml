@@ -1,0 +1,21 @@
+﻿@model ImageServiceWeb.Models.AskIfRemoveModel
+@{
+    ViewBag.Title = "askIfRemove";
+}
+
+<h2>are you sure that you want to remove this handler?</h2>
+<input type="button" id="OK" value="OK"/>
+<input type="button" id="CANCEL" value="CANCEL" onclick='window.location="Config";' />
+<div>
+    @Html.ActionLink("Back to Config", "Config")
+</div>
+
+<script>
+    $("#OK").click(function () {
+        var input = {
+            handler: $@Html.Raw(Json.Encode(Model.handler))
+        };
+        $.post("@Url.Action("removeHandler")",input , function () {}, "json");
+    });
+</script>
+

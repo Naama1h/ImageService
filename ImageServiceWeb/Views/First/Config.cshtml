@@ -11,6 +11,6 @@
 @foreach (var path in Model.handlers)
 {
     <li>
-        <button type="button">@path</button>
+        @Html.ActionLink(path, "askIfRemove", new { h = path })
     </li>
 }

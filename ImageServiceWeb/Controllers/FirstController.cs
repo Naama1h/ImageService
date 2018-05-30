@@ -8,16 +8,19 @@ using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using System.IO;
 
 namespace ImageServiceWeb.Controllers
 {
     public class FirstController : Controller
     {
         static ImageWebModel imageWebModel = new ImageWebModel();
-        static ConfigModel configModel = new ConfigModel();
+        public static ConfigModel configModel = new ConfigModel();
+        public static AskIfRemoveModel askIfRemoveModel = new AskIfRemoveModel();
         public static List<LogMessage> logs = new List<LogMessage>();
         public static List<LogMessage> viewLogs = new List<LogMessage>();
         public string filterType = "";
+        public string outputDir;
 
         public FirstController()
         {
@@ -34,6 +37,8 @@ namespace ImageServiceWeb.Controllers
         
         public ActionResult ImageWeb()
         {
+            outputDir = configModel.outputDir;
+            imageWebModel.numOfImages = countImages(outputDir);
             return View(imageWebModel);
         }
         
@@ -46,7 +51,13 @@ namespace ImageServiceWeb.Controllers
         {
             return View(viewLogs);
         }
-        
+
+        public ActionResult askIfRemove(string h)
+        {
+            askIfRemoveModel.handler = h;
+            return View(askIfRemoveModel);
+        }
+
         [HttpPost]
         public void FilterLogs(string type)
         {
@@ -59,6 +70,14 @@ namespace ImageServiceWeb.Controllers
                     viewLogs.Add(log);
                 }
             }
+        }
+
+        [HttpPost]
+        public void removeHandler(string handler)
+        {
+            string[] args = { handler };
+            CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseHandler, args);
+            ClientSingleton.Instance.sendmessage(message1.ToJSON());
         }
 
         /// <summary>
@@ -86,6 +105,7 @@ namespace ImageServiceWeb.Controllers
                 // update the rest members
                 i++;
                 configModel.outputDir = cm.CommandArgs[i];
+                outputDir = cm.CommandArgs[i];
                 i++;
                 configModel.sourceName = cm.CommandArgs[i];
                 i++;
@@ -136,6 +156,16 @@ namespace ImageServiceWeb.Controllers
                 CommandMessage message1 = new CommandMessage((int)CommandEnum.TcpMessage, args);
                 ClientSingleton.Instance.sendmessage(message1.ToJSON());
             }
+        }
+
+        public int countImages(string outputDir)
+        {
+            int fileCount = 0;
+            if (Directory.Exists(outputDir))
+            {
+                fileCount = Directory.EnumerateFiles(outputDir, "*.jpg", SearchOption.AllDirectories).Count();
+            }
+            return fileCount;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace ImageServiceWeb.Models
         };
 
         [Display(Name = "numOfImages")]
-        public int numOfImages = 10;
+        public int numOfImages;
 
         [Display(Name = "ifServiceConected")]
         public string ifServiceConected = checkIfServerConnected();
