@@ -1,6 +1,6 @@
 ﻿
 using ImageService.Logging.Model;
-using ImageService.Enums;
+using ImageServiceCommunication.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

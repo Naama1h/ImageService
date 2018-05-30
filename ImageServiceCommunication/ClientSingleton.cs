@@ -12,7 +12,7 @@ using System.Net.Sockets;
 
 namespace ImageServiceCommunication
 {
-    class ClientSingleton
+    public class ClientSingleton
     {
         private static ClientSingleton instance;                    // Instance
         private TcpClient client;                                       // client

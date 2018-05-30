@@ -28,9 +28,8 @@ namespace ImageServiceWeb.Models
 
         public static string checkIfServerConnected()
         {
-            if (true) { return "service connected"; }
+            if (ClientSingleton.Instance.IsConnected) { return "service connected"; }
             return "service is not connected";
         }
-
     }
 }

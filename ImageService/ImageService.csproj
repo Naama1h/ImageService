@@ -93,8 +93,6 @@
     <Compile Include="Commands\NewFileCommand.cs" />
     <Compile Include="Controller\IImageController.cs" />
     <Compile Include="Controller\ImageController.cs" />
-    <Compile Include="Enums\CommandEnum.cs" />
-    <Compile Include="Enums\MessageTypeEnum.cs" />
     <Compile Include="Handler\DirectoyHandler.cs" />
     <Compile Include="Handler\IDirectoryHandler.cs" />
     <Compile Include="ImageService.cs">

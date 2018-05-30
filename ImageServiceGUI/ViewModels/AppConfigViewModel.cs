@@ -1,4 +1,4 @@
-﻿using ImageService.Enums;
+﻿using ImageServiceCommunication.Enums;
 using ImageServiceCommunication;
 using ImageServiceCommunication.Event;
 using ImageServiceGUI.Communication;

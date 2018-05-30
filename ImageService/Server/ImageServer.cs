@@ -1,7 +1,7 @@
 ﻿using ImageService.Controller;
 using ImageService.Commands;
 using ImageService.Handler;
-using ImageService.Enums;
+using ImageServiceCommunication.Enums;
 using ImageService.Logging;
 using ImageService.Model.Event;
 using System;

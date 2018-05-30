@@ -1,4 +1,4 @@
-﻿using ImageService.Enums;
+﻿using ImageServiceCommunication.Enums;
 using ImageService.Logging.Model;
 using System;
 using System.Collections.Generic;

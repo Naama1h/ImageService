@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ImageServiceWeb.Models.LogMessage>
+@{
+    ViewBag.Title = "Logs";
+}
+
+<h2>Logs</h2>
+
+<div>
+    <p>Which type to filter?</p>
+    <input type="text" id="Type" size="5" />
+    <input type="button" id="Filter" value="Filter" />
+</div>
+
+<table class="table">
+    <tr>
+        <th>Type</th>
+        <th>Message</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+        </tr>
+    }
+</table>
+<script>
+    $("#Filter").click(function () {
+        var input = {
+            type: $("#Type").val()
+        };
+        $.post("@Url.Action("FilterLogs")", input, function () {}, "json");
+    });
+</script>

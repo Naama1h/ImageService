@@ -1,0 +1,16 @@
+﻿@model ImageServiceWeb.Models.ConfigModel
+@{
+    ViewBag.Title = "Config";
+}
+
+<h2>Config</h2>
+<p>source name : @Model.sourceName</p>
+<p>thumbnail size : @Model.thumbnailSize</p>
+<p>output dir : @Model.outputDir</p>
+<p>log name : @Model.logName</p>
+@foreach (var path in Model.handlers)
+{
+    <li>
+        <button type="button">@path</button>
+    </li>
+}

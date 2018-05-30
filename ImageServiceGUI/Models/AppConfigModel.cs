@@ -10,7 +10,7 @@ using ImageServiceGUI.Communication;
 using System.IO.Ports;
 using System.Diagnostics;
 using ImageServiceCommunication;
-using ImageService.Enums;
+using ImageServiceCommunication.Enums;
 using ImageServiceCommunication.Event;
 
 namespace ImageServiceGUI.Models

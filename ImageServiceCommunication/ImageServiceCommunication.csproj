@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="ClientSingleton.cs" />
     <Compile Include="CommandMessage.cs" />
+    <Compile Include="Enums\CommandEnum.cs" />
+    <Compile Include="Enums\MessageTypeEnum.cs" />
     <Compile Include="Event\DataRecivedEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

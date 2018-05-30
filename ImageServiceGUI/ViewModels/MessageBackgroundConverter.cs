@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
-using ImageService.Enums;
+using ImageServiceCommunication.Enums;
 
 namespace ImageServiceGUI.ViewModels
 {
@@ -25,10 +25,10 @@ namespace ImageServiceGUI.ViewModels
             if (targetType != typeof(Brush))
                 throw new InvalidOperationException("Must convert to a brush!");
             MessageTypeEnum message = (MessageTypeEnum)value;
-            if (message == ImageService.Enums.MessageTypeEnum.FAIL)
+            if (message == MessageTypeEnum.FAIL)
             {
                 return Brushes.Red;
-            } else if (message == ImageService.Enums.MessageTypeEnum.INFO)
+            } else if (message == MessageTypeEnum.INFO)
             {
                 return Brushes.LightGreen;
             } else

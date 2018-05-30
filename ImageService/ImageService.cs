@@ -8,7 +8,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
-
+using ImageServiceCommunication.Enums;
 using ImageService.Controller;
 using ImageService.Logging.Model;
 using ImageService.Model;
@@ -107,7 +107,7 @@ namespace ImageService
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
             // send the log message that we start
-            this.logging.Log("In OnStart", Enums.MessageTypeEnum.INFO);
+            this.logging.Log("In OnStart", MessageTypeEnum.INFO);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace ImageService
         protected override void OnStop()
         {
             // send the log message that we stop and close the server
-            this.logging.Log("In OnStop", Enums.MessageTypeEnum.INFO);
+            this.logging.Log("In OnStop", MessageTypeEnum.INFO);
             this.m_imageServer.closingServer();
         }
 
@@ -136,7 +136,7 @@ namespace ImageService
         protected override void OnContinue()
         {
             // send the log message that we continue
-            this.logging.Log("In OnContinue", Enums.MessageTypeEnum.INFO);
+            this.logging.Log("In OnContinue", MessageTypeEnum.INFO);
         }
 
         /// <summary>
@@ -146,15 +146,15 @@ namespace ImageService
         /// <param name="e">The message we want to write to the log</param>
         public void OnMessage(object sender, MessageRecievedEventArgs e)
         {
-            if (e.Status == Enums.MessageTypeEnum.FAIL)
+            if (e.Status == MessageTypeEnum.FAIL)
             {
                 eventLog2.WriteEntry(e.Message, EventLogEntryType.Error);
             }
-            else if (e.Status == Enums.MessageTypeEnum.INFO)
+            else if (e.Status == MessageTypeEnum.INFO)
             {
                 eventLog2.WriteEntry(e.Message, EventLogEntryType.Information);
             }
-            else if (e.Status == Enums.MessageTypeEnum.WARNING)
+            else if (e.Status == MessageTypeEnum.WARNING)
             {
                 eventLog2.WriteEntry(e.Message, EventLogEntryType.Warning);
             }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Commands;
 using ImageServiceCommunication;
-using ImageService.Enums;
+using ImageServiceCommunication.Enums;
 
 namespace ImageServiceGUI.ViewModels
 {
