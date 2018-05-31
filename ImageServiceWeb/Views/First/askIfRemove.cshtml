@@ -13,9 +13,10 @@
 <script>
     $("#OK").click(function () {
         var input = {
-            handler: $@Html.Raw(Json.Encode(Model.handler))
+            handler: @Html.Raw(Json.Encode(Model.handler))
         };
         $.post("@Url.Action("removeHandler")",input , function () {}, "json");
+        window.location="Config";
     });
 </script>
 

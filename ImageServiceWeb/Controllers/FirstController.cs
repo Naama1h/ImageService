@@ -17,6 +17,7 @@ namespace ImageServiceWeb.Controllers
         static ImageWebModel imageWebModel = new ImageWebModel();
         public static ConfigModel configModel = new ConfigModel();
         public static AskIfRemoveModel askIfRemoveModel = new AskIfRemoveModel();
+        public static PhotosModel photoModel = new PhotosModel();
         public static List<LogMessage> logs = new List<LogMessage>();
         public static List<LogMessage> viewLogs = new List<LogMessage>();
         public string filterType = "";
@@ -50,6 +51,16 @@ namespace ImageServiceWeb.Controllers
         public ActionResult Logs()
         {
             return View(viewLogs);
+        }
+
+        public ActionResult Photos()
+        {
+            outputDir = configModel.outputDir;
+            if (outputDir != null)
+            {
+                getPhotos(outputDir);
+            }
+            return View();
         }
 
         public ActionResult askIfRemove(string h)
@@ -166,6 +177,16 @@ namespace ImageServiceWeb.Controllers
                 fileCount = Directory.EnumerateFiles(outputDir, "*.jpg", SearchOption.AllDirectories).Count();
             }
             return fileCount;
+        }
+
+        public void getPhotos(string outputDir)
+        {
+            string[] photos = Directory.GetFiles(outputDir, "*.jpg", SearchOption.AllDirectories);
+            foreach (string photo in photos)
+            {
+                photoModel.photos.Add(new ThumbnailPhoto(Path.GetFileName(photo), new DirectoryInfo(Path.GetDirectoryName(Path.GetDirectoryName(photo))).Name,
+                    new DirectoryInfo(Path.GetDirectoryName(photo)).Name, photo));
+            }
         }
     }
 }
