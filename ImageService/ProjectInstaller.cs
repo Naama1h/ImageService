@@ -22,6 +22,16 @@ namespace ImageService
             Context.Parameters["assemblypath"] = "\"" + Context.Parameters["assemblypath"] + "\" \"" + parameter + "\"";
             base.OnBeforeInstall(savedState);
         }
+
+        private void Installer_AfterInstall(object sender, InstallEventArgs e)
+        {
+
+        }
+
+        private void serviceProcessInstaller1_AfterInstall(object sender, InstallEventArgs e)
+        {
+
+        }
     }
 
 }
