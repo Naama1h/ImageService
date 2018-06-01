@@ -181,11 +181,15 @@ namespace ImageServiceWeb.Controllers
 
         public void getPhotos(string outputDir)
         {
-            string[] photos = Directory.GetFiles(outputDir, "*.jpg", SearchOption.AllDirectories);
-            foreach (string photo in photos)
+            photoModel.photos.Clear();
+            if (Directory.Exists(outputDir + "\\Thumbnails"))
             {
-                photoModel.photos.Add(new ThumbnailPhoto(Path.GetFileName(photo), new DirectoryInfo(Path.GetDirectoryName(Path.GetDirectoryName(photo))).Name,
-                    new DirectoryInfo(Path.GetDirectoryName(photo)).Name, photo));
+                string[] photos = Directory.GetFiles(outputDir + "\\Thumbnails", "*.jpg", SearchOption.AllDirectories);
+                foreach (string photo in photos)
+                {
+                    photoModel.photos.Add(new ThumbnailPhoto(Path.GetFileName(photo), new DirectoryInfo(Path.GetDirectoryName(Path.GetDirectoryName(photo))).Name,
+                        new DirectoryInfo(Path.GetDirectoryName(photo)).Name, photo));
+                }
             }
         }
     }
