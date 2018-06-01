@@ -60,7 +60,7 @@ namespace ImageServiceWeb.Controllers
             {
                 getPhotos(outputDir);
             }
-            return View();
+            return View(photoModel);
         }
 
         public ActionResult askIfRemove(string h)

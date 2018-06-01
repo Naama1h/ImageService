@@ -1,7 +1,21 @@
-﻿
+﻿@model ImageServiceWeb.Models.PhotosModel
 @{
     ViewBag.Title = "Photos";
 }
 
 <h2>Photos</h2>
-
+<div class="container">
+    <div class="row">
+        @foreach (var photo in Model.photos)
+        {
+        <div class="col-xs-6 col-md-3" style="stroke:blue">
+            <figure href="#" class="thumbnail">
+                <img src=@photo.Path hight="40" width="40" />
+            </figure>
+            <p></p>
+            <p>image name: @photo.Name </p>
+            <p>date: @photo.Month /@photo.Year</p>
+        </div>
+        }
+    </div>
+</div>
