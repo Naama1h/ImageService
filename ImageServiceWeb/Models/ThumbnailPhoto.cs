@@ -8,6 +8,12 @@ namespace ImageServiceWeb.Models
 {
     public class ThumbnailPhoto
     {
+        static int count = 0;
+
+        [Required]
+        [Display(Name = "ID")]
+        public int ID { get; set; }
+
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Name")]
@@ -34,7 +40,16 @@ namespace ImageServiceWeb.Models
             this.Year = year;
             this.Month = month;
             this.Path = path;
+            count++;
+            ID = count;
         }
 
+        public void copy(ThumbnailPhoto thumbnailPhoto)
+        {
+            this.Name = thumbnailPhoto.Name;
+            this.Year = thumbnailPhoto.Year;
+            this.Month = thumbnailPhoto.Month;
+            this.Path = thumbnailPhoto.Path;
+        }
     }
 }

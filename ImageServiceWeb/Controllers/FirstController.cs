@@ -69,6 +69,30 @@ namespace ImageServiceWeb.Controllers
             return View(askIfRemoveModel);
         }
 
+        public ActionResult askIfDelete(int id)
+        {
+            foreach (ThumbnailPhoto photo in photoModel.photos)
+            {
+                if (photo.ID.Equals(id))
+                {
+                    return View(photo);
+                }
+            }
+            return View("Error");
+        }
+
+        public ActionResult View(int id)
+        {
+            foreach (ThumbnailPhoto photo in photoModel.photos)
+            {
+                if (photo.ID.Equals(id))
+                {
+                    return View(photo);
+                }
+            }
+            return View("Error");
+        }
+
         [HttpPost]
         public void FilterLogs(string type)
         {
@@ -89,6 +113,15 @@ namespace ImageServiceWeb.Controllers
             string[] args = { handler };
             CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseHandler, args);
             ClientSingleton.Instance.sendmessage(message1.ToJSON());
+        }
+
+        [HttpPost]
+        public void deleteImage(string path)
+        {
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
         }
 
         /// <summary>

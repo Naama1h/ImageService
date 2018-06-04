@@ -1,0 +1,29 @@
+﻿@model ImageServiceWeb.Models.ThumbnailPhoto
+@{
+    ViewBag.Title = "askIfDelete";
+}
+
+<h2>are you sure that you want to delete this image?</h2>
+
+<div class="col-xs-6 col-md-3" style="stroke:blue">
+    <figure href="#" class="thumbnail">
+        <img src="/OutputDir/@Model.Year/@Model.Month/@Model.Name" hight="242" width="200" />
+    </figure>
+    <p>image name: @Model.Name </p>
+    <p>date: @Model.Month /@Model.Year</p>
+</div>
+
+<input type="button" id="OK" value="OK" />
+<div>
+    @Html.ActionLink("Back to Photos", "Photos")
+</div>
+
+<script>
+    $("#OK").click(function () {
+        var input = {
+            path : @Html.Raw(Json.Encode(@Model.Path))
+        };
+        $.post("@Url.Action("deleteImage")",input , function () {}, "json");
+        window.location="Photos";
+    });
+</script>

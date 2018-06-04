@@ -163,6 +163,9 @@
     <Content Include="Views\First\Logs.cshtml" />
     <Content Include="Views\First\askIfRemove.cshtml" />
     <Content Include="Views\First\Photos.cshtml" />
+    <Content Include="Views\First\askIfDelete.cshtml" />
+    <Content Include="Views\First\Error.cshtml" />
+    <Content Include="Views\First\View.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
