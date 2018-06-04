@@ -10,16 +10,15 @@
         {
         <div class="col-xs-6 col-md-3" style="stroke:blue">
             <figure href="#" class="thumbnail">
-                <img src="/OutputDir/Thumbnails/@photo.Year/@photo.Month/@photo.Name" hight="242" width="200" />
+                <img src="/OutputDir/Thumbnails/@photo.Year/@photo.Month/@photo.Name" class="img-circle" hight="242" width="200" />
+                <p>image name: @photo.Name </p>
+                <p>date: @photo.Month /@photo.Year</p>
+                <form action="askIfDelete">
+                    <button value="@photo.ID">Delete</button>
+                </form>
+                @Html.ActionLink("Delete", "askIfDelete", new { id = @photo.ID })
+                @Html.ActionLink("View", "view", new { id = @photo.ID })
             </figure>
-            <p></p>
-            <p>image name: @photo.Name </p>
-            <p>date: @photo.Month /@photo.Year</p>
-            <form action="askIfDelete">
-                <button value="@photo.ID">Delete</button>
-            </form>
-            @Html.ActionLink("Delete", "askIfDelete", new { id = @photo.ID })
-            @Html.ActionLink("View", "view", new { id = @photo.ID })
         </div>
         }
     </div>
