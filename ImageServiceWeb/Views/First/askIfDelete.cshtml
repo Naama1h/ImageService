@@ -7,16 +7,14 @@
 
 <div class="col-xs-6 col-md-3" style="stroke:blue">
     <figure href="#" class="thumbnail">
-        <img src="/OutputDir/@Model.Year/@Model.Month/@Model.Name" hight="242" width="200" />
+        <img src="/OutputDir/Thumbnails/@Model.Year/@Model.Month/@Model.Name" hight="242" width="200" />
+        <p>image name: @Model.Name </p>
+        <p>date: @Model.Month /@Model.Year</p>
+        <input type="button" id="OK" value="OK" />
     </figure>
-    <p>image name: @Model.Name </p>
-    <p>date: @Model.Month /@Model.Year</p>
-</div>
-
-<input type="button" id="OK" value="OK" />
-<div>
     @Html.ActionLink("Back to Photos", "Photos")
 </div>
+
 
 <script>
     $("#OK").click(function () {

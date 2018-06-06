@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.IO;
+using System.Threading;
 
 namespace ImageServiceWeb.Controllers
 {
@@ -20,10 +21,11 @@ namespace ImageServiceWeb.Controllers
         public static PhotosModel photoModel = new PhotosModel();
         public static List<LogMessage> logs = new List<LogMessage>();
         public static List<LogMessage> viewLogs = new List<LogMessage>();
-        public string filterType = "";
-        public string outputDir;
+        public static string filterType = "";
+        public static string outputDir;
+        private static bool waitForDeleteHandler = false;
 
-        public FirstController()
+        static FirstController()
         {
             ClientSingleton.Instance.DataReceived += getMessageFromServer;
         }
@@ -45,6 +47,7 @@ namespace ImageServiceWeb.Controllers
         
         public ActionResult Config()
         {
+            while (waitForDeleteHandler) {}
             return View(configModel);
         }
 
@@ -69,11 +72,11 @@ namespace ImageServiceWeb.Controllers
             return View(askIfRemoveModel);
         }
 
-        public ActionResult askIfDelete(int id)
+        public ActionResult askIfDelete(int idOfPhoto)
         {
             foreach (ThumbnailPhoto photo in photoModel.photos)
             {
-                if (photo.ID.Equals(id))
+                if (photo.ID.Equals(idOfPhoto))
                 {
                     return View(photo);
                 }
@@ -81,11 +84,11 @@ namespace ImageServiceWeb.Controllers
             return View("Error");
         }
 
-        public ActionResult View(int id)
+        public ActionResult View(int idOfPhoto)
         {
             foreach (ThumbnailPhoto photo in photoModel.photos)
             {
-                if (photo.ID.Equals(id))
+                if (photo.ID.Equals(idOfPhoto))
                 {
                     return View(photo);
                 }
@@ -100,7 +103,7 @@ namespace ImageServiceWeb.Controllers
             viewLogs.Clear();
             foreach (LogMessage log in logs)
             {
-                if (!log.Type.Equals(type))
+                if (log.Type.Equals(type))
                 {
                     viewLogs.Add(log);
                 }
@@ -113,6 +116,9 @@ namespace ImageServiceWeb.Controllers
             string[] args = { handler };
             CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseHandler, args);
             ClientSingleton.Instance.sendmessage(message1.ToJSON());
+            waitForDeleteHandler = true;
+            while (configModel.handlers.Contains(handler)) {}
+            waitForDeleteHandler = false;
         }
 
         [HttpPost]
@@ -129,7 +135,7 @@ namespace ImageServiceWeb.Controllers
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The message</param>
-        public void getMessageFromServer(object sender, DataRecivedEventArgs e)
+        public static void getMessageFromServer(object sender, DataRecivedEventArgs e)
         {
             if (e.Data == null)
             {
@@ -172,7 +178,7 @@ namespace ImageServiceWeb.Controllers
                 {
                     LogMessage message = new LogMessage(MessageTypeEnum.FAIL, cm.CommandArgs[1]);
                     logs.Add(message);
-                    if (!filterType.Equals(message.Type))
+                    if (filterType.Equals(message.Type))
                     {
                         viewLogs.Add(message);
                     }
@@ -181,7 +187,7 @@ namespace ImageServiceWeb.Controllers
                 {
                     LogMessage message = new LogMessage(MessageTypeEnum.INFO, cm.CommandArgs[1]);
                     logs.Add(message);
-                    if (!filterType.Equals(message.Type))
+                    if (filterType.Equals(message.Type))
                     {
                         viewLogs.Add(message);
                     }
@@ -190,7 +196,7 @@ namespace ImageServiceWeb.Controllers
                 {
                     LogMessage message = new LogMessage(MessageTypeEnum.WARNING, cm.CommandArgs[1]);
                     logs.Add(message);
-                    if (!filterType.Equals(message.Type))
+                    if (filterType.Equals(message.Type))
                     {
                         viewLogs.Add(message);
                     }

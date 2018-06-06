@@ -13,11 +13,8 @@
                 <img src="/OutputDir/Thumbnails/@photo.Year/@photo.Month/@photo.Name" class="img-circle" hight="242" width="200" />
                 <p>image name: @photo.Name </p>
                 <p>date: @photo.Month /@photo.Year</p>
-                <form action="askIfDelete">
-                    <button value="@photo.ID">Delete</button>
-                </form>
-                @Html.ActionLink("Delete", "askIfDelete", new { id = @photo.ID })
-                @Html.ActionLink("View", "view", new { id = @photo.ID })
+                @Html.ActionLink("Delete", "askIfDelete", new { idOfPhoto = @photo.ID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("View", "view", new { idOfPhoto = @photo.ID }, new { @class = "btn btn-danger" })
             </figure>
         </div>
         }
