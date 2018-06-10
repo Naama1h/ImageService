@@ -8,12 +8,21 @@ namespace ImageServiceWeb.Models
 {
     public class Student
     {
+        // count num of students
         static int count = 0;
+        /// <summary>
+        /// constructor
+        /// </summary>
         public Student()
         {
             count++;
             num = count;
         }
+
+        /// <summary>
+        /// copy student
+        /// </summary>
+        /// <param name="student">the student</param>
         public void copy(Student student)
         {
             FirstName = student.FirstName;

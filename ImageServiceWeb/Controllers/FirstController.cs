@@ -15,6 +15,7 @@ namespace ImageServiceWeb.Controllers
 {
     public class FirstController : Controller
     {
+        // members:
         static ImageWebModel imageWebModel = new ImageWebModel();
         public static ConfigModel configModel = new ConfigModel();
         public static AskIfRemoveModel askIfRemoveModel = new AskIfRemoveModel();
@@ -25,37 +26,48 @@ namespace ImageServiceWeb.Controllers
         public static string outputDir;
         private static bool waitForDeleteHandler = false;
 
+        /// <summary>
+        /// constructor
+        /// </summary>
         static FirstController()
         {
             ClientSingleton.Instance.DataReceived += getMessageFromServer;
         }
 
-       /*
-        //GET: First
-        public ActionResult Index()
-        {
-            return View();
-        }
-        */
-        
+        /// <summary>
+        /// view the ImageWeb window
+        /// </summary>
+        /// <returns>ImageWeb window</returns>
         public ActionResult ImageWeb()
         {
             outputDir = configModel.outputDir;
             imageWebModel.numOfImages = countImages(outputDir);
             return View(imageWebModel);
         }
-        
+
+        /// <summary>
+        /// view the Config window
+        /// </summary>
+        /// <returns>Config window</returns>
         public ActionResult Config()
         {
             while (waitForDeleteHandler) {}
             return View(configModel);
         }
 
+        /// <summary>
+        /// view the Logs window
+        /// </summary>
+        /// <returns>Logs window</returns>
         public ActionResult Logs()
         {
             return View(viewLogs);
         }
 
+        /// <summary>
+        /// view the Photos window
+        /// </summary>
+        /// <returns>Photos window</returns>
         public ActionResult Photos()
         {
             outputDir = configModel.outputDir;
@@ -66,12 +78,22 @@ namespace ImageServiceWeb.Controllers
             return View(photoModel);
         }
 
+        /// <summary>
+        /// view the askIfRemove window
+        /// </summary>
+        /// <param name="h">handler</param>
+        /// <returns>askIfRemove Window</returns>
         public ActionResult askIfRemove(string h)
         {
             askIfRemoveModel.handler = h;
             return View(askIfRemoveModel);
         }
 
+        /// <summary>
+        /// view the askIfDelete window
+        /// </summary>
+        /// <param name="idOfPhoto">the id of the photo</param>
+        /// <returns>askIfDelete Window</returns>
         public ActionResult askIfDelete(int idOfPhoto)
         {
             foreach (ThumbnailPhoto photo in photoModel.photos)
@@ -84,6 +106,11 @@ namespace ImageServiceWeb.Controllers
             return View("Error");
         }
 
+        /// <summary>
+        /// view the View window
+        /// </summary>
+        /// <param name="idOfPhoto">the id of the photo</param>
+        /// <returns>View Window</returns>
         public ActionResult View(int idOfPhoto)
         {
             foreach (ThumbnailPhoto photo in photoModel.photos)
@@ -96,6 +123,10 @@ namespace ImageServiceWeb.Controllers
             return View("Error");
         }
 
+        /// <summary>
+        /// filter the logs
+        /// </summary>
+        /// <param name="type">log to show</param>
         [HttpPost]
         public void FilterLogs(string type)
         {
@@ -106,21 +137,32 @@ namespace ImageServiceWeb.Controllers
                 if (log.Type.Equals(type))
                 {
                     viewLogs.Add(log);
+                } else if (type.Equals(""))
+                {
+                    viewLogs.Add(log);
                 }
             }
         }
 
+        /// <summary>
+        /// remove handler
+        /// </summary>
+        /// <param name="handler">the path of the handler</param>
         [HttpPost]
         public void removeHandler(string handler)
         {
+            waitForDeleteHandler = true;
             string[] args = { handler };
             CommandMessage message1 = new CommandMessage((int)CommandEnum.CloseHandler, args);
             ClientSingleton.Instance.sendmessage(message1.ToJSON());
-            waitForDeleteHandler = true;
             while (configModel.handlers.Contains(handler)) {}
             waitForDeleteHandler = false;
         }
 
+        /// <summary>
+        /// delete Image
+        /// </summary>
+        /// <param name="path">the path</param>
         [HttpPost]
         public void deleteImage(string path)
         {
@@ -208,6 +250,11 @@ namespace ImageServiceWeb.Controllers
             }
         }
 
+        /// <summary>
+        /// count Images
+        /// </summary>
+        /// <param name="outputDir">the output directory</param>
+        /// <returns>num of images</returns>
         public int countImages(string outputDir)
         {
             int fileCount = 0;
@@ -218,6 +265,10 @@ namespace ImageServiceWeb.Controllers
             return fileCount;
         }
 
+        /// <summary>
+        /// update the list of the photos
+        /// </summary>
+        /// <param name="outputDir">the output directory path</param>
         public void getPhotos(string outputDir)
         {
             photoModel.photos.Clear();

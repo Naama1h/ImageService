@@ -10,7 +10,7 @@
         {
         <div class="col-xs-6 col-md-3" style="stroke:blue">
             <figure href="#" class="thumbnail">
-                <img src="/OutputDir/Thumbnails/@photo.Year/@photo.Month/@photo.Name" class="img-circle" hight="242" width="200" />
+                <img src="/OutputDir/Thumbnails/@photo.Year/@photo.Month/@photo.Name" class="img-circle" />
                 <p>image name: @photo.Name </p>
                 <p>date: @photo.Month /@photo.Year</p>
                 @Html.ActionLink("Delete", "askIfDelete", new { idOfPhoto = @photo.ID }, new { @class = "btn btn-primary" })

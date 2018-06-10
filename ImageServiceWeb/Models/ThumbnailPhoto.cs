@@ -8,7 +8,7 @@ namespace ImageServiceWeb.Models
 {
     public class ThumbnailPhoto
     {
-        static int count = 0;
+        static int count = 0;               // number of photos
 
         [Required]
         [Display(Name = "ID")]
@@ -34,6 +34,13 @@ namespace ImageServiceWeb.Models
         [Display(Name = "Path")]
         public string Path { get; set; }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="name">the name of the photo</param>
+        /// <param name="year">the year of the photo</param>
+        /// <param name="month">the month of the photo</param>
+        /// <param name="path">the path of the photo</param>
         public ThumbnailPhoto(string name, string year, string month, string path)
         {
             this.Name = name;
@@ -44,6 +51,10 @@ namespace ImageServiceWeb.Models
             ID = count;
         }
 
+        /// <summary>
+        /// copy photo
+        /// </summary>
+        /// <param name="thumbnailPhoto">the photo</param>
         public void copy(ThumbnailPhoto thumbnailPhoto)
         {
             this.Name = thumbnailPhoto.Name;
