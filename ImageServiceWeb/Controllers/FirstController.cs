@@ -170,6 +170,14 @@ namespace ImageServiceWeb.Controllers
             {
                 System.IO.File.Delete(path);
             }
+            if (System.IO.File.Exists(path.Replace("\\Thumbnails", string.Empty)))
+            {
+                System.IO.File.Delete(path.Replace("\\Thumbnails", string.Empty));
+            }
+            if (System.IO.File.Exists(path.Replace("/Thumbnails", string.Empty)))
+            {
+                System.IO.File.Delete(path.Replace("/Thumbnails", string.Empty));
+            }
         }
 
         /// <summary>
@@ -220,7 +228,7 @@ namespace ImageServiceWeb.Controllers
                 {
                     LogMessage message = new LogMessage(MessageTypeEnum.FAIL, cm.CommandArgs[1]);
                     logs.Add(message);
-                    if (filterType.Equals(message.Type))
+                    if (filterType.Equals(message.Type) || filterType.Equals(""))
                     {
                         viewLogs.Add(message);
                     }
@@ -229,7 +237,7 @@ namespace ImageServiceWeb.Controllers
                 {
                     LogMessage message = new LogMessage(MessageTypeEnum.INFO, cm.CommandArgs[1]);
                     logs.Add(message);
-                    if (filterType.Equals(message.Type))
+                    if (filterType.Equals(message.Type) || filterType.Equals(""))
                     {
                         viewLogs.Add(message);
                     }
@@ -238,7 +246,7 @@ namespace ImageServiceWeb.Controllers
                 {
                     LogMessage message = new LogMessage(MessageTypeEnum.WARNING, cm.CommandArgs[1]);
                     logs.Add(message);
-                    if (filterType.Equals(message.Type))
+                    if (filterType.Equals(message.Type) || filterType.Equals(""))
                     {
                         viewLogs.Add(message);
                     }

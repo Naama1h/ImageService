@@ -1,0 +1,270 @@
+commit ff540c16fcce63a5fa3995a0ce0b8bde3c6bd78f
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Sun Jun 10 13:59:04 2018 +0200
+
+    finish ex3
+
+commit 874b35ea5154d0b72dc5d4361f6e2dc3fc7bc711
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Wed Jun 6 12:55:26 2018 +0200
+
+    almost finish
+
+commit 5566993ba65a878d09ccb7c482ddf9aedb68c784
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Mon Jun 4 12:33:03 2018 +0200
+
+    add circule to the images
+
+commit c77d42376b856560a1a004d6e256680e296ef0b3
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Mon Jun 4 12:08:23 2018 +0200
+
+    add option of view and delete images
+
+commit be6911e19c950eba5cdf4a9d0a5c7cca1de9c40b
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Fri Jun 1 11:44:49 2018 +0200
+
+    show just thumbnail photos
+
+commit 927ba6680280a62676372c42edb68b952a574abf
+Author: Naama1h <naama1har@gmail.com>
+Date:   Fri Jun 1 12:10:25 2018 +0300
+
+    problam with server :(
+
+commit 8ea16150eb6b36024e2b5883429e77a36b42a6f0
+Author: Naama1h <naama1har@gmail.com>
+Date:   Fri Jun 1 11:03:01 2018 +0300
+
+    continue photos
+
+commit e34adeaf13517c055f98fa47c5ab3be76adeac15
+Author: Naama1h <naama1har@gmail.com>
+Date:   Thu May 31 12:02:26 2018 +0300
+
+    fixing remove handler and starting Photo page
+
+commit 3389dc6ebe4e4d0717f4df456fefa8bdb9135367
+Author: Naama1h <naama1har@gmail.com>
+Date:   Thu May 31 00:47:42 2018 +0300
+
+    remove handler, num of picture
+
+commit 874906eacb35bdc0f0a401b4e457f255b482d62a
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Wed May 30 14:01:52 2018 +0200
+
+    add logs and config pages and fix the tcp communication
+
+commit 04a8d9be9789b40d157eed8cac9947bd77ff3a1a
+Author: Naama1h <naama1har@gmail.com>
+Date:   Tue May 29 21:56:13 2018 +0300
+
+    starting ex3
+
+commit c9df735f35de12521f435ead925157c2ffc950c7
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Thu May 24 13:00:20 2018 +0200
+
+    finish after fix problems
+
+commit 1cb803c7aaf1a9a6a7619febef578c69b05f371b
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Thu May 17 08:35:38 2018 +0200
+
+    add log message when we remove directory
+
+commit cec48e803a2de26650e912143ef8f6f2e55c05da
+Author: Naama1h <naama1har@gmail.com>
+Date:   Thu May 17 10:42:37 2018 +0300
+
+    catching exception and upgrading the remove button
+
+commit ea6c94f9874720ef626955314bc1a9a6a3cfaf02
+Author: Naama1h <naama1har@gmail.com>
+Date:   Wed May 16 22:36:16 2018 +0300
+
+    finish woooohooo
+
+commit 13ba075d8f44744c35700d2cea6ea1841a94fc8e
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Wed May 16 12:52:54 2018 +0200
+
+    add commands and background of tabs
+
+commit 873fb9226fbf413d357ac194b215f461a4f60fd2
+Author: Naama1h <naama1har@gmail.com>
+Date:   Wed May 16 12:28:10 2018 +0300
+
+    fixing problem with mvvm
+
+commit a8cab050b943c7aaf1694a7585d7e58cddb2dcc0
+Author: Naama1h <naama1har@gmail.com>
+Date:   Wed May 16 00:53:28 2018 +0300
+
+    fixing settings problam on GUI (except OutputDir)
+
+commit 4bf1d36207f1ccccac4ca701b40d084b7564c462
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Tue May 15 18:01:12 2018 +0200
+
+    continue communication of log
+
+commit b480997709d5b64470bd0ba2f1a0394b0fb775d6
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Thu May 10 18:01:25 2018 +0200
+
+    fix problems with communication
+
+commit c1d72986a1b788394b7d827ec09d8b90a3def82f
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Wed May 9 15:11:02 2018 +0200
+
+    start debug tcp
+
+commit e4176d7cd19bc80a1c162f8b1de522d2c171d695
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Wed May 9 12:51:41 2018 +0200
+
+    add received option in GUI
+
+commit 03d74613ddc5076dfcb38fe8514228bcc29581e3
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Wed May 9 08:14:16 2018 +0200
+
+    save changes
+
+commit f5877f84a4d882a01f1c6a62a55b1a738f9be394
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Wed May 9 08:13:14 2018 +0200
+
+    add communication between serviece to GUI
+
+commit 042cc90a5c1dcbc98df9db1c35d6107a8e76a0eb
+Author: Naama1h <naama1har@gmail.com>
+Date:   Sun May 6 00:21:09 2018 +0300
+
+    AppConfig control, log control, converter, mvvm
+
+commit f0b32236d86fbabe899158867c584223e269f6f5
+Author: Naama1h <naama1har@gmail.com>
+Date:   Wed May 2 19:01:58 2018 +0300
+
+    Xmal of App config, list of handlers in service, commands and mvvm
+
+commit 5e050c1293c5493dbac7c1b0af805989b024511b
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Wed May 2 06:00:58 2018 +0200
+
+    add bold option
+
+commit 3a028561b1dcfd699b9a0f27b9301125a6d10c5c
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Tue May 1 16:07:11 2018 +0200
+
+    open view models  and models of AppConfig and Log. add more to the user controls of AppConfig.
+
+commit 770e5747d157c3c22ab10befc53b87d22ef68a26
+Author: Naama1h <naama1har@gmail.com>
+Date:   Mon Apr 30 20:48:06 2018 +0300
+
+    starting ex2. open new project of gui. starting tcp
+
+commit 389c574003f2d023818cdb1367d0de98cfecb4fb
+Author: Naama1h <naama1har@gmail.com>
+Date:   Sun Apr 15 15:19:27 2018 +0300
+
+    finally!!
+
+commit a926d8891fe3b2fe9d1d33bb6e5e2d6182dab759
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Sun Apr 15 11:44:12 2018 +0200
+
+    add comment
+
+commit d652677b709f616f2fef9fc096b5c467cb48cfc1
+Author: Naama1h <naama1har@gmail.com>
+Date:   Tue Apr 10 21:17:08 2018 +0300
+
+    end ex1
+
+commit b2610774940c2111f0649a378dd191129d6180a0
+Author: Naama1h <naama1har@gmail.com>
+Date:   Tue Apr 10 21:06:47 2018 +0300
+
+    finishing
+
+commit f08538f396f646f0d59f5503d6431aec78f5de07
+Author: Naama1h <naama1har@gmail.com>
+Date:   Mon Apr 9 19:08:25 2018 +0300
+
+    add log commends
+
+commit eb8254ee80f553048153d63c2c2250e47a038369
+Author: Naama1h <naama1har@gmail.com>
+Date:   Sun Apr 8 20:46:55 2018 +0300
+
+    try debugging
+
+commit 2c83325aab6f4756a8ec74e0c63eb45822b92468
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Thu Apr 5 12:46:51 2018 +0200
+
+    add more to handler
+
+commit 4a466c21f24d025f6161795253a8d9fdf2edc649
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Tue Apr 3 23:31:06 2018 +0200
+
+    add app.config and start handler
+
+commit 53c0bf74eea4622b998d5ea0ba69c52e455a0868
+Author: Naama1h <naama1har@gmail.com>
+Date:   Mon Apr 2 18:27:58 2018 +0300
+
+    working on newFileCommand, DirectoryHandler, ImageServiceModal, ImageServer
+
+commit 109322a7fb105aba953dddf505fde4f66bcbd1e5
+Author: Naama1h <naama1har@gmail.com>
+Date:   Sat Mar 31 22:23:06 2018 +0300
+
+    changes
+
+commit c6ef9ea63641c6f9187dd855f0021088e3467eeb
+Merge: 0271f79 7f58728
+Author: Naama1h <naama1har@gmail.com>
+Date:   Sat Mar 31 22:20:57 2018 +0300
+
+    NewFileCommand, ImageController, LoggingService, ImageServiceModal
+
+commit 7f587283eed9df2b5956a410f69149703376b6c7
+Author: Tchelet207 <tuts207@gmail.com>
+Date:   Tue Mar 27 17:09:51 2018 +0200
+
+    cotinue ex1
+
+commit 0271f79bf11baf848e417eba3ca774ae7264c8bf
+Author: Naama1h <naama1har@gmail.com>
+Date:   Tue Mar 27 17:17:31 2018 +0300
+
+    ex1
+
+commit 91cfba688dd46b376a25a79562c4857c4b54af2a
+Author: Naama1h <naama1har@gmail.com>
+Date:   Tue Mar 27 16:24:07 2018 +0300
+
+    starting ex1
+
+commit 70a258a350e296605b24148188373eea8c32a82a
+Author: naama <naama1har@gmail.com>
+Date:   Tue Mar 27 15:35:26 2018 +0300
+
+    Add project files.
+
+commit 0e169210c68702b9cbc36371cefb0e3dad69de20
+Author: naama <naama1har@gmail.com>
+Date:   Tue Mar 27 15:35:18 2018 +0300
+
+    Add .gitignore and .gitattributes.

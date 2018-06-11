@@ -16,6 +16,7 @@
             handler: @Html.Raw(Json.Encode(Model.handler))
         };
         $(this).attr("disabled", "disabled");
+        $("#CANCEL").attr("disabled", "disabled");
         $.post("@Url.Action("removeHandler")",input , function () {}, "json");
         window.location="Config";
     });

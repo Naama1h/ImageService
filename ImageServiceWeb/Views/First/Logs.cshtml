@@ -8,7 +8,7 @@
 <div>
     <p>Which type to show?</p>
     <input type="text" id="Type" size="5" />
-    <input type="button" id="Filter" value="Filter" />
+    <input type="button" id="Filter" value="Show" />
 </div>
 
 <table class="table">
@@ -33,6 +33,7 @@
         var input = {
             type: $("#Type").val()
         };
-        $.post("@Url.Action("FilterLogs")", input, function () {}, "json");
+        $.post("@Url.Action("FilterLogs")", input, function () { }, "json");
+        window.location = "Logs";
     });
 </script>
