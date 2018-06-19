@@ -66,6 +66,7 @@ namespace ImageService.Server
             this.m_logging.MessageRecieved += saveLogMessage;
             this.port = 8000;
             StartServer();
+            StartServerOfApp();
         }
 
         /// <summary>
@@ -282,6 +283,41 @@ namespace ImageService.Server
         public void saveLogMessage(Object sender, MessageRecievedEventArgs message)
         {
             this.logMessages.Add(message);
+        }
+
+        /// <summary>
+        /// Start TCP
+        /// </summary>
+        public void StartServerOfApp()
+        {
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1234);
+            listener = new TcpListener(ep);
+            listener.Start();
+            Console.WriteLine("Waiting for connections...");
+            Task task = new Task(() => {
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine("wait for connection");
+                        TcpClient client = listener.AcceptTcpClient();
+                        Console.WriteLine("Got new connection");
+                        new Task(() =>
+                        {
+                            while (ServerAppSinglton.Instance.ClientConnected)
+                            {
+                                ServerAppSinglton.Instance.recivedmessage(client);
+                            }
+                        }).Start();
+                    }
+                    catch (SocketException)
+                    {
+                        break;
+                    }
+                }
+                Console.WriteLine("Server stopped");
+            });
+            task.Start();
         }
     }
 }
