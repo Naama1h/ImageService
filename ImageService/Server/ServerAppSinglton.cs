@@ -71,6 +71,10 @@ namespace ImageService.Server
                 sizeInBytes = reader.ReadBytes(4);
                 if (BitConverter.IsLittleEndian)
                     Array.Reverse(sizeInBytes);
+                if (sizeInBytes == null)
+                {
+                    return;
+                }
                 size = BitConverter.ToInt32(sizeInBytes, 0);
                 byte[] imageNameInBytes = reader.ReadBytes(size);
                 string imageName = Encoding.UTF8.GetString(imageNameInBytes, 0, imageNameInBytes.Length);
@@ -80,7 +84,7 @@ namespace ImageService.Server
                 {
                     if (Directory.Exists(handlers[i]))
                     {
-                        image.Save(handlers[0] + "/" + imageName + ".jpg");
+                        image.Save(handlers[0] + "/" + imageName);
                         break;
                     }
                 }
